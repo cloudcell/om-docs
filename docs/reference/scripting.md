@@ -24,6 +24,37 @@ You can also run specific runtime modes directly:
 ./start --tui       # terminal interface
 ```
 
+## First two commands
+
+Once the REPL or TUI is running, start with `help` to see all documented commands.
+
+```bash
+om> help
+```
+
+![OM Core help command](../assets/images/om-core-help.png)
+
+The second command to learn is `help dim`. Dimensions are the first thing you define in almost every model, and the built-in help shows the exact syntax.
+
+```bash
+om> help dim
+```
+
+![OM Core help dim command](../assets/images/om-core-help-dim.png)
+
+From the help output you can see the three ways to define a dimension:
+
+```openm
+# Unordered by default
+ dim Region North South East West
+
+# Explicit unordered
+ dim Region --set North South East West
+
+# Ordered sequence
+ dim Year --seq Y1 Y2 Y3 Y4 Y5
+```
+
 ## Script structure
 
 A typical `.openm` script follows this order:
