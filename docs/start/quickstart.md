@@ -58,7 +58,7 @@ Create a file named `hello.openm`:
 
 ```openm
 # Dimensions
-dim Month: Jan Feb Mar
+dim Month Jan Feb Mar
 
 # Cube
 cube Sales Month

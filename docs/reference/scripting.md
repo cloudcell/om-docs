@@ -68,9 +68,9 @@ A typical `.openm` script follows this order:
 
 ```openm
 # Define dimensions
- dim Asset: Vehicle Equipment Building
- dim Year: Y1 Y2 Y3 Y4 Y5
- dim Metric: Cost Salvage Life
+ dim Asset Vehicle Equipment Building
+ dim Year Y1 Y2 Y3 Y4 Y5
+ dim Metric Cost Salvage Life
 
 # Define cubes
  cube Inputs Asset Metric
@@ -94,7 +94,7 @@ Lines starting with `#` are comments.
 
 ```openm
 # This is a comment
- dim Year: 2026 2027 2028
+ dim Year 2026 2027 2028
 ```
 
 ## Variables
@@ -139,7 +139,7 @@ The `$name`, `${name}`, and `$(command)` syntax is deprecated. Use `{{name}}` an
 #### `dim` — define a dimension
 
 ```openm
-dim Year: 2026 2027 2028
+dim Year 2026 2027 2028
 ```
 
 Dimensions can also be created with sequential shorthand:
@@ -307,9 +307,9 @@ Multiple selectors are separated by `:`.
 
 ```openm
 # Dimensions
- dim Asset: Vehicle Equipment Building
- dim Year: Y1 Y2 Y3 Y4 Y5
- dim Metric: Cost Salvage Life
+ dim Asset Vehicle Equipment Building
+ dim Year Y1 Y2 Y3 Y4 Y5
+ dim Metric Cost Salvage Life
 
 # Cubes
  cube Inputs Asset Metric
