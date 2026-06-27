@@ -43,6 +43,8 @@ nav:
       - Groups and Hierarchies: concepts/groups-and-hierarchies.md
   - Guides:
       - Build a P&L model: guides/building-a-pl-model.md
+  - UI/UX:
+      - Interface overview: ui-ux/interface.md
   - Reference:
       - Formatting: reference/formatting.md
       - Scripting: reference/scripting.md
