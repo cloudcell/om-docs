@@ -45,6 +45,7 @@ nav:
       - Build a P&L model: guides/building-a-pl-model.md
   - Reference:
       - Formatting: reference/formatting.md
+      - Scripting: reference/scripting.md
       - Glossary: reference/glossary.md
   - Legal:
       - License: legal/license.md
