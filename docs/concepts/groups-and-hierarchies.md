@@ -1,29 +1,29 @@
 # Groups and Hierarchies
 
-OM Core separates dimension members from the graphs that organize them into hierarchies, groups, and outlines.
+OM Core separates dimension items from the graphs that organize them into hierarchies, groups, and outlines.
 
-- A **member** is a stable semantic item in a dimension, identified by its member ID.
-- A **node** is an occurrence of that member in a graph context, identified by a node ID.
-- A single member may appear in many graph contexts through different nodes.
+- A **dimension item** is a stable semantic element in a dimension, identified by its item ID.
+- A **node** is an occurrence of that dimension item in a graph context, identified by a node ID.
+- A single dimension item may appear in many graph contexts through different nodes.
 
-This separation lets the same member participate in multiple hierarchies without duplicating the member itself.
+This separation lets the same dimension item participate in multiple hierarchies without duplicating it.
 
 ## Terms
 
 | Term | Meaning |
 | --- | --- |
-| Member | Stable semantic dimension item, identified by a member ID |
+| Dimension item | Stable semantic element in a dimension, identified by an item ID |
 | Node | Graph occurrence or hierarchy node, identified by a node ID |
 | Edge | Parent/child or relation link between nodes |
 | Hierarchy | A tree of nodes built from parent/child edges |
-| Group | A named collection of members or nodes used in rules and views |
+| Group | A named collection of dimension items or nodes used in rules and views |
 | Outline | A read-only projection of a hierarchy for display |
 
 ## Graph primitives
 
 Only graph primitives may change hierarchy, grouping, node order, or node parentage.
 
-Graph primitives operate on node IDs, not member IDs. Higher-level commands may request changes, but the actual mutation is delegated to graph primitives.
+Graph primitives operate on node IDs, not item IDs. Higher-level commands may request changes, but the actual mutation is delegated to graph primitives.
 
 Examples of graph primitives:
 
@@ -75,4 +75,4 @@ update_rules_after_group_deletion
 | --- | --- | --- |
 | Direct outline mutation from a view | Breaks caching and the audit trail | Route through graph primitives |
 | Separate public rule cleanup command after deletion | Partial failure risk | Cleanup internally inside `delete_group_node` |
-| Using member ID as graph identity | One member may appear in multiple graph contexts | Use node ID for graph mutation and member ID for semantic dimension identity |
+| Using item ID as graph identity | One dimension item may appear in multiple graph contexts | Use node ID for graph mutation and item ID for semantic dimension identity |
