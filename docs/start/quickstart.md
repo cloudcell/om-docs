@@ -20,6 +20,25 @@ You can also start a specific mode:
 ./start.sh --runtime  # headless engine
 ```
 
+## Get help
+
+Once OM Core is running, the first command to try is `help`. It lists all documented commands and their topics.
+
+```bash
+om> help
+```
+
+The output looks like this in the TUI:
+
+![OM Core help command](../assets/images/om-core-help.png)
+
+You can also ask for help on a specific command:
+
+```bash
+om> help rule
+om> help calc
+```
+
 ## The interface
 
 The first time you open the GUI, the workspace looks like this:

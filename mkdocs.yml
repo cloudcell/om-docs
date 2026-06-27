@@ -45,6 +45,7 @@ nav:
       - Build a P&L model: guides/building-a-pl-model.md
   - UI/UX:
       - Interface overview: ui-ux/interface.md
+      - TUI: ui-ux/tui.md
   - Reference:
       - Formatting: reference/formatting.md
       - Scripting: reference/scripting.md
