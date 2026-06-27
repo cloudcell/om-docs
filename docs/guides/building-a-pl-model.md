@@ -2,6 +2,9 @@
 
 This guide walks through building a simple profit and loss model in OM Core.
 
+!!! note "Draft"
+    This guide is a placeholder. A complete worked example will be added soon.
+
 ## Model outline
 
 A basic P&L model has these dimensions:
@@ -15,6 +18,4 @@ A basic P&L model has these dimensions:
 1. Create the model and dimensions.
 2. Define cubes for revenue, costs, and expenses.
 3. Add rules for gross profit, operating profit, and net profit.
-4. Build views or reports from the cubes.
-
-A complete worked example will be added here once the core API is finalized.
+4. Build views from the cubes.

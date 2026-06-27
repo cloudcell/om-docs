@@ -20,9 +20,9 @@ The `start.sh` script sets up the environment and launches OM Core:
 You can also start specific runtime modes directly:
 
 ```bash
-./start --runtime   # headless runtime
-./start --gui       # graphical interface
-./start --tui       # terminal interface
+./start.sh --runtime   # headless runtime
+./start.sh --gui       # graphical interface
+./start.sh --tui       # terminal interface
 ```
 
 ## Build the documentation site

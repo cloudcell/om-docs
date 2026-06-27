@@ -1,6 +1,6 @@
 # Interface overview
 
-This page describes the main areas of the OM Core interface. The same layout appears in the GUI and TUI modes.
+This page describes the main areas of the OM Core interface. The GUI and TUI share the same core areas, although they are rendered differently.
 
 ![OM Core interface](../assets/images/om-core-ui.png)
 
@@ -12,7 +12,7 @@ The Model Browser is the left panel. It shows the semantic structure of the mode
 - **Cubes** — multidimensional arrays defined by their dimensions.
 - **Views** — named projections of cubes for display in the grid.
 
-The Model Browser is the model. Expanding a dimension shows its dimension items. Expanding a cube shows its dimensions. Selecting a view opens it in the Matrix Grid.
+The Model Browser is a navigation view of the model's semantic structure. Expanding a dimension shows its dimension items. Expanding a cube shows its dimensions. Selecting a view opens it in the Matrix Grid.
 
 ## Matrix Grid
 

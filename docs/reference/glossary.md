@@ -7,7 +7,7 @@ Common terms used in OM Core.
 - **Node** — an occurrence of a dimension item in a hierarchy or graph context, identified separately from the dimension item itself.
 - **Edge** — a parent/child or relation link between two nodes in a graph.
 - **Hierarchy** — a tree of nodes that organizes dimension items for display, aggregation, and navigation.
-- **Group** — a named collection of related dimension items, cubes, or rules.
+- **Group** — a named collection or hierarchy of dimension items, represented through graph nodes.
 - **Cube** — a multidimensional array of data defined by a set of dimensions.
 - **Slice** — a subset of a cube, often fixing one or more dimensions to specific dimension items.
 - **Rule** — a calculation rule that defines how values are derived.

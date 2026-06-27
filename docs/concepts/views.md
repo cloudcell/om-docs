@@ -69,7 +69,7 @@ Changing the data in the cube updates every view. Changing a view does not chang
 | Stores data | Yes | No |
 | Has dimensions | Yes | Yes, selected from the cube |
 | Can be multiple per model | Yes | Yes, many views per cube |
-| Defines calculation | Yes | No |
+| Used by rules for calculation | Yes | No |
 | Defines display | No | Yes |
 
 ## Views in scripts

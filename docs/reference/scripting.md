@@ -19,9 +19,9 @@ om> source scripts/build_financial_model.openm
 You can also run specific runtime modes directly:
 
 ```bash
-./start --runtime   # headless runtime
-./start --gui       # graphical interface
-./start --tui       # terminal interface
+./start.sh --runtime   # headless runtime
+./start.sh --gui       # graphical interface
+./start.sh --tui       # terminal interface
 ```
 
 ## First two commands
@@ -116,7 +116,7 @@ Use `{{name}}` to interpolate a variable into a command.
 ```openm
 selected="C::PL.Revenue:Year.2026"
 echo Selected: {{selected}}
-rule {{selected}}:@.fill = #3B82F6
+rule {{selected}} = 100000
 ```
 
 ### Command capture
@@ -244,7 +244,7 @@ source scripts/depreciation_schedule.openm
 
 Visual styling is applied through rule channels, not through a separate formatting command. The channel determines which property the rule sets.
 
-`@.value` is the default channel for the cell value. It is not a style channel; it is the system dimension item that holds the value. Style channels change only the appearance:
+OM Core stores values and presentation attributes in channels. The default value channel is `@.value`. Style channels change only the appearance:
 
 - `@.fill` — the background fill color
 - `@.font_color` — the font color
@@ -252,9 +252,8 @@ Visual styling is applied through rule channels, not through a separate formatti
 Set a style with a rule:
 
 ```openm
-rule C::PL.Revenue:Year.2026:@.fill = #3B82F6
-rule {{selected}}:@.fill = #3B82F6
-rule {{selected}}:@.font_color = #FFFFFF
+rule C::@.fill:PL.Revenue:Year.2026 = #3B82F6
+rule C::@.font_color:PL.Revenue:Year.2026 = #FFFFFF
 ```
 
 Style rules follow the same semantic addressing as value rules. A single semantic address can have both a value rule and multiple style rules.
@@ -351,10 +350,9 @@ Multiple selectors are separated by `:`.
 ### Style selected cells
 
 ```openm
-# User selects cells in the GUI first
-selected=exec selection
-rule {{selected}}:@.fill = #3B82F6
-rule {{selected}}:@.font_color = #FFFFFF
+# Style rules use the same semantic address as value rules, with the channel first
+rule C::@.fill:PL.Revenue:Year.2026 = #3B82F6
+rule C::@.font_color:PL.Revenue:Year.2026 = #FFFFFF
 ```
 
 ## For LLMs

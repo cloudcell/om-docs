@@ -51,6 +51,7 @@ nav:
       - Formatting: reference/formatting.md
       - Scripting: reference/scripting.md
       - Rule syntax: reference/rule-syntax.md
+      - Rule engine semantics: reference/rule-engine-semantics.md
       - Glossary: reference/glossary.md
   - Legal:
       - License: legal/license.md
