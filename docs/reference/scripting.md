@@ -116,7 +116,7 @@ Use `{{name}}` to interpolate a variable into a command.
 ```openm
 selected="C::PL.Revenue:Year.2026"
 echo Selected: {{selected}}
-rule {{selected}}:@.bold = true
+rule {{selected}}:@.fill = #3B82F6
 ```
 
 ### Command capture
@@ -244,18 +244,15 @@ source scripts/depreciation_schedule.openm
 
 Visual styling is applied through rule channels, not through a separate formatting command. The channel determines which property the rule sets.
 
-Common style channels:
+`@.value` is the default channel for the cell value. It is not a style channel; it is the system dimension item that holds the value. Style channels change only the appearance:
 
-- `@.value` — the cell value
 - `@.fill` — the background fill color
 - `@.font_color` — the font color
-- `@.bold` — whether the text is bold
-- `@.italic` — whether the text is italic
 
 Set a style with a rule:
 
 ```openm
-rule C::PL.Revenue:Year.2026:@.bold = true
+rule C::PL.Revenue:Year.2026:@.fill = #3B82F6
 rule {{selected}}:@.fill = #3B82F6
 rule {{selected}}:@.font_color = #FFFFFF
 ```
@@ -309,7 +306,7 @@ Cube::@.value:Dim1.Item1:Dim2.Item2
 Components:
 
 - `Cube` — the cube name
-- `@` or `@.value` — the channel (value, style, or other property)
+- `@` or `@.value` — the default value channel, not a style channel
 - `Dim1.Item1` — a dimension item selector
 - `Dim2.Item2` — another dimension item selector
 
@@ -356,8 +353,8 @@ Multiple selectors are separated by `:`.
 ```openm
 # User selects cells in the GUI first
 selected=exec selection
-rule {{selected}}:@.bold = true
 rule {{selected}}:@.fill = #3B82F6
+rule {{selected}}:@.font_color = #FFFFFF
 ```
 
 ## For LLMs

@@ -20,7 +20,7 @@ The Matrix Grid is the center of the workspace. It displays the active view as a
 
 - Rows and columns are dimension items, not cell coordinates.
 - Each cell is addressed semantically, for example `Cube::@.value:Dim1.Item1:Dim2.Item2`.
-- The toolbar above the grid offers style controls, such as font style, color, and alignment. These controls create style rules under the hood using channels like `@.fill`, `@.font_color`, `@.bold`, and `@.italic`.
+- The toolbar above the grid offers style controls, such as font style, color, and alignment. These controls create style rules under the hood using channels like `@.fill` and `@.font_color`.
 - You can select cells with the mouse or keyboard to inspect or edit them.
 
 Unlike a spreadsheet, the grid is a view on top of the model. The same cube can be rendered in many different views without changing the underlying data.
