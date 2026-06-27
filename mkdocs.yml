@@ -1,0 +1,34 @@
+site_name: OM Core Documentation
+site_description: Documentation and modeling guides for OM Core.
+site_url: https://cloudcell.github.io/om-docs/
+
+repo_url: https://github.com/cloudcell/om-docs
+repo_name: cloudcell/om-docs
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Start:
+      - What is OM Core?: start/what-is-om-core.md
+      - Why not spreadsheets?: start/why-not-spreadsheets.md
+      - Installation: start/installation.md
+      - Quickstart: start/quickstart.md
+  - Concepts:
+      - Dimensions: concepts/dimensions.md
+      - Cubes: concepts/cubes.md
+      - Rules: concepts/rules.md
+  - Guides:
+      - Build a P&L model: guides/building-a-pl-model.md
+  - Reference:
+      - Glossary: reference/glossary.md
+  - Legal:
+      - License: legal/license.md
