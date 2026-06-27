@@ -7,6 +7,8 @@ repo_name: cloudcell/om-docs
 
 theme:
   name: material
+  logo: assets/brand/om-core-icon.png
+  favicon: assets/brand/om-core-icon.png
   features:
     - navigation.sections
     - navigation.expand
@@ -14,6 +16,9 @@ theme:
     - search.suggest
     - search.highlight
     - content.code.copy
+
+extra_css:
+  - stylesheets/extra.css
 
 markdown_extensions:
   - admonition
