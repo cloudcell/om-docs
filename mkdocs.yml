@@ -41,6 +41,7 @@ nav:
       - Cubes: concepts/cubes.md
       - Rules: concepts/rules.md
       - Groups and Hierarchies: concepts/groups-and-hierarchies.md
+      - Views: concepts/views.md
   - Guides:
       - Build a P&L model: guides/building-a-pl-model.md
   - UI/UX:
