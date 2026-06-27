@@ -120,14 +120,44 @@ Recurrence rules use ordered dimension context to chain values forward or backwa
 
 Sequential accessors are defined over the active stable item order of the referenced dimension or graph context. The rule resolver must choose exactly one order context. If both dimension order and graph order are possible and the rule does not disambiguate, validation fails.
 
-## Value resolution precedence
+## Rule precedence
 
-When a cell is evaluated, resolution follows this precedence (highest to lowest):
+When a cell is evaluated, the engine decides which rule produces the value. Two principles control this: specificity and rule order.
+
+### Specificity
+
+More specific rules override less specific rules. The precedence from highest to lowest is:
 
 1. Hardcoded value (`user_override_addrs`)
 2. Cell rule (single-cell rule)
 3. Slice rule (rule targeted at a pattern)
 4. Empty (`None`)
+
+A cell rule that targets `Sales::Month.Jan` wins over a slice rule that targets `Sales::*`. A slice rule wins over an empty cell.
+
+For example, with these rules:
+
+```text
+rule Sales::@.value:* = 100
+rule Sales::@.value:Month.Jan = 200
+```
+
+The cell for `Month.Jan` resolves to `200` because the cell rule is more specific. All other months resolve to `100` from the slice rule.
+
+### Rule order and overriding
+
+When multiple rules have the same specificity and match the same cell, the later rule in `workspace.formula_rule_order` wins. The order is the semantic contract; do not rely on dictionary insertion order.
+
+For example:
+
+```text
+rule Sales::@.value:* = 100
+rule Sales::@.value:* = 150
+```
+
+Both rules are slice rules covering the same cells. The second rule overrides the first, so every cell resolves to `150`.
+
+This behavior lets you define a general rule first and then add targeted overrides later. A later rule with the same target replaces the earlier one for the cells it matches.
 
 ## Rule execution order
 
