@@ -15,6 +15,15 @@ theme:
     - search.highlight
     - content.code.copy
 
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - tables
+  - fenced_code
+  - pymdownx.superfences
+  - pymdownx.details
+
 nav:
   - Home: index.md
   - Start:
