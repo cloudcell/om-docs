@@ -1,21 +1,37 @@
 # Installation
 
-OM Core is distributed as a Python package. The fastest way to start is to install it into a virtual environment.
+OM Core is run from source. Clone the repository and use the provided start script.
+
+## Clone the repository
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install om-core
+git clone https://github.com/cloudcell/om-core.git
+cd om-core
 ```
 
-After installation, verify the package is available:
+## Run OM Core
+
+The `start.sh` script sets up the environment and launches OM Core:
 
 ```bash
-python -c "import om_core; print(om_core.__version__)"
+./start.sh
 ```
 
-For the documentation site specifically, install the doc dependencies from `requirements.txt`:
+You can also start specific runtime modes directly:
+
+```bash
+./start --runtime   # headless runtime
+./start --gui       # graphical interface
+./start --tui       # terminal interface
+```
+
+## Build the documentation site
+
+To build or serve this documentation site locally, install the doc dependencies from `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
+mkdocs serve
 ```
+
+Then open `http://127.0.0.1:8000` in your browser.
