@@ -46,6 +46,7 @@ nav:
   - Reference:
       - Formatting: reference/formatting.md
       - Scripting: reference/scripting.md
+      - Rule syntax: reference/rule-syntax.md
       - Glossary: reference/glossary.md
   - Legal:
       - License: legal/license.md
