@@ -1,3 +1,9 @@
+<!-- markdownlint-disable MD033 MD041 -->
+<p align="center">
+  <img src="assets/images/openmodeling-logo.png" alt="OpenModeling" width="400">
+</p>
+<!-- markdownlint-enable MD033 MD041 -->
+
 # OM Core Documentation
 
 OM Core is a multidimensional modeling engine for building structured financial, operational, and analytical models.
@@ -16,3 +22,4 @@ Instead of treating the spreadsheet grid as the model, OM Core represents the mo
 - [Cubes](concepts/cubes.md)
 - [Rules](concepts/rules.md)
 - [Groups and Hierarchies](concepts/groups-and-hierarchies.md)
+- [Views](concepts/views.md)
