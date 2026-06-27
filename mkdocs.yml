@@ -35,6 +35,7 @@ nav:
       - Dimensions: concepts/dimensions.md
       - Cubes: concepts/cubes.md
       - Rules: concepts/rules.md
+      - Groups and Hierarchies: concepts/groups-and-hierarchies.md
   - Guides:
       - Build a P&L model: guides/building-a-pl-model.md
   - Reference:

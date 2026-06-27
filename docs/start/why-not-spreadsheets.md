@@ -1,6 +1,6 @@
 # Why not spreadsheets?
 
-Spreadsheets are fast and flexible, but they become fragile as models grow. Formulas live inside cells, references are implicit, and small changes can break large parts of the model silently.
+Spreadsheets are fast and flexible, but they become fragile as models grow. Rules live inside cells, references are implicit, and small changes can break large parts of the model silently.
 
 OM Core addresses these problems by making the model explicit:
 

@@ -9,3 +9,10 @@ Instead of treating the spreadsheet grid as the model, OM Core represents the mo
 - [What is OM Core?](start/what-is-om-core.md)
 - [Why not spreadsheets?](start/why-not-spreadsheets.md)
 - [Quickstart](start/quickstart.md)
+
+## Core concepts
+
+- [Dimensions](concepts/dimensions.md)
+- [Cubes](concepts/cubes.md)
+- [Rules](concepts/rules.md)
+- [Groups and Hierarchies](concepts/groups-and-hierarchies.md)
