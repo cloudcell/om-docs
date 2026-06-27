@@ -116,7 +116,7 @@ Use `{{name}}` to interpolate a variable into a command.
 ```openm
 selected="C::PL.Revenue:Year.2026"
 echo Selected: {{selected}}
-set {{selected}} format.bold true
+rule {{selected}}:@.bold = true
 ```
 
 ### Command capture
@@ -240,17 +240,31 @@ load model.json
 source scripts/depreciation_schedule.openm
 ```
 
-### Formatting and style
+### Style channels
 
-#### `set` — apply a format or property
+Visual styling is applied through rule channels, not through a separate formatting command. The channel determines which property the rule sets.
+
+Common style channels:
+
+- `@.value` — the cell value
+- `@.fill` — the background fill color
+- `@.font_color` — the font color
+- `@.bold` — whether the text is bold
+- `@.italic` — whether the text is italic
+
+Set a style with a rule:
 
 ```openm
-set C::PL.Revenue:Year.2026 format.bold true
-set {{selected}} format.bg_color #3B82F6
-set {{selected}} format.font_size 14
+rule C::PL.Revenue:Year.2026:@.bold = true
+rule {{selected}}:@.fill = #3B82F6
+rule {{selected}}:@.font_color = #FFFFFF
 ```
 
-OM Core formatting uses CLDR-style number patterns. See [Formatting](formatting.md).
+Style rules follow the same semantic addressing as value rules. A single semantic address can have both a value rule and multiple style rules.
+
+### Number formatting
+
+For number and currency display patterns, OM Core uses CLDR-style format strings. See [Formatting](formatting.md).
 
 ### Debugging
 
@@ -295,7 +309,7 @@ Cube::@.value:Dim1.Item1:Dim2.Item2
 Components:
 
 - `Cube` — the cube name
-- `@` or `@.value` — the channel (value, format, etc.)
+- `@` or `@.value` — the channel (value, style, or other property)
 - `Dim1.Item1` — a dimension item selector
 - `Dim2.Item2` — another dimension item selector
 
@@ -337,13 +351,13 @@ Multiple selectors are separated by `:`.
  save depreciation_schedule.json
 ```
 
-### Format selected cells
+### Style selected cells
 
 ```openm
 # User selects cells in the GUI first
 selected=exec selection
-set {{selected}} format.bold true
-set {{selected}} format.bg_color #3B82F6
+rule {{selected}}:@.bold = true
+rule {{selected}}:@.fill = #3B82F6
 ```
 
 ## For LLMs

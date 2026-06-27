@@ -2,6 +2,8 @@
 
 OM Core uses number and currency formatting patterns based on the Unicode Common Locale Data Repository (CLDR). This page explains the origin of the syntax and the pattern types OM Core supports.
 
+This page is about **number and currency display patterns**, not visual styles such as font color or background fill. Visual styles are set through special format dimension items (which can be referred to as 'channels') like `@.fill`, `@.font_color`, and `@.italic`. See the [Scripting reference](scripting.md) for how to use style channels.
+
 ## Source
 
 The formatting syntax in OM Core originates from CLDR number and currency patterns:
