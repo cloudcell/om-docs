@@ -233,6 +233,16 @@ rule PL::Account.EBITDA:Month.*:Scenario.* =
   - PL::Account.OperatingExpense:Month[THIS]:Scenario[THIS]
 ```
 
+Use full addresses for recurrence rules that reference a previous or next item:
+
+```openm
+rule SaaSPL::Account.Customers:Month.*:Scenario.* =
+  SaaSPL::Account.Customers:Month[PREV]:Scenario[THIS]
+  + Drivers::[Driver.NewCustomers]
+```
+
+Do not combine bracket shorthand with sequential accessors such as `SaaSPL::[Account.Customers]:Month[PREV]`. Bracket shorthand resolves only one dimension and carries over the rest; it does not support explicit `:Month[PREV]` overrides. For recurrence references, write the full canonical address.
+
 Use shorthand only when it is unambiguous.
 
 If a referenced cube omits a dimension, the omitted dimension may bind from the current target-cell context only when the referenced cube has that dimension. Dimensions absent from the referenced cube are ignored. If a referenced cube has a dimension that is neither explicit nor bindable from context, the reference is ambiguous and should be written explicitly.
