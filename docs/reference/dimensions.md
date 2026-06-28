@@ -1,8 +1,9 @@
 # Dimensions reference
 
-A dimension is a named axis of items used by one or more cubes. Dimension items
-are stable semantic labels, not grid coordinates. They are declared once and
-reused across cubes so the same terminology applies everywhere in a model.
+A dimension is a named axis of items that can be used by one or more cubes.
+Dimension items are stable semantic labels, not grid coordinates. They are
+declared once and reused across cubes so the same terminology applies everywhere
+in a model.
 
 ## Declaration
 
