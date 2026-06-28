@@ -32,6 +32,12 @@ Instead of treating the spreadsheet grid as the model, OM Core represents the mo
 
     [:octicons-arrow-right-24: Start now](start/quickstart.md)
 
+-   **Agentic Quickstart**
+
+    Build a complete model using the OM Core agent skill and LLM-driven scripts.
+
+    [:octicons-arrow-right-24: Start now](guides/building-models-with-an-agent.md)
+
 </div>
 
 ## Core concepts
