@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
-  <img src="../assets/brand/om-core-logo-transparent.png" alt="OM Core" width="400">
+  <img src="../../assets/brand/om-core-logo-transparent.png" alt="OM Core" width="400">
 </p>
 <!-- markdownlint-enable MD033 MD041 -->
 
