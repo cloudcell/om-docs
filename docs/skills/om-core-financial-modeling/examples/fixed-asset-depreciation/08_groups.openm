@@ -1,0 +1,3 @@
+group create {{metric_dim}} "Value Metrics" Cost AnnualDepreciation AccumulatedDepreciation NetBookValue
+
+group create {{status_dim}} "Status Flags" HasRemainingValue IsFullyDepreciated

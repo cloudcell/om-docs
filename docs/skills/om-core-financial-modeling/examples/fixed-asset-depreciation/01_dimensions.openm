@@ -1,0 +1,9 @@
+dim AssetType Equipment Vehicles Software
+
+dim AcqYear --seq 2026 2027 2028 2029 2030
+
+dim DepYear --seq 2026 2027 2028 2029 2030
+
+dim Metric Cost AnnualDepreciation AccumulatedDepreciation NetBookValue
+
+dim Status HasRemainingValue IsFullyDepreciated

@@ -100,6 +100,24 @@ plug.
 - [08_groups.openm](manufacturing-capex-model/08_groups.openm)
 - [build.openm](manufacturing-capex-model/build.openm)
 
+## Fixed Asset Depreciation by Tranche
+
+Tracks each annual asset acquisition as a separate tranche and depreciates it
+over its useful life. Uses two sequential base dimensions (`AcqYear` and
+`DepYear`) plus a supplementary `Status` dimension that flags whether any net
+book value remains or the tranche is fully depreciated.
+
+- [00_variables.openm](fixed-asset-depreciation/00_variables.openm)
+- [01_dimensions.openm](fixed-asset-depreciation/01_dimensions.openm)
+- [02_cubes.openm](fixed-asset-depreciation/02_cubes.openm)
+- [03_inputs.openm](fixed-asset-depreciation/03_inputs.openm)
+- [04_rules.openm](fixed-asset-depreciation/04_rules.openm)
+- [05_checks.openm](fixed-asset-depreciation/05_checks.openm)
+- [06_views.openm](fixed-asset-depreciation/06_views.openm)
+- [07_formatting.openm](fixed-asset-depreciation/07_formatting.openm)
+- [08_groups.openm](fixed-asset-depreciation/08_groups.openm)
+- [build.openm](fixed-asset-depreciation/build.openm)
+
 ## SaaS Revenue Model
 
 - [00_variables.openm](saas-revenue-model/00_variables.openm)

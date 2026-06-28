@@ -1,0 +1,14 @@
+# Annual depreciation per tranche: straight-line over the useful life
+rule FA::Metric.AnnualDepreciation:AssetType.Equipment:AcqYear.*:DepYear.* = IF(AND(POS(DepYear) >= POS(AcqYear), POS(DepYear) < POS(AcqYear) + {{equipment_life}}), FA::Metric.Cost / {{equipment_life}}, 0)
+rule FA::Metric.AnnualDepreciation:AssetType.Vehicles:AcqYear.*:DepYear.* = IF(AND(POS(DepYear) >= POS(AcqYear), POS(DepYear) < POS(AcqYear) + {{vehicles_life}}), FA::Metric.Cost / {{vehicles_life}}, 0)
+rule FA::Metric.AnnualDepreciation:AssetType.Software:AcqYear.*:DepYear.* = IF(AND(POS(DepYear) >= POS(AcqYear), POS(DepYear) < POS(AcqYear) + {{software_life}}), FA::Metric.Cost / {{software_life}}, 0)
+
+# Accumulated depreciation: rolling sum by DepYear for each AcqYear tranche
+rule FA::Metric.AccumulatedDepreciation:AssetType.*:AcqYear.*:DepYear.* = IF(POS(DepYear) < POS(AcqYear), 0, IF(POS(DepYear) = POS(AcqYear), FA::Metric.AnnualDepreciation, FA::Metric.AccumulatedDepreciation:DepYear[PREV] + FA::Metric.AnnualDepreciation))
+
+# Net book value: cost minus accumulated depreciation
+rule FA::Metric.NetBookValue:AssetType.*:AcqYear.*:DepYear.* = FA::Metric.Cost - FA::Metric.AccumulatedDepreciation
+
+# Supplementary status flags
+rule FAStatus::Status.HasRemainingValue:AssetType.*:AcqYear.*:DepYear.* = IF(FA::Metric.NetBookValue > 0, 1, 0)
+rule FAStatus::Status.IsFullyDepreciated:AssetType.*:AcqYear.*:DepYear.* = IF(AND(POS(DepYear) >= POS(AcqYear), FA::Metric.NetBookValue = 0), 1, 0)

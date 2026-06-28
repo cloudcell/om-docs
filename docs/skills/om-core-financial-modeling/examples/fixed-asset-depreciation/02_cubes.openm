@@ -1,0 +1,3 @@
+cube {{fa_cube}} {{asset_type_dim}} {{acq_year_dim}} {{dep_year_dim}} {{metric_dim}}
+
+cube {{fa_status_cube}} {{asset_type_dim}} {{acq_year_dim}} {{dep_year_dim}} {{status_dim}}

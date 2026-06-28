@@ -1,0 +1,9 @@
+# Format currency amounts with two decimals and group separators
+rule FA::@.format_number:Metric.Cost:AssetType.*:AcqYear.*:DepYear.* = 'preset:number(decimals=0; group=true)'
+rule FA::@.format_number:Metric.AnnualDepreciation:AssetType.*:AcqYear.*:DepYear.* = 'preset:number(decimals=0; group=true)'
+rule FA::@.format_number:Metric.AccumulatedDepreciation:AssetType.*:AcqYear.*:DepYear.* = 'preset:number(decimals=0; group=true)'
+rule FA::@.format_number:Metric.NetBookValue:AssetType.*:AcqYear.*:DepYear.* = 'preset:number(decimals=0; group=true)'
+
+# Color flags: green when value remains, red when fully depreciated
+rule FAStatus::@.fill:Status.HasRemainingValue:AssetType.*:AcqYear.*:DepYear.* = IF(FAStatus::Status.HasRemainingValue = 1, #22C55E, #FFFFFF)
+rule FAStatus::@.fill:Status.IsFullyDepreciated:AssetType.*:AcqYear.*:DepYear.* = IF(FAStatus::Status.IsFullyDepreciated = 1, #EF4444, #FFFFFF)

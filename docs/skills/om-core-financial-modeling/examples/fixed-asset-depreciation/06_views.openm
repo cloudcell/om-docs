@@ -1,0 +1,2 @@
+view FA_Metric_View = {{fa_cube}}::{{metric_dim}}:{{asset_type_dim}}:{{acq_year_dim}}:{{dep_year_dim}}
+view FA_Status_View = {{fa_status_cube}}::{{status_dim}}:{{asset_type_dim}}:{{acq_year_dim}}:{{dep_year_dim}}

@@ -1,0 +1,11 @@
+model_name="Fixed Asset Depreciation by Tranche"
+fa_cube="FA"
+fa_status_cube="FAStatus"
+asset_type_dim="AssetType"
+acq_year_dim="AcqYear"
+dep_year_dim="DepYear"
+metric_dim="Metric"
+status_dim="Status"
+equipment_life=5
+vehicles_life=5
+software_life=3
