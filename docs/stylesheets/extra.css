@@ -1,5 +1,143 @@
+:root {
+  --om-navy: #071833;
+  --om-blue: #1268ff;
+  --om-cyan: #15b8d4;
+  --om-green: #20c45a;
+  --om-muted: #5f6b7a;
+  --om-soft-bg: #f6f9fc;
+  --om-border: #dbe7f0;
+}
+
+.md-header {
+  background: linear-gradient(90deg, var(--om-navy), #0b3d91 55%, #0f9f8f);
+}
+
+.md-tabs {
+  background: var(--om-navy);
+}
+
+.md-header__title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
 .md-header__button.md-logo img,
 .md-header__button.md-logo svg {
   height: 1.5rem;
   width: 1.5rem;
+}
+
+.md-main__inner {
+  margin-top: 1.2rem;
+}
+
+.md-content {
+  max-width: 980px;
+}
+
+.md-content__inner {
+  padding-top: 0.5rem;
+}
+
+.md-typeset h1 {
+  color: var(--om-navy);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.md-typeset h2 {
+  color: var(--om-navy);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  margin-top: 2.2rem;
+}
+
+.md-typeset p,
+.md-typeset li {
+  font-size: 0.94rem;
+  line-height: 1.72;
+}
+
+.md-typeset a {
+  color: #244bd8;
+}
+
+.md-typeset a:hover {
+  color: var(--om-cyan);
+}
+
+.om-hero {
+  text-align: center;
+  padding: 2.2rem 1rem 2.4rem;
+  margin: 0 0 2rem;
+  border: 1px solid var(--om-border);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(18, 104, 255, 0.10), transparent 28%),
+    radial-gradient(circle at 80% 30%, rgba(32, 196, 90, 0.10), transparent 24%),
+    linear-gradient(180deg, #ffffff, var(--om-soft-bg));
+}
+
+.om-hero-logo {
+  width: min(360px, 80%);
+  height: auto;
+  margin-bottom: 1.2rem;
+}
+
+.om-hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--om-navy);
+}
+
+.om-hero-subtitle {
+  max-width: 720px;
+  margin: 1rem auto 0;
+  color: var(--om-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  border: 1px solid var(--om-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(7, 24, 51, 0.06);
+}
+
+.md-nav__title {
+  color: var(--om-navy);
+  font-weight: 700;
+}
+
+.md-nav__item--nested > .md-nav__link {
+  color: var(--om-navy);
+  font-weight: 700;
+}
+
+.md-nav__item .md-nav__link--active {
+  color: var(--om-blue);
+  font-weight: 700;
+}
+
+.md-sidebar .md-nav__title {
+  background: transparent;
+}
+
+.md-typeset code {
+  border-radius: 6px;
+}
+
+.md-typeset pre > code {
+  border-radius: 12px;
+}
+
+.md-typeset .headerlink {
+  color: var(--om-cyan);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.md-typeset .headerlink:hover {
+  opacity: 1;
 }
