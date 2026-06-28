@@ -371,6 +371,15 @@ rule BS::@.fill:BSAccount.TotalAssets:Year.*:Scenario.* = "#e2e8f0"
 
 Formatting rules may intentionally use broad defaults plus more specific overrides. This is acceptable because more specific style rules override less specific style rules, the same way calculation rules do.
 
+> **Note:** When a formula produces a color value (for example in an `IF`
+> expression for conditional formatting), the color must be returned as a
+> **string literal**. Unquoted hex codes inside a formula are not parsed as
+> color strings.
+>
+> ```openm
+> rule PL::@.font_color:NetIncome:* = IF(PL::NetIncome<0, "#F00", "#000")
+> ```
+
 ## 15. Group Management
 
 Financial models benefit from grouping dimension items into outline sections. For example, a P&L account dimension can be grouped into Revenue, COGS, Operating Expenses, and Totals.

@@ -118,6 +118,8 @@ book value remains or the tranche is fully depreciated.
 - [08_groups.openm](fixed-asset-depreciation/08_groups.openm)
 - [build.openm](fixed-asset-depreciation/build.openm)
 
+> **Note:** When using `@.fill` or `@.font_color` with conditional formatting, color values must be passed as **string literals** inside the formula, e.g. `"#EF4444"` rather than `#EF4444`.
+
 ## SaaS Revenue Model
 
 - [00_variables.openm](saas-revenue-model/00_variables.openm)

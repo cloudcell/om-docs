@@ -9,5 +9,6 @@ rule FAStatus::@.format_number:Status.HasRemainingValue:AssetType.*:AcqYear.*:De
 rule FAStatus::@.format_number:Status.IsFullyDepreciated:AssetType.*:AcqYear.*:DepYear.* = 'preset:number(decimals=0; group=true)'
 
 # Color flags: green when value remains, red when fully depreciated
-rule FAStatus::@.fill:Status.HasRemainingValue:AssetType.*:AcqYear.*:DepYear.* = IF(FAStatus::Status.HasRemainingValue = 1, #22C55E, #FFFFFF)
-rule FAStatus::@.fill:Status.IsFullyDepreciated:AssetType.*:AcqYear.*:DepYear.* = IF(FAStatus::Status.IsFullyDepreciated = 1, #EF4444, #FFFFFF)
+# Colors must be passed as string literals inside the formula.
+rule FAStatus::@.fill:Status.HasRemainingValue:AssetType.*:AcqYear.*:DepYear.* = IF(FAStatus::Status.HasRemainingValue = 1, "#22C55E", "#FFFFFF")
+rule FAStatus::@.fill:Status.IsFullyDepreciated:AssetType.*:AcqYear.*:DepYear.* = IF(FAStatus::Status.IsFullyDepreciated = 1, "#EF4444", "#FFFFFF")
