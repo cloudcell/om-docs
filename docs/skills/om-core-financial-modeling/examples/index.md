@@ -128,6 +128,8 @@ book value remains or the tranche is fully depreciated.
 - [08_groups.openm](saas-revenue-model/08_groups.openm)
 - [build.openm](saas-revenue-model/build.openm)
 
+![SaaS Revenue model running in the OM Core UI](../../../assets/images/saas-revenue-model.png)
+
 ## Manufacturing CapEx & Depreciation Model
 
 - [00_variables.openm](manufacturing-capex-model/00_variables.openm)
@@ -140,6 +142,8 @@ book value remains or the tranche is fully depreciated.
 - [07_formatting.openm](manufacturing-capex-model/07_formatting.openm)
 - [08_groups.openm](manufacturing-capex-model/08_groups.openm)
 - [build.openm](manufacturing-capex-model/build.openm)
+
+![Manufacturing CapEx & Depreciation model running in the OM Core UI](../../../assets/images/manufacturing-capex-model.png)
 
 <!-- markdownlint-disable MD013 -->
 [skills-raw]: https://raw.githubusercontent.com/cloudcell/om-docs/main/docs/skills/om-core-financial-modeling/SKILLS.md

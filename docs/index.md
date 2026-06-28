@@ -1,7 +1,7 @@
 <!-- markdownlint-disable -->
 <div class="om-hero">
   <img src="assets/brand/om-core-logo-transparent.png" alt="OM Core logo" class="om-hero-logo">
-  <h1>OM Core Documentation</h1>
+  <h1>Documentation</h1>
   <p class="om-hero-subtitle">
     A multidimensional modeling engine for structured financial, operational, and analytical models.
   </p>
