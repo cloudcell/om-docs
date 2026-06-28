@@ -1,0 +1,1 @@
+rule Checks::Check.AreaCheck = Assumptions::[Assumption.TotalAreaM2] - Summary::Plant.*:Metric.TotalAreaM2

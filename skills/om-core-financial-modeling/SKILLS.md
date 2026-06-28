@@ -77,12 +77,12 @@ Use variables to avoid repeating important names.
 Example:
 
 ```openm
-model_name="SaaS Revenue Model"
-pl_cube="PL"
-account_dim="Account"
-month_dim="Month"
-scenario_dim="Scenario"
-base_scenario="Base"
+var model_name = "SaaS Revenue Model"
+var pl_cube = PL
+var account_dim = Account
+var month_dim = Month
+var scenario_dim = Scenario
+var base_scenario = Base
 ```
 
 Use `{{...}}` macro expansion to compose commands:
@@ -308,10 +308,10 @@ For reusable model templates, use variables at the top.
 Example template:
 
 ```openm
-pl_cube="{{pl_cube}}"
-account_dim="{{account_dim}}"
-time_dim="{{time_dim}}"
-scenario_dim="{{scenario_dim}}"
+var pl_cube = {{pl_cube}}
+var account_dim = {{account_dim}}
+var time_dim = {{time_dim}}
+var scenario_dim = {{scenario_dim}}
 
 cube {{pl_cube}} {{account_dim}} {{time_dim}} {{scenario_dim}}
 
@@ -565,7 +565,33 @@ Run:
 om> source build.openm
 ```
 
-## 21. Agent Behavior Rules
+## 21. Example Agroforestry Model
+
+File tree:
+
+```text
+examples/agroforestry-model/
+  00_variables.openm
+  01_dimensions.openm
+  02_cubes.openm
+  03_inputs.openm
+  04_rules.openm
+  05_checks.openm
+  06_views.openm
+  07_formatting.openm
+  08_groups.openm
+  build.openm
+```
+
+This model tracks an agroforestry planting across five species (Apple, Pear, Hazelnut, Oak, Willow). It computes the number of plants from area and spacing, initial planting costs (material and labor), and recurring lifecycle costs (planting, fertiliser, pruning, weeding, harvesting) over 16 years. A summary cube rolls up total initial cost, total lifecycle cost, total cost, number of plants, and planted area per species, and an area check verifies the planted area matches the available land.
+
+Run:
+
+```text
+om> source build.openm
+```
+
+## 22. Agent Behavior Rules
 
 The agent must not:
 

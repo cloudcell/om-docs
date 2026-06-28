@@ -1,0 +1,6 @@
+view Inventory_View = Inventory::Plant:PlantData
+view InitialCosts_View = InitialCosts::Plant:InitialCost
+view LifecycleCosts_View = LifecycleCosts::Plant:PlantAge:LifecycleCost
+view Assumptions_View = Assumptions::Assumption
+view Summary_View = Summary::Plant:Metric
+view Checks_View = Checks::Check

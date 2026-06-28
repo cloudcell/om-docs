@@ -1,0 +1,15 @@
+# Inventory calculations
+rule Inventory::Plant.*:PlantData.NumberOfPlants = Inventory::[PlantData.Quantity_m2] / Inventory::[PlantData.SpacePerPlant_m2]
+
+# Initial cost totals per plant (material + labor)
+rule Summary::Plant.*:Metric.TotalInitialCost = InitialCosts::[InitialCost.PlantMaterialCostPerUnit] * Inventory::[PlantData.NumberOfPlants] + InitialCosts::[InitialCost.LaborPerInitialPlantingAction] * Assumptions::[Assumption.HourlyRate] * Inventory::[PlantData.NumberOfPlants]
+
+# Lifecycle cost totals per plant (sum over age and cost type, multiplied by number of plants)
+rule Summary::Plant.*:Metric.TotalLifecycleCost = LifecycleCosts::[PlantAge.*:LifecycleCost.*] * Inventory::[PlantData.NumberOfPlants]
+
+# Grand total cost per plant
+rule Summary::Plant.*:Metric.TotalCost = Summary::[Metric.TotalInitialCost] + Summary::[Metric.TotalLifecycleCost]
+
+# Copy through key metrics
+rule Summary::Plant.*:Metric.NumberOfPlants = Inventory::[PlantData.NumberOfPlants]
+rule Summary::Plant.*:Metric.TotalAreaM2 = Inventory::[PlantData.Quantity_m2]

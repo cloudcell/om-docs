@@ -1,0 +1,6 @@
+cube {{inventory_cube}} {{plant_dim}} {{plant_data_dim}}
+cube {{initial_costs_cube}} {{plant_dim}} {{initial_cost_dim}}
+cube {{lifecycle_costs_cube}} {{plant_dim}} {{plant_age_dim}} {{lifecycle_cost_dim}}
+cube {{assumptions_cube}} {{assumption_dim}}
+cube {{summary_cube}} {{plant_dim}} {{metric_dim}}
+cube {{checks_cube}} {{check_dim}}

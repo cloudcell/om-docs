@@ -1,0 +1,9 @@
+# Dimension outline groups for presentation
+
+group create PlantData "Area & Count" Quantity_m2 SpacePerPlant_m2 NumberOfPlants
+
+group create InitialCost "Cost Components" CCY PlantMaterialCostPerUnit LaborPerInitialPlantingAction PlantMaterialType
+
+group create LifecycleCost "Annual Operations" Planting Fertiliser Pruning Weeding Harvesting
+
+group create Metric "Summary Metrics" NumberOfPlants TotalAreaM2 TotalInitialCost TotalLifecycleCost TotalCost

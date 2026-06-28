@@ -1,0 +1,91 @@
+# Assumptions
+rule Assumptions::Assumption.HourlyRate = 15.00
+rule Assumptions::Assumption.TotalAreaM2 = 10000.00
+rule Assumptions::Assumption.VATRate = 0.00
+
+# Inventory: area and spacing per plant
+rule Inventory::Plant.Apple:PlantData.Quantity_m2 = 1200.00
+rule Inventory::Plant.Pear:PlantData.Quantity_m2 = 800.00
+rule Inventory::Plant.Hazelnut:PlantData.Quantity_m2 = 2000.00
+rule Inventory::Plant.Oak:PlantData.Quantity_m2 = 3000.00
+rule Inventory::Plant.Willow:PlantData.Quantity_m2 = 3000.00
+
+rule Inventory::Plant.Apple:PlantData.SpacePerPlant_m2 = 16.00
+rule Inventory::Plant.Pear:PlantData.SpacePerPlant_m2 = 16.00
+rule Inventory::Plant.Hazelnut:PlantData.SpacePerPlant_m2 = 9.00
+rule Inventory::Plant.Oak:PlantData.SpacePerPlant_m2 = 25.00
+rule Inventory::Plant.Willow:PlantData.SpacePerPlant_m2 = 4.00
+
+rule Inventory::Plant.Apple:PlantData.SystemName = "Apple"
+rule Inventory::Plant.Pear:PlantData.SystemName = "Pear"
+rule Inventory::Plant.Hazelnut:PlantData.SystemName = "Hazelnut"
+rule Inventory::Plant.Oak:PlantData.SystemName = "Oak"
+rule Inventory::Plant.Willow:PlantData.SystemName = "Willow"
+
+# Initial costs per plant
+rule InitialCosts::Plant.Apple:InitialCost.CCY = "EUR"
+rule InitialCosts::Plant.Pear:InitialCost.CCY = "EUR"
+rule InitialCosts::Plant.Hazelnut:InitialCost.CCY = "EUR"
+rule InitialCosts::Plant.Oak:InitialCost.CCY = "EUR"
+rule InitialCosts::Plant.Willow:InitialCost.CCY = "EUR"
+
+rule InitialCosts::Plant.Apple:InitialCost.PlantMaterialType = "Seedling"
+rule InitialCosts::Plant.Pear:InitialCost.PlantMaterialType = "Grafted"
+rule InitialCosts::Plant.Hazelnut:InitialCost.PlantMaterialType = "Seedling"
+rule InitialCosts::Plant.Oak:InitialCost.PlantMaterialType = "Seedling"
+rule InitialCosts::Plant.Willow:InitialCost.PlantMaterialType = "Cutting"
+
+rule InitialCosts::Plant.Apple:InitialCost.PlantMaterialCostPerUnit = 8.00
+rule InitialCosts::Plant.Pear:InitialCost.PlantMaterialCostPerUnit = 12.00
+rule InitialCosts::Plant.Hazelnut:InitialCost.PlantMaterialCostPerUnit = 6.00
+rule InitialCosts::Plant.Oak:InitialCost.PlantMaterialCostPerUnit = 3.00
+rule InitialCosts::Plant.Willow:InitialCost.PlantMaterialCostPerUnit = 1.50
+
+rule InitialCosts::Plant.Apple:InitialCost.LaborPerInitialPlantingAction = 0.50
+rule InitialCosts::Plant.Pear:InitialCost.LaborPerInitialPlantingAction = 0.60
+rule InitialCosts::Plant.Hazelnut:InitialCost.LaborPerInitialPlantingAction = 0.40
+rule InitialCosts::Plant.Oak:InitialCost.LaborPerInitialPlantingAction = 0.30
+rule InitialCosts::Plant.Willow:InitialCost.LaborPerInitialPlantingAction = 0.20
+
+# Lifecycle costs per plant per age (currency per plant)
+# Planting is age 1 only; fertiliser every 3 years from age 2; pruning every 3 years from age 3;
+# weeding every even age; harvesting every year from age 5.
+
+rule LifecycleCosts::Plant.*:PlantAge.*:LifecycleCost.Planting = 0.00
+rule LifecycleCosts::Plant.*:PlantAge.1:LifecycleCost.Planting = 2.00
+
+rule LifecycleCosts::Plant.*:PlantAge.*:LifecycleCost.Fertiliser = 0.00
+rule LifecycleCosts::Plant.*:PlantAge.2:LifecycleCost.Fertiliser = 1.50
+rule LifecycleCosts::Plant.*:PlantAge.5:LifecycleCost.Fertiliser = 1.50
+rule LifecycleCosts::Plant.*:PlantAge.8:LifecycleCost.Fertiliser = 1.50
+rule LifecycleCosts::Plant.*:PlantAge.11:LifecycleCost.Fertiliser = 1.50
+rule LifecycleCosts::Plant.*:PlantAge.14:LifecycleCost.Fertiliser = 1.50
+
+rule LifecycleCosts::Plant.*:PlantAge.*:LifecycleCost.Pruning = 0.00
+rule LifecycleCosts::Plant.*:PlantAge.3:LifecycleCost.Pruning = 2.00
+rule LifecycleCosts::Plant.*:PlantAge.6:LifecycleCost.Pruning = 2.00
+rule LifecycleCosts::Plant.*:PlantAge.9:LifecycleCost.Pruning = 2.00
+rule LifecycleCosts::Plant.*:PlantAge.12:LifecycleCost.Pruning = 2.00
+rule LifecycleCosts::Plant.*:PlantAge.15:LifecycleCost.Pruning = 2.00
+
+rule LifecycleCosts::Plant.*:PlantAge.*:LifecycleCost.Weeding = 0.00
+rule LifecycleCosts::Plant.*:PlantAge.2:LifecycleCost.Weeding = 1.00
+rule LifecycleCosts::Plant.*:PlantAge.4:LifecycleCost.Weeding = 1.00
+rule LifecycleCosts::Plant.*:PlantAge.6:LifecycleCost.Weeding = 1.00
+rule LifecycleCosts::Plant.*:PlantAge.8:LifecycleCost.Weeding = 1.00
+rule LifecycleCosts::Plant.*:PlantAge.10:LifecycleCost.Weeding = 1.00
+rule LifecycleCosts::Plant.*:PlantAge.12:LifecycleCost.Weeding = 1.00
+rule LifecycleCosts::Plant.*:PlantAge.14:LifecycleCost.Weeding = 1.00
+rule LifecycleCosts::Plant.*:PlantAge.16:LifecycleCost.Weeding = 1.00
+
+rule LifecycleCosts::Plant.*:PlantAge.*:LifecycleCost.Harvesting = 0.00
+rule LifecycleCosts::Plant.Apple:PlantAge.5:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Apple:PlantAge[PREV]:LifecycleCost.Harvesting
+rule LifecycleCosts::Plant.Pear:PlantAge.5:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Pear:PlantAge[PREV]:LifecycleCost.Harvesting
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.5:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Hazelnut:PlantAge[PREV]:LifecycleCost.Harvesting
+rule LifecycleCosts::Plant.Oak:PlantAge.10:LifecycleCost.Harvesting = 2.00
+rule LifecycleCosts::Plant.Oak:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Oak:PlantAge[PREV]:LifecycleCost.Harvesting
+rule LifecycleCosts::Plant.Willow:PlantAge.4:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Willow:PlantAge[PREV]:LifecycleCost.Harvesting

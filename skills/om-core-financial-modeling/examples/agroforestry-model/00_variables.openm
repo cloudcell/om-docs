@@ -1,0 +1,15 @@
+var plant_dim = Plant
+var plant_data_dim = PlantData
+var initial_cost_dim = InitialCost
+var plant_age_dim = PlantAge
+var lifecycle_cost_dim = LifecycleCost
+var assumption_dim = Assumption
+var metric_dim = Metric
+var check_dim = Check
+
+var inventory_cube = Inventory
+var initial_costs_cube = InitialCosts
+var lifecycle_costs_cube = LifecycleCosts
+var assumptions_cube = Assumptions
+var summary_cube = Summary
+var checks_cube = Checks

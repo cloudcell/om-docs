@@ -1,0 +1,34 @@
+# Per-cube formatting
+rule Inventory::@.format_number:Plant.*:PlantData.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule Inventory::@.fill:Plant.*:PlantData.* = "#f7f9fb"
+rule Inventory::@.font_color:Plant.*:PlantData.* = "#2d3748"
+
+rule InitialCosts::@.format_number:Plant.*:InitialCost.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule InitialCosts::@.fill:Plant.*:InitialCost.* = "#f7f9fb"
+rule InitialCosts::@.font_color:Plant.*:InitialCost.* = "#2d3748"
+
+rule LifecycleCosts::@.format_number:Plant.*:PlantAge.*:LifecycleCost.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule LifecycleCosts::@.fill:Plant.*:PlantAge.*:LifecycleCost.* = "#f7f9fb"
+rule LifecycleCosts::@.font_color:Plant.*:PlantAge.*:LifecycleCost.* = "#2d3748"
+
+rule Assumptions::@.format_number:Assumption.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule Assumptions::@.fill:Assumption.* = "#f7f9fb"
+rule Assumptions::@.font_color:Assumption.* = "#2d3748"
+
+rule Summary::@.format_number:Plant.*:Metric.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule Summary::@.fill:Plant.*:Metric.* = "#f7f9fb"
+rule Summary::@.font_color:Plant.*:Metric.* = "#2d3748"
+
+rule Checks::@.format_number:Check.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule Checks::@.fill:Check.* = "#f7f9fb"
+rule Checks::@.font_color:Check.* = "#2d3748"
+
+# Totals and subtotals
+rule Summary::@.font_weight:Plant.*:Metric.TotalCost = 700
+rule Summary::@.fill:Plant.*:Metric.TotalCost = "#e2e8f0"
+rule Summary::@.font_weight:Plant.*:Metric.TotalInitialCost = 700
+rule Summary::@.fill:Plant.*:Metric.TotalInitialCost = "#edf2f7"
+rule Summary::@.font_weight:Plant.*:Metric.TotalLifecycleCost = 700
+rule Summary::@.fill:Plant.*:Metric.TotalLifecycleCost = "#edf2f7"
+rule Summary::@.font_weight:Plant.*:Metric.NumberOfPlants = 700
+rule Summary::@.fill:Plant.*:Metric.NumberOfPlants = "#edf2f7"
