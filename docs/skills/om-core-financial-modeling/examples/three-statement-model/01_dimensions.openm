@@ -1,0 +1,7 @@
+dim Year --seq 2026 2027 2028 2029 2030
+dim Scenario Base Upside Downside
+dim PLLine Revenue COGS GrossProfit OperatingExpense EBITDA Depreciation EBIT InterestExpense EBT Tax NetIncome
+dim BSLine Cash AccountsReceivable Inventory FixedAssets AccumulatedDepreciation NetFixedAssets AccountsPayable Debt RetainedEarnings TotalAssets TotalLiabilitiesEquity
+dim CFLine NetIncome Depreciation ChangeInWorkingCapital Capex DebtDrawdown DebtRepayment FreeCashFlow EndingCash
+dim Driver RevenueGrowth GrossMargin OpexAsPctRevenue DandAAsPctRevenue TaxRate ARDays InventoryDays APDays CapexAsPctRevenue InterestRate OpeningCash OpeningAR OpeningInventory OpeningFixedAssets OpeningAccumDepreciation OpeningAP OpeningDebt OpeningRetainedEarnings
+dim Check BalanceSheetCheck CashBridgeCheck RetainedEarningsCheck

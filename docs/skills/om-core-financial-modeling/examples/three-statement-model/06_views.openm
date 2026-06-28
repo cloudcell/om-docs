@@ -1,0 +1,5 @@
+view PL_View = PL::PLLine:Year
+view BS_View = BS::BSLine:Year
+view CF_View = CF::CFLine:Year
+view Drivers_View = Drivers::Driver:Year
+view Checks_View = Checks::Check:Year

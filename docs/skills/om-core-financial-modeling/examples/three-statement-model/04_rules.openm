@@ -1,0 +1,68 @@
+# P&L rules
+# Revenue: base year explicit, later years explicit recurrence to avoid overlap.
+rule PL::PLLine.Revenue:Year.2027:Scenario.* = PL::PLLine.Revenue:Year[PREV] * (1 + Drivers::[Driver.RevenueGrowth])
+rule PL::PLLine.Revenue:Year.2028:Scenario.* = PL::PLLine.Revenue:Year[PREV] * (1 + Drivers::[Driver.RevenueGrowth])
+rule PL::PLLine.Revenue:Year.2029:Scenario.* = PL::PLLine.Revenue:Year[PREV] * (1 + Drivers::[Driver.RevenueGrowth])
+rule PL::PLLine.Revenue:Year.2030:Scenario.* = PL::PLLine.Revenue:Year[PREV] * (1 + Drivers::[Driver.RevenueGrowth])
+
+rule PL::PLLine.COGS:Year.*:Scenario.* = PL::[PLLine.Revenue] * (1 - Drivers::[Driver.GrossMargin])
+rule PL::PLLine.GrossProfit:Year.*:Scenario.* = PL::[PLLine.Revenue] - PL::[PLLine.COGS]
+rule PL::PLLine.OperatingExpense:Year.*:Scenario.* = PL::[PLLine.Revenue] * Drivers::[Driver.OpexAsPctRevenue]
+rule PL::PLLine.EBITDA:Year.*:Scenario.* = PL::[PLLine.GrossProfit] - PL::[PLLine.OperatingExpense]
+rule PL::PLLine.Depreciation:Year.*:Scenario.* = PL::[PLLine.Revenue] * Drivers::[Driver.DandAAsPctRevenue]
+rule PL::PLLine.EBIT:Year.*:Scenario.* = PL::[PLLine.EBITDA] - PL::[PLLine.Depreciation]
+rule PL::PLLine.InterestExpense:Year.*:Scenario.* = BS::[BSLine.Debt] * Drivers::[Driver.InterestRate]
+rule PL::PLLine.EBT:Year.*:Scenario.* = PL::[PLLine.EBIT] - PL::[PLLine.InterestExpense]
+rule PL::PLLine.Tax:Year.*:Scenario.* = PL::[PLLine.EBT] * Drivers::[Driver.TaxRate]
+rule PL::PLLine.NetIncome:Year.*:Scenario.* = PL::[PLLine.EBT] - PL::[PLLine.Tax]
+
+# Balance Sheet rules
+rule BS::BSLine.AccountsReceivable:Year.*:Scenario.* = PL::[PLLine.Revenue] * Drivers::[Driver.ARDays] / 365
+rule BS::BSLine.Inventory:Year.*:Scenario.* = PL::[PLLine.COGS] * Drivers::[Driver.InventoryDays] / 365
+
+rule BS::BSLine.FixedAssets:Year.2026:Scenario.* = Drivers::[Driver.OpeningFixedAssets] + CF::[CFLine.Capex]
+rule BS::BSLine.FixedAssets:Year.2027:Scenario.* = BS::BSLine.FixedAssets:Year[PREV] + CF::[CFLine.Capex]
+rule BS::BSLine.FixedAssets:Year.2028:Scenario.* = BS::BSLine.FixedAssets:Year[PREV] + CF::[CFLine.Capex]
+rule BS::BSLine.FixedAssets:Year.2029:Scenario.* = BS::BSLine.FixedAssets:Year[PREV] + CF::[CFLine.Capex]
+rule BS::BSLine.FixedAssets:Year.2030:Scenario.* = BS::BSLine.FixedAssets:Year[PREV] + CF::[CFLine.Capex]
+
+rule BS::BSLine.AccumulatedDepreciation:Year.2026:Scenario.* = Drivers::[Driver.OpeningAccumDepreciation] + PL::[PLLine.Depreciation]
+rule BS::BSLine.AccumulatedDepreciation:Year.2027:Scenario.* = BS::BSLine.AccumulatedDepreciation:Year[PREV] + PL::[PLLine.Depreciation]
+rule BS::BSLine.AccumulatedDepreciation:Year.2028:Scenario.* = BS::BSLine.AccumulatedDepreciation:Year[PREV] + PL::[PLLine.Depreciation]
+rule BS::BSLine.AccumulatedDepreciation:Year.2029:Scenario.* = BS::BSLine.AccumulatedDepreciation:Year[PREV] + PL::[PLLine.Depreciation]
+rule BS::BSLine.AccumulatedDepreciation:Year.2030:Scenario.* = BS::BSLine.AccumulatedDepreciation:Year[PREV] + PL::[PLLine.Depreciation]
+
+rule BS::BSLine.NetFixedAssets:Year.*:Scenario.* = BS::[BSLine.FixedAssets] - BS::[BSLine.AccumulatedDepreciation]
+rule BS::BSLine.AccountsPayable:Year.*:Scenario.* = PL::[PLLine.COGS] * Drivers::[Driver.APDays] / 365
+rule BS::BSLine.Debt:Year.*:Scenario.* = Drivers::[Driver.OpeningDebt] + CF::[CFLine.DebtDrawdown] - CF::[CFLine.DebtRepayment]
+
+rule BS::BSLine.RetainedEarnings:Year.2026:Scenario.* = Drivers::[Driver.OpeningRetainedEarnings] + PL::[PLLine.NetIncome]
+rule BS::BSLine.RetainedEarnings:Year.2027:Scenario.* = BS::BSLine.RetainedEarnings:Year[PREV] + PL::[PLLine.NetIncome]
+rule BS::BSLine.RetainedEarnings:Year.2028:Scenario.* = BS::BSLine.RetainedEarnings:Year[PREV] + PL::[PLLine.NetIncome]
+rule BS::BSLine.RetainedEarnings:Year.2029:Scenario.* = BS::BSLine.RetainedEarnings:Year[PREV] + PL::[PLLine.NetIncome]
+rule BS::BSLine.RetainedEarnings:Year.2030:Scenario.* = BS::BSLine.RetainedEarnings:Year[PREV] + PL::[PLLine.NetIncome]
+
+rule BS::BSLine.Cash:Year.*:Scenario.* = CF::[CFLine.EndingCash]
+rule BS::BSLine.TotalAssets:Year.*:Scenario.* = BS::[BSLine.Cash] + BS::[BSLine.AccountsReceivable] + BS::[BSLine.Inventory] + BS::[BSLine.NetFixedAssets]
+rule BS::BSLine.TotalLiabilitiesEquity:Year.*:Scenario.* = BS::[BSLine.AccountsPayable] + BS::[BSLine.Debt] + BS::[BSLine.RetainedEarnings]
+
+# Cash Flow rules
+rule CF::CFLine.NetIncome:Year.*:Scenario.* = PL::[PLLine.NetIncome]
+rule CF::CFLine.Depreciation:Year.*:Scenario.* = PL::[PLLine.Depreciation]
+
+rule CF::CFLine.ChangeInWorkingCapital:Year.2026:Scenario.* = (BS::[BSLine.AccountsReceivable] + BS::[BSLine.Inventory] - BS::[BSLine.AccountsPayable]) - (Drivers::[Driver.OpeningAR] + Drivers::[Driver.OpeningInventory] - Drivers::[Driver.OpeningAP])
+rule CF::CFLine.ChangeInWorkingCapital:Year.2027:Scenario.* = (BS::[BSLine.AccountsReceivable] + BS::[BSLine.Inventory] - BS::[BSLine.AccountsPayable]) - (BS::BSLine.AccountsReceivable:Year[PREV] + BS::BSLine.Inventory:Year[PREV] - BS::BSLine.AccountsPayable:Year[PREV])
+rule CF::CFLine.ChangeInWorkingCapital:Year.2028:Scenario.* = (BS::[BSLine.AccountsReceivable] + BS::[BSLine.Inventory] - BS::[BSLine.AccountsPayable]) - (BS::BSLine.AccountsReceivable:Year[PREV] + BS::BSLine.Inventory:Year[PREV] - BS::BSLine.AccountsPayable:Year[PREV])
+rule CF::CFLine.ChangeInWorkingCapital:Year.2029:Scenario.* = (BS::[BSLine.AccountsReceivable] + BS::[BSLine.Inventory] - BS::[BSLine.AccountsPayable]) - (BS::BSLine.AccountsReceivable:Year[PREV] + BS::BSLine.Inventory:Year[PREV] - BS::BSLine.AccountsPayable:Year[PREV])
+rule CF::CFLine.ChangeInWorkingCapital:Year.2030:Scenario.* = (BS::[BSLine.AccountsReceivable] + BS::[BSLine.Inventory] - BS::[BSLine.AccountsPayable]) - (BS::BSLine.AccountsReceivable:Year[PREV] + BS::BSLine.Inventory:Year[PREV] - BS::BSLine.AccountsPayable:Year[PREV])
+
+rule CF::CFLine.Capex:Year.*:Scenario.* = PL::[PLLine.Revenue] * Drivers::[Driver.CapexAsPctRevenue]
+rule CF::CFLine.DebtDrawdown:Year.*:Scenario.* = 0
+rule CF::CFLine.DebtRepayment:Year.*:Scenario.* = 0
+rule CF::CFLine.FreeCashFlow:Year.*:Scenario.* = CF::[CFLine.NetIncome] + CF::[CFLine.Depreciation] - CF::[CFLine.ChangeInWorkingCapital] - CF::[CFLine.Capex] + CF::[CFLine.DebtDrawdown] - CF::[CFLine.DebtRepayment]
+
+rule CF::CFLine.EndingCash:Year.2026:Scenario.* = Drivers::[Driver.OpeningCash] + CF::[CFLine.FreeCashFlow]
+rule CF::CFLine.EndingCash:Year.2027:Scenario.* = CF::CFLine.EndingCash:Year[PREV] + CF::[CFLine.FreeCashFlow]
+rule CF::CFLine.EndingCash:Year.2028:Scenario.* = CF::CFLine.EndingCash:Year[PREV] + CF::[CFLine.FreeCashFlow]
+rule CF::CFLine.EndingCash:Year.2029:Scenario.* = CF::CFLine.EndingCash:Year[PREV] + CF::[CFLine.FreeCashFlow]
+rule CF::CFLine.EndingCash:Year.2030:Scenario.* = CF::CFLine.EndingCash:Year[PREV] + CF::[CFLine.FreeCashFlow]

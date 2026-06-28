@@ -1,0 +1,31 @@
+# Dimension outline groups for presentation
+
+group create PLLine "Revenue and Profit" Revenue COGS GrossProfit
+
+group create PLLine "Operating Items" OperatingExpense EBITDA Depreciation EBIT InterestExpense
+
+group create PLLine Earnings EBT Tax NetIncome
+
+group create BSLine "Current Assets" Cash AccountsReceivable Inventory
+
+group create BSLine "Fixed Assets" FixedAssets AccumulatedDepreciation NetFixedAssets
+
+group create BSLine "Liabilities and Equity" AccountsPayable Debt RetainedEarnings
+
+group create BSLine Totals TotalAssets TotalLiabilitiesEquity
+
+group create CFLine "Cash Flow from Operations" NetIncome Depreciation ChangeInWorkingCapital
+
+group create CFLine "Investing and Financing" Capex DebtDrawdown DebtRepayment
+
+group create CFLine "Cash Flow Totals" FreeCashFlow EndingCash
+
+group create Driver Assumptions RevenueGrowth GrossMargin OpexAsPctRevenue DandAAsPctRevenue TaxRate
+
+group create Driver "Working Capital" ARDays InventoryDays APDays
+
+group create Driver "Capital Structure" CapexAsPctRevenue InterestRate
+
+group create Driver "Opening Balance Sheet" OpeningCash OpeningAR OpeningInventory OpeningFixedAssets OpeningAccumDepreciation OpeningAP OpeningDebt OpeningRetainedEarnings
+
+group create Check Checks BalanceSheetCheck CashBridgeCheck RetainedEarningsCheck

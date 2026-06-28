@@ -1,0 +1,48 @@
+# Base scenario assumptions
+rule Drivers::Driver.RevenueGrowth:Year.*:Scenario.Base = 0.10
+rule Drivers::Driver.GrossMargin:Year.*:Scenario.Base = 0.60
+rule Drivers::Driver.OpexAsPctRevenue:Year.*:Scenario.Base = 0.30
+rule Drivers::Driver.DandAAsPctRevenue:Year.*:Scenario.Base = 0.05
+rule Drivers::Driver.TaxRate:Year.*:Scenario.Base = 0.25
+rule Drivers::Driver.ARDays:Year.*:Scenario.Base = 45
+rule Drivers::Driver.InventoryDays:Year.*:Scenario.Base = 60
+rule Drivers::Driver.APDays:Year.*:Scenario.Base = 30
+rule Drivers::Driver.CapexAsPctRevenue:Year.*:Scenario.Base = 0.08
+rule Drivers::Driver.InterestRate:Year.*:Scenario.Base = 0.05
+
+# Upside scenario assumptions
+rule Drivers::Driver.RevenueGrowth:Year.*:Scenario.Upside = 0.15
+rule Drivers::Driver.GrossMargin:Year.*:Scenario.Upside = 0.65
+rule Drivers::Driver.OpexAsPctRevenue:Year.*:Scenario.Upside = 0.28
+rule Drivers::Driver.DandAAsPctRevenue:Year.*:Scenario.Upside = 0.04
+rule Drivers::Driver.TaxRate:Year.*:Scenario.Upside = 0.25
+rule Drivers::Driver.ARDays:Year.*:Scenario.Upside = 40
+rule Drivers::Driver.InventoryDays:Year.*:Scenario.Upside = 55
+rule Drivers::Driver.APDays:Year.*:Scenario.Upside = 35
+rule Drivers::Driver.CapexAsPctRevenue:Year.*:Scenario.Upside = 0.07
+rule Drivers::Driver.InterestRate:Year.*:Scenario.Upside = 0.05
+
+# Downside scenario assumptions
+rule Drivers::Driver.RevenueGrowth:Year.*:Scenario.Downside = 0.05
+rule Drivers::Driver.GrossMargin:Year.*:Scenario.Downside = 0.55
+rule Drivers::Driver.OpexAsPctRevenue:Year.*:Scenario.Downside = 0.32
+rule Drivers::Driver.DandAAsPctRevenue:Year.*:Scenario.Downside = 0.06
+rule Drivers::Driver.TaxRate:Year.*:Scenario.Downside = 0.25
+rule Drivers::Driver.ARDays:Year.*:Scenario.Downside = 50
+rule Drivers::Driver.InventoryDays:Year.*:Scenario.Downside = 70
+rule Drivers::Driver.APDays:Year.*:Scenario.Downside = 25
+rule Drivers::Driver.CapexAsPctRevenue:Year.*:Scenario.Downside = 0.09
+rule Drivers::Driver.InterestRate:Year.*:Scenario.Downside = 0.05
+
+# Opening balance sheet for 2026 (common across scenarios)
+rule Drivers::Driver.OpeningCash:Year.*:Scenario.* = 50000
+rule Drivers::Driver.OpeningAR:Year.*:Scenario.* = 0
+rule Drivers::Driver.OpeningInventory:Year.*:Scenario.* = 0
+rule Drivers::Driver.OpeningFixedAssets:Year.*:Scenario.* = 300000
+rule Drivers::Driver.OpeningAccumDepreciation:Year.*:Scenario.* = 50000
+rule Drivers::Driver.OpeningAP:Year.*:Scenario.* = 0
+rule Drivers::Driver.OpeningDebt:Year.*:Scenario.* = 100000
+rule Drivers::Driver.OpeningRetainedEarnings:Year.*:Scenario.* = 200000
+
+# Base year revenue for 2026
+rule PL::PLLine.Revenue:Year.2026:Scenario.* = 100000

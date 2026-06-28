@@ -537,7 +537,40 @@ Run:
 om> source build.openm
 ```
 
-## 19. Example Manufacturing CapEx & Depreciation Model
+## 19. Example Three-Statement Model
+
+File tree:
+
+```text
+examples/three-statement-model/
+  00_variables.openm
+  01_dimensions.openm
+  02_cubes.openm
+  03_inputs.openm
+  04_rules.openm
+  05_checks.openm
+  06_views.openm
+  07_formatting.openm
+  08_groups.openm
+  build.openm
+```
+
+This is the flagship example. It builds an integrated P&L, Balance Sheet, and Cash
+Flow Statement over five years for three scenarios (Base, Upside, Downside). The
+model links revenue, COGS, operating expenses, depreciation, interest, and taxes
+into net income; rolls forward fixed assets, working capital, debt, and retained
+earnings on the balance sheet; and bridges net income to ending cash through
+operating cash flow, capex, and working capital changes. Checks verify the balance
+sheet balances, the cash bridge reconciles, and retained earnings roll forward
+correctly.
+
+Run:
+
+```text
+om> source build.openm
+```
+
+## 20. Example Manufacturing CapEx & Depreciation Model
 
 File tree:
 
@@ -563,7 +596,7 @@ Run:
 om> source build.openm
 ```
 
-## 20. Example Business Valuation Model
+## 21. Example Business Valuation Model
 
 File tree:
 
@@ -589,7 +622,7 @@ Run:
 om> source build.openm
 ```
 
-## 21. Example Agroforestry Model
+## 22. Example Agroforestry Model
 
 File tree:
 
@@ -615,7 +648,7 @@ Run:
 om> source build.openm
 ```
 
-## 22. Agent Behavior Rules
+## 23. Agent Behavior Rules
 
 The agent must not:
 

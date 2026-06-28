@@ -1,0 +1,44 @@
+# Per-cube formatting
+rule PL::@.format_number:PLLine.*:Year.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+rule PL::@.fill:PLLine.*:Year.*:Scenario.* = "#f7f9fb"
+rule PL::@.font_color:PLLine.*:Year.*:Scenario.* = "#2d3748"
+
+rule BS::@.format_number:BSLine.*:Year.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+rule BS::@.fill:BSLine.*:Year.*:Scenario.* = "#f7f9fb"
+rule BS::@.font_color:BSLine.*:Year.*:Scenario.* = "#2d3748"
+
+rule CF::@.format_number:CFLine.*:Year.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+rule CF::@.fill:CFLine.*:Year.*:Scenario.* = "#f7f9fb"
+rule CF::@.font_color:CFLine.*:Year.*:Scenario.* = "#2d3748"
+
+rule Drivers::@.format_number:Driver.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule Drivers::@.fill:Driver.*:Year.*:Scenario.* = "#f7f9fb"
+rule Drivers::@.font_color:Driver.*:Year.*:Scenario.* = "#2d3748"
+
+rule Checks::@.format_number:Check.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule Checks::@.fill:Check.*:Year.*:Scenario.* = "#f7f9fb"
+rule Checks::@.font_color:Check.*:Year.*:Scenario.* = "#2d3748"
+
+# P&L subtotals and totals
+rule PL::@.font_weight:PLLine.Revenue:Year.*:Scenario.* = 700
+rule PL::@.fill:PLLine.Revenue:Year.*:Scenario.* = "#e2e8f0"
+rule PL::@.font_weight:PLLine.GrossProfit:Year.*:Scenario.* = 700
+rule PL::@.fill:PLLine.GrossProfit:Year.*:Scenario.* = "#edf2f7"
+rule PL::@.font_weight:PLLine.EBITDA:Year.*:Scenario.* = 700
+rule PL::@.fill:PLLine.EBITDA:Year.*:Scenario.* = "#e2e8f0"
+rule PL::@.font_weight:PLLine.EBIT:Year.*:Scenario.* = 700
+rule PL::@.fill:PLLine.EBIT:Year.*:Scenario.* = "#edf2f7"
+rule PL::@.font_weight:PLLine.NetIncome:Year.*:Scenario.* = 700
+rule PL::@.fill:PLLine.NetIncome:Year.*:Scenario.* = "#e2e8f0"
+
+# Balance Sheet totals
+rule BS::@.font_weight:BSLine.TotalAssets:Year.*:Scenario.* = 700
+rule BS::@.fill:BSLine.TotalAssets:Year.*:Scenario.* = "#e2e8f0"
+rule BS::@.font_weight:BSLine.TotalLiabilitiesEquity:Year.*:Scenario.* = 700
+rule BS::@.fill:BSLine.TotalLiabilitiesEquity:Year.*:Scenario.* = "#e2e8f0"
+
+# Cash Flow totals
+rule CF::@.font_weight:CFLine.FreeCashFlow:Year.*:Scenario.* = 700
+rule CF::@.fill:CFLine.FreeCashFlow:Year.*:Scenario.* = "#edf2f7"
+rule CF::@.font_weight:CFLine.EndingCash:Year.*:Scenario.* = 700
+rule CF::@.fill:CFLine.EndingCash:Year.*:Scenario.* = "#e2e8f0"

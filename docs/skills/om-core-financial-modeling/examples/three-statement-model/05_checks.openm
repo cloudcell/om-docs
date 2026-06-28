@@ -1,0 +1,8 @@
+rule Checks::Check.BalanceSheetCheck:Year.*:Scenario.* = BS::[BSLine.TotalAssets] - BS::[BSLine.TotalLiabilitiesEquity]
+rule Checks::Check.CashBridgeCheck:Year.*:Scenario.* = BS::[BSLine.Cash] - CF::[CFLine.EndingCash]
+
+rule Checks::Check.RetainedEarningsCheck:Year.2026:Scenario.* = BS::[BSLine.RetainedEarnings] - (Drivers::[Driver.OpeningRetainedEarnings] + PL::[PLLine.NetIncome])
+rule Checks::Check.RetainedEarningsCheck:Year.2027:Scenario.* = BS::[BSLine.RetainedEarnings] - (BS::BSLine.RetainedEarnings:Year[PREV] + PL::[PLLine.NetIncome])
+rule Checks::Check.RetainedEarningsCheck:Year.2028:Scenario.* = BS::[BSLine.RetainedEarnings] - (BS::BSLine.RetainedEarnings:Year[PREV] + PL::[PLLine.NetIncome])
+rule Checks::Check.RetainedEarningsCheck:Year.2029:Scenario.* = BS::[BSLine.RetainedEarnings] - (BS::BSLine.RetainedEarnings:Year[PREV] + PL::[PLLine.NetIncome])
+rule Checks::Check.RetainedEarningsCheck:Year.2030:Scenario.* = BS::[BSLine.RetainedEarnings] - (BS::BSLine.RetainedEarnings:Year[PREV] + PL::[PLLine.NetIncome])
