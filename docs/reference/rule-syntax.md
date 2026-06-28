@@ -243,6 +243,26 @@ Example with a 3D cube `(Year, Region, Scenario)`:
 
 In scripts, use `$` only as a prefix on an explicit cube-qualified address. In the grid or rule panel, the contextual `$[...]` form may be used to bind a rule to one specific cell.
 
+### Why scripts require an explicit cube-qualified address
+
+Standalone `.openm` files have no implicit context. The parser must know which cube, channel, and dimension items a rule refers to without relying on the current UI selection. The prefix form supplies that context explicitly:
+
+```text
+rule $Sales::Year.2024:Region.North = 1100
+```
+
+Here `$Sales::Year.2024:Region.North` is unambiguous: the rule is anchored to exactly one cell in the `Sales` cube.
+
+The `$[...]` bracket form is shorthand for "the currently selected cell in the active cube, channel, and view." It only makes sense where those active selections exist, such as the grid or rule panel. In a standalone script there is no active selection, so `$[...]` is undefined and should be avoided.
+
+| Form | Where it is valid | Why |
+| --- | --- | --- |
+| `rule $Cube::Dim.Item = ...` | Scripts, grid, rule panel | Explicit cube and items; no ambiguity |
+| `rule $[...] = ...` | Grid, rule panel only | Depends on the active cube, channel, and view |
+| `rule $[...] = ...` | **Not valid** in standalone `.openm` files | No active context to resolve the target |
+
+If you write a script that needs to anchor a rule, always use the full `$Cube::Dim.Item:...` address. If the target would be ambiguous without the active UI context, rewrite it as an explicit address before saving it to a file.
+
 ## Error behavior
 
 Error values (`#CIRC!`, `#DIV/0!`, `#EXPRESSION!`, `#REF!`) are never persisted as cell values. They are always recalculated on load. Diagnostics may be logged, but they are not canonical cell state.
