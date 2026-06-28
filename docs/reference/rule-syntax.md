@@ -58,8 +58,7 @@ Month.Jan
 Region.North
 ```
 
-If a name resolves to multiple items, the parser rejects it as ambiguous. It never
-chooses one silently.
+If a name resolves to multiple items, the parser rejects it as ambiguous.
 
 ## Range references
 

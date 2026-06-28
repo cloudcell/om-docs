@@ -104,6 +104,13 @@ rule PL::Revenue:Month.Feb = PL::[Revenue:Month[PREV]] * 1.10
 rule PL::Revenue:Month.Jan = PL::[Revenue:Month[FIRST]]
 ```
 
+### Recurrence direction
+
+A single rule cannot use both `[PREV]` and `[NEXT]` on the same dimension. The
+engine must calculate a recurrence in one direction only: backward with
+`[PREV]` or forward with `[NEXT]`. Mixing them raises a bidirectional recurrence
+error.
+
 ## Channels and the `@` sigil
 
 Every cell in a cube stores values in named channels. The `@` sigil introduces a
@@ -194,11 +201,10 @@ rule PL::Revenue:Year.2026 = PL::[PLLine.Revenue, Year.2026]
 rule PL::Revenue:Year.2026 = PL::[PLLine.COGS] * 2.0
 ```
 
-Use brackets for shorthand references, when item names contain spaces or special
-characters, or when using positional accessors:
+Use brackets if such a use improves readability or when using positional accessors:
 
 ```openm
-rule PL::Revenue:Year.2027 = PL::[Revenue:Year[PREV]] * 1.10
+rule PL::Revenue:Year.2027 = PL::Revenue:Year[PREV] * 1.10
 ```
 
 ## Best practices
