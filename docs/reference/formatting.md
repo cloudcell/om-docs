@@ -1,27 +1,32 @@
 # Formatting patterns
 
-OM Core uses number formatting patterns that are compatible with Excel-style
-masks. This page explains the syntax and the patterns OM Core supports.
+OM Core formats numbers through **preset expressions**. A preset is a compact,
+structured directive such as `preset:number(decimals=2)` or
+`preset:currency(code=USD)`. The syntax and terminology are guided by the
+[Unicode Common Locale Data Repository (CLDR)](https://cldr.unicode.org/),
+which defines international formatting patterns for numbers, currencies, dates,
+and times. This page explains the preset syntax and the options OM Core
+supports.
 
-This page is about **number and currency display patterns**, not visual styles such
-as font color or background fill. Visual styles are set through channels like
-`@.fill` and `@.font_color`. See the [Scripting reference](scripting.md) for how
-to use style channels.
+This page is about **number and currency display patterns**, not visual styles
+such as font color or background fill. Visual styles are set through channels
+like `@.fill` and `@.font_color`. See the [Scripting reference](scripting.md)
+for how to use style channels.
 
 ## Rule-driven formatting
 
-All formatting in OM Core is rule-driven. A format string is attached to a cell
+All formatting in OM Core is rule-driven. A format preset is attached to a cell
 or slice through the `@.format_number` channel using the same `rule` syntax as
 value rules:
 
 ```openm
-rule PL::@.format_number:Account.Revenue:Year.2026 = '#,##0.00'
+rule PL::@.format_number:Account.Revenue:Year.2026 = 'preset:number(decimals=2)'
 ```
 
-You can also set a hard value directly through the UI or REPL, but under the hood
-the engine still stores it as a rule on the format channel. Because formatting
-is a rule, it can reference other cells, use wildcards, and respond to the same
-dimensional context as any other rule.
+You can also set a hard value directly through the UI or REPL, but under the
+hood the engine still stores it as a rule on the format channel. Because
+formatting is a rule, it can reference other cells, use wildcards, and respond
+to the same dimensional context as any other rule.
 
 ## Conditional formatting
 
@@ -30,70 +35,54 @@ Because formatting is rule-driven, it can be conditional. A rule on `@.fill`,
 other cells:
 
 ```openm
-rule Checks::@.fill:Check.Variance:Month.*:Department.* = if(Variance::[VarianceLine.Variance] > 1000, "#FFCCCC", "#FFFFFF")
-rule PL::@.font_color:Account.EBITDA:Year.*:Scenario.* = if(PL::[Account.EBITDA] < 0, "#FF0000", "#000000")
+rule Checks::@.fill:Check.Variance:* = if(V::[Variance] > 100, "#FCC", "#FFF")
+rule PL::@.font_color:Acct.EBITDA:* = if(PL::[Acct.EBITDA] < 0, "red", "black")
 ```
 
-The format or style is recomputed automatically when the underlying values change,
-so the visual presentation always stays consistent with the model state.
+The format or style is recomputed automatically when the underlying values
+change, so the visual presentation always stays consistent with the model state.
 
-## Number format masks
+## Color maps
 
-OM Core applies an Excel-compatible number mask to the raw cell value. The mask
-controls decimal places, thousands grouping, percentage scaling, and negative/zero
-sections.
-
-### Pattern characters
-
-| Character | Meaning |
-| --- | --- |
-| `0` | Digit placeholder |
-| `#` | Digit placeholder (currently treated the same as `0`) |
-| `.` | Decimal point position |
-| `,` | Thousands grouping marker |
-| `%` | Multiply by 100 and add `%` |
-
-### Example masks
-
-| Mask | Value | Display |
-| --- | --- | --- |
-| `#,##0.00` | `1234.5` | `1,234.50` |
-| `#,##0` | `1234.6` | `1,235` |
-| `0.00%` | `0.125` | `12.50%` |
-| `0;(#,##0)` | `-5` | `(5)` |
-| `0;(#,##0);-` | `0` | `-` |
-
-### Sections
-
-A mask can contain up to three semicolon-separated sections:
-
-- **First section** — positive numbers.
-- **Second section** — negative numbers.
-- **Third section** — zero values.
+`COLORMAP(palette, position)` returns a hex color string interpolated from a
+built-in palette. It is useful for conditional formatting rules that map a cell
+value to a color gradient.
 
 ```openm
-rule PL::@.format_number:Account.EBITDA:Year.*:Scenario.* = '#,##0.00;(#,##0.00);-'
+rule PL::@.fill:Account.Revenue:Year.* = COLORMAP("viridis", @.value / 100)
+rule Checks::@.fill:Check.Variance:* = COLORMAP("coolwarm", @.value / 2000)
 ```
 
-### Color codes and conditions
+- `palette` — one of the built-in palette names below.
+- `position` — a number in the range `[0, 1]`. Values outside this range are
+  clamped.
+- Returns a hex color string such as `"#RRGGBB"`.
 
-Excel-style bracket color codes such as `[Red]` or `[Blue]` are returned as literal
-text by the current formatter. They are not interpreted as font colors.
+### Available palettes
 
-### Rounding
-
-The formatter uses Python's default rounding mode (round-half-to-even). For example,
-`1234.5` formatted with `#,##0` produces `1,234`, not `1,235`.
+| Palette | Type |
+| --- | --- |
+| `viridis` | Perceptually uniform, colorblind-friendly |
+| `plasma` | Perceptually uniform, warmer |
+| `coolwarm` | Diverging blue-to-red |
+| `rdylgn` | Diverging red-yellow-green |
+| `blues` | Sequential blue |
+| `greens` | Sequential green |
+| `grayscale` | Black-to-white |
 
 ## OM Core preset expressions
 
-A preset expression is a higher-level directive that the engine maps to a concrete
-format. Presets are useful when you want explicit control over decimals, grouping,
-negative numbers, and zero display without writing a raw mask:
+A preset expression is a higher-level directive that the engine maps to a
+concrete format. It gives explicit control over decimals, grouping, negative
+numbers, and zero display:
 
 ```openm
-rule PL::@.format_number:Account.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule PL::@.format_number:Acct.*:Year.* = 'preset:number(decimals=2; group=true)'
 ```
+
+The `@.format_number` channel accepts only `general` or `preset:...`
+expressions. Raw Excel-style masks such as `#,##0.00` are not supported. The
+`pattern:...` prefix is also not supported in the current version.
 
 ### Supported preset kinds
 
