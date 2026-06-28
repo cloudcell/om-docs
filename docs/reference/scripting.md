@@ -13,7 +13,6 @@ Start OM Core and source the script file:
 # ... run commands in repl mode ...
 ./start.sh --tui
 om> source scripts/build_financial_model.openm
-
 ```
 
 You can also run specific runtime modes directly:
@@ -23,6 +22,8 @@ You can also run specific runtime modes directly:
 ./start.sh --gui       # graphical interface
 ./start.sh --tui       # terminal interface
 ```
+
+`--runtime` starts the engine alone. In a multi-process setup, start `--runtime` in one terminal, then connect a client such as `--tui` or `--gui` in another. For a single-terminal workflow, use `--tui` after launching the engine via `--runtime` or the default `./start.sh`.
 
 ## First two commands
 
@@ -68,7 +69,7 @@ A typical `.openm` script follows this order:
 
 ```openm
 # Define dimensions
-dim Asset Vehicle Equipment Building
+dim Asset Vehicle
 dim Year Y1 Y2 Y3 Y4 Y5
 dim Metric Cost Salvage Life
 
@@ -116,7 +117,7 @@ message="hello world"
 Use `{{name}}` to interpolate a variable into a command.
 
 ```openm
-selected="PL::Revenue:Year.2026"
+selected="PL::Account.Revenue:Year.2026"
 echo Selected: {{selected}}
 rule {{selected}} = 100000
 ```
@@ -220,7 +221,14 @@ References can also use bracket shorthand:
 rule AnnualDep::*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
 ```
 
-When a referenced cube shares a dimension with the current target cell, the shorthand binds that dimension from the context. Dimensions that do not exist in the referenced cube are not carried over; they default to the first item of that dimension in the target cube. For example, `AnnualDep` has dimensions `Asset` and `Year`, while `Inputs` has `Asset` and `Metric`. The shorthand `Inputs::[Metric.Cost]` binds the current `Asset` from the target cell. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
+OM Core resolves a shorthand reference in this order:
+
+1. Explicit selectors in the RHS reference are applied first.
+2. For any remaining dimensions in the referenced cube, OM Core carries over matching dimensions from the current target-cell context, provided the binding is unambiguous.
+3. Dimensions that exist in the target cube but not in the referenced cube are ignored.
+4. Any dimension that exists in the referenced cube but is neither explicitly selected nor available from the current context falls back to the first item of that dimension in the referenced cube.
+
+For example, `AnnualDep` has dimensions `Asset` and `Year`, while `Inputs` has `Asset` and `Metric`. The shorthand `Inputs::[Metric.Cost]` binds the current `Asset` from the target cell. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
 
 ### Calculation
 
@@ -291,7 +299,6 @@ echo Total is: {{total}}
 
 ```openm
 assert Inputs::Asset.Vehicle:Metric.Cost == 50000 "Vehicle cost"
-assert Inputs::Asset.Equipment:Metric.Life == 4 "Equipment life"
 ```
 
 ### Selection and navigation
@@ -336,7 +343,7 @@ Multiple selectors are separated by `:`.
 
 ```openm
 # Dimensions
-dim Asset Vehicle Equipment Building
+dim Asset Vehicle
 dim Year Y1 Y2 Y3 Y4 Y5
 dim Metric Cost Salvage Life
 
@@ -385,7 +392,7 @@ When generating `.openm` scripts:
 - Run `calc` after defining rules.
 - Use `assert` to verify expected values.
 - Use `use <cube>` to set an active cube context only when omitting the cube prefix in rules.
-- Use `$` as a prefix on a full canonical address for anchored rules; do not use the `$[...]` bracket form in scripts.
+- Use `$` as a prefix on an explicit cube-qualified address for anchored rules; do not use the `$[...]` bracket form in scripts.
 
 ## See also
 

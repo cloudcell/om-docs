@@ -96,7 +96,14 @@ This is **not** the same as `Year[2026]`. Bracket shorthand applies to a full cu
 
 ### Cube-relative shorthand on the RHS
 
-RHS references may use cube-relative shorthand. If a referenced cube shares a dimension with the current target cell, OM Core binds that dimension from the current evaluation context, provided the binding is unambiguous. Dimensions that do not exist in the referenced cube are not carried over; they default to the first item of that dimension in the target cube. A fully explicit address is always safer and required when the shorthand would be ambiguous.
+RHS references may use cube-relative shorthand. OM Core resolves a shorthand reference in this order:
+
+1. Explicit selectors in the RHS reference are applied first.
+2. For any remaining dimensions in the referenced cube, OM Core carries over matching dimensions from the current target-cell context, provided the binding is unambiguous.
+3. Dimensions that exist in the target cube but not in the referenced cube are ignored.
+4. Any dimension that exists in the referenced cube but is neither explicitly selected nor available from the current context falls back to the first item of that dimension in the referenced cube.
+
+A fully explicit address is always safer and required when the shorthand would be ambiguous.
 
 For example, if the target cell is `AnnualDep::Asset.Vehicle:Year.2026`, then this shorthand:
 
@@ -104,9 +111,7 @@ For example, if the target cell is `AnnualDep::Asset.Vehicle:Year.2026`, then th
 Inputs::[Metric.Cost]
 ```
 
-carries over the shared `Asset.Vehicle` context to resolve `Inputs::Asset.Vehicle:Metric.Cost`. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension; it would default to the first `Year` item of `Inputs` if that dimension existed there.
-
-Use the full semantic address whenever you need to read from a different context than the current target cell.
+carries over the shared `Asset.Vehicle` context to resolve `Inputs::Asset.Vehicle:Metric.Cost`. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
 
 ## LHS and RHS
 
@@ -118,8 +123,8 @@ Use the full semantic address whenever you need to read from a different context
 ### LHS examples
 
 ```text
-Revenue::Account.Revenue:Year[THIS]   # current item of the target dimension
-Costs::Account.Costs:Year.*           # explicit slice wildcard
+Revenue::Account.Revenue:Year.*   # slice across all years
+Costs::Account.Costs:Year.*       # explicit slice wildcard
 ```
 
 ### Invalid LHS examples
@@ -127,18 +132,17 @@ Costs::Account.Costs:Year.*           # explicit slice wildcard
 ```text
 Revenue::Account.Revenue:Year[PREV]   # relative cell write
 Costs::Account.Costs:Year[NEXT]       # relative cell write
+Costs::Account.Costs:Year[THIS]      # relative cell write
 Cube::Dim1[Item1]                     # wrong bracket syntax
 ```
 
-`PREV`, `NEXT`, `FIRST`, and `LAST` are invalid on the LHS.
+`THIS`, `PREV`, `NEXT`, `FIRST`, and `LAST` are invalid on the LHS.
 
 ## Wildcards vs sequential placeholders
 
 `*` is an explicit slice wildcard. It declares that the rule applies across a slice.
 
-`THIS` is a rule-template placeholder that binds to the current item during rule evaluation. It is not a wildcard.
-
-For example, `Revenue::Account.Revenue:Year[THIS]` on the LHS means the rule applies to the current item of the target dimension.
+`THIS` is a rule-template placeholder that binds to the current item during rule evaluation. It is not a wildcard. It is valid only on the RHS, where it reads the current item of the referenced dimension in the rule's evaluation context. Do not use `THIS` on the LHS.
 
 ## Recurrence rules
 
@@ -197,12 +201,14 @@ This behavior lets you define a general rule first and then add targeted overrid
 
 An **anchored rule** targets exactly one cell. The user opts in by prefixing the rule target with `$`.
 
+If `Sales` has dimensions `(Year, Region, Scenario)`, then:
+
 ```text
-rule $Sales::Year.2024:Region.North = 1100   # anchored: one cell
-rule  Sales::Year.2024:Region.North = 1100   # standard: slice (wildcarded)
+rule $Sales::Year.2024:Region.North = 1100   # anchored: one cell (Scenario defaults to its first item)
+rule  Sales::Year.2024:Region.North = 1100   # standard: slice across all Scenario items
 ```
 
-The `$` prefix is the only anchored shorthand available in standalone scripts. The bracket form `$[...]` is **not** accepted as a rule target; it is only valid in contextual input such as the grid or rule panel, where the active cube, channel, and view are already known. In scripts, prefer the full form:
+The `$` prefix is the only anchored shorthand available in standalone scripts. The bracket form `$[...]` is **not** accepted as a rule target; it is only valid in contextual input such as the grid or rule panel, where the active cube, channel, and view are already known. In scripts, prefer the explicit form:
 
 ```text
 rule Cube::Dim.Item:Dim.Item = expression
@@ -216,7 +222,7 @@ Syntax:
 Semantics:
 
 - **Anchored rule (`$`)**: Unspecified dimensions use their default items. The rule applies to exactly one address.
-- **Standard rule (no `$`)**: Unspecified dimensions use wildcards. The rule applies to a slice.
+- **Standard rule (no `$`)**: Unspecified dimensions use wildcards. The rule applies to a slice only when the cube has dimensions that are not specified in the target.
 
 Example with a 3D cube `(Year, Region, Scenario)`:
 
@@ -225,7 +231,7 @@ Example with a 3D cube `(Year, Region, Scenario)`:
 | `$Sales::Year.2024:Region.North:Scenario.Actual` | Yes | `Actual` | One cell: `(2024, North, Actual)` |
 | `Sales::Year.2024:Region.North` | No | wildcard | Slice: `(2024, North, *)` |
 
-In scripts, use `$` only as a prefix on a full canonical address. In the grid or rule panel, the contextual `$[...]` form may be used to bind a rule to one specific cell.
+In scripts, use `$` only as a prefix on an explicit cube-qualified address. In the grid or rule panel, the contextual `$[...]` form may be used to bind a rule to one specific cell.
 
 ## Error behavior
 
@@ -279,7 +285,7 @@ When generating rule syntax:
 - Use `[THIS]` for the current item, `[PREV]` / `[NEXT]` for recurrence on the RHS only.
 - Use `*` for slice wildcards on the LHS.
 - Use cube-relative shorthand (`Cube::[Dim.Item]`) only when the context binding is unambiguous.
-- Use `$` only as a prefix on a full canonical address in scripts. Avoid the `$[...]` bracket form in standalone `.openm` files.
+- Use `$` only as a prefix on an explicit cube-qualified address in scripts. Avoid the `$[...]` bracket form in standalone `.openm` files.
 - Avoid `PREV` / `NEXT` / `FIRST` / `LAST` on the LHS.
 - Avoid mixing `PREV` and `NEXT` in the same rule.
 - Reference cells by stable semantic address, not grid coordinates.

@@ -87,7 +87,7 @@ om> source hello.openm
 
 - Open the **SalesView** in the Model Browser.
 - The Matrix Grid shows the `Sales` cube with one row per month.
-- The **Rule Panel** shows the two rules you defined.
+- The **Rule Panel** shows the rules you defined.
 - The **Calculation Flow** tab shows how values depend on each other.
 
 ## What next
