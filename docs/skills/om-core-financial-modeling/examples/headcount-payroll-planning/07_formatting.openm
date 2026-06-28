@@ -12,5 +12,28 @@ rule HCPayroll::@.format_number:Account.Taxes:Role.*:Department.*:Month.*:Scenar
 rule HCPayroll::@.format_number:Account.TotalCompensation:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
 rule HCPayroll::@.format_number:Account.AvgSalary:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
 
+# Headcount: soft blue fill for active staff, gray for zero
+rule HCPayroll::@.fill:Account.Headcount:Role.*:Department.*:Month.*:Scenario.* = IF(HCPayroll::Account.Headcount > 0, "#E0F2FE", "#F3F4F6")
+rule HCPayroll::@.font_color:Account.Headcount:Role.*:Department.*:Month.*:Scenario.* = IF(HCPayroll::Account.Headcount > 0, "#0369A1", "#9CA3AF")
+
+# AvgSalary: warm amber tint for high earners, white otherwise
+rule HCPayroll::@.fill:Account.AvgSalary:Role.*:Department.*:Month.*:Scenario.* = IF(HCPayroll::Account.AvgSalary >= 150000, "#FEF3C7", "#FFFFFF")
+rule HCPayroll::@.font_color:Account.AvgSalary:Role.*:Department.*:Month.*:Scenario.* = IF(HCPayroll::Account.AvgSalary >= 150000, "#B45309", "#111827")
+
+# Payroll metrics: soft green / blue tints
+rule HCPayroll::@.fill:Account.BaseSalary:Role.*:Department.*:Month.*:Scenario.* = "#ECFDF5"
+rule HCPayroll::@.fill:Account.Benefits:Role.*:Department.*:Month.*:Scenario.* = "#F0FDF4"
+rule HCPayroll::@.fill:Account.Taxes:Role.*:Department.*:Month.*:Scenario.* = "#F0F9FF"
+rule HCPayroll::@.fill:Account.TotalCompensation:Role.*:Department.*:Month.*:Scenario.* = "#D1FAE5"
+rule HCPayroll::@.font_color:Account.TotalCompensation:Role.*:Department.*:Month.*:Scenario.* = IF(HCPayroll::Account.TotalCompensation > 100000, "#047857", "#111827")
+
 # Format check flags as integers
 rule Checks::@.format_number:Check.*:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true)'
+
+# Checks: red when error, green when OK
+rule Checks::@.fill:Check.HeadcountPositive:Role.*:Department.*:Month.*:Scenario.* = IF(Checks::Check.HeadcountPositive = 1, "#FECACA", "#DCFCE7")
+rule Checks::@.fill:Check.AvgSalaryPositive:Role.*:Department.*:Month.*:Scenario.* = IF(Checks::Check.AvgSalaryPositive = 1, "#FECACA", "#DCFCE7")
+rule Checks::@.fill:Check.TotalCompCheck:Role.*:Department.*:Month.*:Scenario.* = IF(ABS(Checks::Check.TotalCompCheck) > 0.0001, "#FECACA", "#DCFCE7")
+rule Checks::@.font_color:Check.HeadcountPositive:Role.*:Department.*:Month.*:Scenario.* = IF(Checks::Check.HeadcountPositive = 1, "#B91C1C", "#15803D")
+rule Checks::@.font_color:Check.AvgSalaryPositive:Role.*:Department.*:Month.*:Scenario.* = IF(Checks::Check.AvgSalaryPositive = 1, "#B91C1C", "#15803D")
+rule Checks::@.font_color:Check.TotalCompCheck:Role.*:Department.*:Month.*:Scenario.* = IF(ABS(Checks::Check.TotalCompCheck) > 0.0001, "#B91C1C", "#15803D")
