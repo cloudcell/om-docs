@@ -1,0 +1,6 @@
+dim Month Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+dim Department Sales Marketing Engineering Operations G&A
+dim Account Revenue Payroll Software Rent Travel MarketingSpend OtherExpense EBITDA
+dim Version Actual Budget Forecast
+dim VarianceLine Actual Budget Forecast Variance VariancePct
+dim Check EBITDA_Check Variance_Check

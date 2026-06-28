@@ -1,0 +1,23 @@
+# Per-cube formatting
+rule Financials::@.format_number:Account.*:Month.*:Department.*:Version.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+rule Financials::@.fill:Account.*:Month.*:Department.*:Version.* = "#f7f9fb"
+rule Financials::@.font_color:Account.*:Month.*:Department.*:Version.* = "#2d3748"
+
+rule Variance::@.format_number:VarianceLine.*:Account.*:Month.*:Department.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule Variance::@.fill:VarianceLine.*:Account.*:Month.*:Department.* = "#f7f9fb"
+rule Variance::@.font_color:VarianceLine.*:Account.*:Month.*:Department.* = "#2d3748"
+
+rule Checks::@.format_number:Check.*:Month.*:Department.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule Checks::@.fill:Check.*:Month.*:Department.* = "#f7f9fb"
+rule Checks::@.font_color:Check.*:Month.*:Department.* = "#2d3748"
+
+# Total and variance highlights
+rule Financials::@.font_weight:Account.EBITDA:Month.*:Department.*:Version.* = 700
+rule Financials::@.fill:Account.EBITDA:Month.*:Department.*:Version.* = "#e2e8f0"
+rule Financials::@.font_weight:Account.Revenue:Month.*:Department.*:Version.* = 700
+rule Financials::@.fill:Account.Revenue:Month.*:Department.*:Version.* = "#edf2f7"
+
+rule Variance::@.font_weight:VarianceLine.Variance:Account.*:Month.*:Department.* = 700
+rule Variance::@.fill:VarianceLine.Variance:Account.*:Month.*:Department.* = "#e2e8f0"
+rule Variance::@.font_weight:VarianceLine.VariancePct:Account.*:Month.*:Department.* = 700
+rule Variance::@.fill:VarianceLine.VariancePct:Account.*:Month.*:Department.* = "#edf2f7"

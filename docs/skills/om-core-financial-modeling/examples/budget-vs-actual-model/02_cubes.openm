@@ -1,0 +1,3 @@
+cube {{financials_cube}} {{account_dim}} {{month_dim}} {{department_dim}} {{version_dim}}
+cube {{variance_cube}} {{variance_line_dim}} {{account_dim}} {{month_dim}} {{department_dim}}
+cube {{checks_cube}} {{check_dim}} {{month_dim}} {{department_dim}}

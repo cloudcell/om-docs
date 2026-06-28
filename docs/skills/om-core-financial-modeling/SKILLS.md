@@ -570,7 +570,37 @@ Run:
 om> source build.openm
 ```
 
-## 20. Example Manufacturing CapEx & Depreciation Model
+## 20. Example Budget vs Actual / Forecast Variance Model
+
+File tree:
+
+```text
+examples/budget-vs-actual-model/
+  00_variables.openm
+  01_dimensions.openm
+  02_cubes.openm
+  03_inputs.openm
+  04_rules.openm
+  05_checks.openm
+  06_views.openm
+  07_formatting.openm
+  08_groups.openm
+  build.openm
+```
+
+This is the FP&A example. It stores Actual, Budget, and Forecast as a `Version`
+dimension and computes `Variance` and `VariancePct` across Account, Month, and
+Department. The model shows how multidimensional rules replace the copied tabs,
+linked workbooks, and manual variance columns typical in spreadsheet-based
+variance analysis.
+
+Run:
+
+```text
+om> source build.openm
+```
+
+## 21. Example Manufacturing CapEx & Depreciation Model
 
 File tree:
 
@@ -596,7 +626,7 @@ Run:
 om> source build.openm
 ```
 
-## 21. Example Business Valuation Model
+## 22. Example Business Valuation Model
 
 File tree:
 
@@ -622,7 +652,7 @@ Run:
 om> source build.openm
 ```
 
-## 22. Example Agroforestry Model
+## 23. Example Agroforestry Model
 
 File tree:
 
@@ -648,7 +678,7 @@ Run:
 om> source build.openm
 ```
 
-## 23. Agent Behavior Rules
+## 24. Agent Behavior Rules
 
 The agent must not:
 

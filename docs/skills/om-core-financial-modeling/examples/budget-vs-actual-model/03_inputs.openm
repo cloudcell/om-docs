@@ -1,0 +1,50 @@
+# Revenue (Sales department only)
+rule Financials::Account.Revenue:Month.Jan:Department.Sales:Version.Actual = 50000
+rule Financials::Account.Revenue:Month.Feb:Department.Sales:Version.Actual = 52000
+rule Financials::Account.Revenue:Month.Mar:Department.Sales:Version.Actual = 48000
+rule Financials::Account.Revenue:Month.Apr:Department.Sales:Version.Actual = 55000
+rule Financials::Account.Revenue:Month.May:Department.Sales:Version.Actual = 53000
+rule Financials::Account.Revenue:Month.Jun:Department.Sales:Version.Actual = 58000
+rule Financials::Account.Revenue:Month.Jul:Department.Sales:Version.Actual = 60000
+rule Financials::Account.Revenue:Month.Aug:Department.Sales:Version.Actual = 57000
+rule Financials::Account.Revenue:Month.Sep:Department.Sales:Version.Actual = 62000
+rule Financials::Account.Revenue:Month.Oct:Department.Sales:Version.Actual = 65000
+rule Financials::Account.Revenue:Month.Nov:Department.Sales:Version.Actual = 63000
+rule Financials::Account.Revenue:Month.Dec:Department.Sales:Version.Actual = 68000
+
+rule Financials::Account.Revenue:Month.*:Department.Sales:Version.Budget = 50000
+rule Financials::Account.Revenue:Month.*:Department.Sales:Version.Forecast = 50500
+
+# Payroll by department
+rule Financials::Account.Payroll:Month.*:Department.Sales:Version.* = 10000
+rule Financials::Account.Payroll:Month.*:Department.Marketing:Version.* = 8000
+rule Financials::Account.Payroll:Month.*:Department.Engineering:Version.* = 25000
+rule Financials::Account.Payroll:Month.*:Department.Operations:Version.* = 12000
+rule Financials::Account.Payroll:Month.*:Department.G&A:Version.* = 15000
+
+# Software by department
+rule Financials::Account.Software:Month.*:Department.Engineering:Version.* = 5000
+rule Financials::Account.Software:Month.*:Department.Marketing:Version.* = 2000
+rule Financials::Account.Software:Month.*:Department.Sales:Version.* = 1000
+rule Financials::Account.Software:Month.*:Department.G&A:Version.* = 3000
+
+# Rent by department
+rule Financials::Account.Rent:Month.*:Department.Operations:Version.* = 8000
+rule Financials::Account.Rent:Month.*:Department.G&A:Version.* = 4000
+
+# Travel by department
+rule Financials::Account.Travel:Month.*:Department.Sales:Version.* = 3000
+rule Financials::Account.Travel:Month.*:Department.Marketing:Version.* = 2000
+rule Financials::Account.Travel:Month.*:Department.Operations:Version.* = 1500
+
+# Marketing spend (Marketing department only, with deliberate variance)
+rule Financials::Account.MarketingSpend:Month.*:Department.Marketing:Version.Actual = 11000
+rule Financials::Account.MarketingSpend:Month.*:Department.Marketing:Version.Budget = 10000
+rule Financials::Account.MarketingSpend:Month.*:Department.Marketing:Version.Forecast = 10500
+
+# Other expenses by department
+rule Financials::Account.OtherExpense:Month.*:Department.Sales:Version.* = 1000
+rule Financials::Account.OtherExpense:Month.*:Department.Marketing:Version.* = 1000
+rule Financials::Account.OtherExpense:Month.*:Department.Engineering:Version.* = 1000
+rule Financials::Account.OtherExpense:Month.*:Department.Operations:Version.* = 1000
+rule Financials::Account.OtherExpense:Month.*:Department.G&A:Version.* = 1000

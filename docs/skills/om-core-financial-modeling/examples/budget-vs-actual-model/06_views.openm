@@ -1,0 +1,3 @@
+view Financials_View = Financials::Account:Month:Department:Version
+view Variance_View = Variance::VarianceLine:Account:Month:Department
+view Checks_View = Checks::Check:Month:Department

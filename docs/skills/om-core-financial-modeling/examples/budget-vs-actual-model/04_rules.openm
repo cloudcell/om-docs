@@ -1,0 +1,11 @@
+# EBITDA rule: computed for every Account/Month/Department/Version combination
+rule Financials::Account.EBITDA:Month.*:Department.*:Version.* = Financials::[Account.Revenue] - Financials::[Account.Payroll] - Financials::[Account.Software] - Financials::[Account.Rent] - Financials::[Account.Travel] - Financials::[Account.MarketingSpend] - Financials::[Account.OtherExpense]
+
+# Variance cube: Actual, Budget, and Forecast are pulled from the Financials cube.
+# The Account, Month, and Department selectors bind from the LHS context.
+rule Variance::VarianceLine.Actual:Account.*:Month.*:Department.* = Financials::Version.Actual
+rule Variance::VarianceLine.Budget:Account.*:Month.*:Department.* = Financials::Version.Budget
+rule Variance::VarianceLine.Forecast:Account.*:Month.*:Department.* = Financials::Version.Forecast
+
+rule Variance::VarianceLine.Variance:Account.*:Month.*:Department.* = Variance::[VarianceLine.Actual] - Variance::[VarianceLine.Budget]
+rule VarianceLine.VariancePct = if(Variance::[VarianceLine.Budget] != 0, (Variance::[VarianceLine.Variance] / Variance::[VarianceLine.Budget]), 0)

@@ -1,0 +1,2 @@
+rule Checks::Check.EBITDA_Check:Month.*:Department.* = Financials::[Account.EBITDA] - (Financials::[Account.Revenue] - Financials::[Account.Payroll] - Financials::[Account.Software] - Financials::[Account.Rent] - Financials::[Account.Travel] - Financials::[Account.MarketingSpend] - Financials::[Account.OtherExpense])
+rule Checks::Check.Variance_Check:Month.*:Department.* = Variance::[VarianceLine.Variance] - (Variance::[VarianceLine.Actual] - Variance::[VarianceLine.Budget])

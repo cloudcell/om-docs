@@ -30,6 +30,23 @@ Statement with scenarios, checks, and dimensional structure.
 - [08_groups.openm](three-statement-model/08_groups.openm)
 - [build.openm](three-statement-model/build.openm)
 
+## Budget vs Actual / Forecast Variance Model
+
+The FP&A example. Shows Actual, Budget, and Forecast as a `Version` dimension,
+with calculated `Variance` and `VariancePct` across Account, Month, and
+Department.
+
+- [00_variables.openm](budget-vs-actual-model/00_variables.openm)
+- [01_dimensions.openm](budget-vs-actual-model/01_dimensions.openm)
+- [02_cubes.openm](budget-vs-actual-model/02_cubes.openm)
+- [03_inputs.openm](budget-vs-actual-model/03_inputs.openm)
+- [04_rules.openm](budget-vs-actual-model/04_rules.openm)
+- [05_checks.openm](budget-vs-actual-model/05_checks.openm)
+- [06_views.openm](budget-vs-actual-model/06_views.openm)
+- [07_formatting.openm](budget-vs-actual-model/07_formatting.openm)
+- [08_groups.openm](budget-vs-actual-model/08_groups.openm)
+- [build.openm](budget-vs-actual-model/build.openm)
+
 ## Agroforestry Model
 
 - [00_variables.openm](agroforestry-model/00_variables.openm)

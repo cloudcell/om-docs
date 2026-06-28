@@ -1,0 +1,19 @@
+# Dimension outline groups for presentation
+
+group create Account "Revenue" Revenue
+
+group create Account "Operating Expenses" Payroll Software Rent Travel MarketingSpend OtherExpense
+
+group create Account "Profitability" EBITDA
+
+group create Department "Go-to-Market" Sales Marketing
+
+group create Department "Operations" Engineering Operations
+
+group create Department "Overhead" G&A
+
+group create VarianceLine "Versions" Actual Budget Forecast
+
+group create VarianceLine "Variance" Variance VariancePct
+
+group create Check Checks EBITDA_Check Variance_Check
