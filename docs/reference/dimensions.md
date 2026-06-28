@@ -29,18 +29,20 @@ dim <name> [--set | --seq] <item1> <item2> ... <itemN>
 ### Sequential ranges in references
 
 For `seq` dimensions, a range expression `start..end` can be used inside a cell
-reference to select a contiguous sequence of items. This is useful for aggregation
-and recurrence over time or index dimensions.
+reference to select a contiguous sequence of items. This is useful for
+aggregation and recurrence over time or index dimensions.
 
 ```openm
-rule PL::PLLine.TotalRevenue:Year.2026 = SUM(PL::[PLLine.Revenue:Year.2026..2030])
+rule PL::TotalRevenue:Year.2026 = SUM(PL::[Revenue:Year.2026..2030])
 ```
 
-The reference `Year.2026..2030` expands to `Year.2026`, `Year.2027`, `Year.2028`,
-`Year.2029`, and `Year.2030`. The `SUM` then aggregates the corresponding values.
+The reference `Year.2026..2030` expands to `Year.2026`, `Year.2027`,
+`Year.2028`, `Year.2029`, and `Year.2030`. The `SUM` then aggregates the
+corresponding values.
 
-Ranges are only valid on `seq` dimensions. Using `..` on a `set` dimension raises
-an error. The bounds are matched case-insensitively against the item names.
+Ranges are only valid on `seq` dimensions. Using `..` on a `set` dimension
+raises an error. The bounds are matched case-insensitively against the item
+names.
 
 ## Dimension types
 
@@ -50,10 +52,10 @@ an error. The bounds are matched case-insensitively against the item names.
 dim Region North South East West
 ```
 
-A `set` dimension stores its items as an unordered collection. The order in which
-items are listed in the declaration is preserved for display purposes, but the
-engine does not treat it as meaningful for calculations. Items are accessed by
-name, not by position.
+A `set` dimension stores its items as an unordered collection. The order in
+which items are listed in the declaration is preserved for display purposes, but
+the engine does not treat it as meaningful for calculations. Items are accessed
+by name, not by position.
 
 Use `set` for dimensions where items are categories without natural ordering:
 
@@ -85,10 +87,10 @@ Sequential references only resolve correctly on `seq` dimensions:
 ```openm
 dim Year --seq 2026 2027 2028 2029 2030
 
-rule Cash::Cash.EndingCash:Year.2027 = Cash::[Cash.EndingCash:Year.PREV] + Cash::[Cash.FreeCashFlow:Year.THIS]
+rule C::EndCash:Year.2027 = C::[EndCash:Year[PREV]] + C::[Cash:Year[THIS]]
 ```
 
-If `Year` were declared as a `set`, `Year.PREV` and `Year.NEXT` would produce
+If `Year` were declared as a `set`, `Year[PREV]` and `Year[NEXT]` would produce
 `#REF!` because the engine cannot determine the previous or next item without an
 explicit order.
 
@@ -97,8 +99,8 @@ The same applies to `FIRST`, `LAST`, and `THIS`:
 ```openm
 dim Month --seq Jan Feb Mar
 
-rule PL::PLLine.Revenue:Month.Feb = PL::[PLLine.Revenue:Month.PREV] * 1.10
-rule PL::PLLine.Revenue:Month.Jan = PL::[PLLine.Revenue:Month.FIRST]
+rule PL::Revenue:Month.Feb = PL::[Revenue:Month[PREV]] * 1.10
+rule PL::Revenue:Month.Jan = PL::[Revenue:Month[FIRST]]
 ```
 
 ## Channels and the `@` sigil
@@ -124,7 +126,7 @@ Style and formatting rules target non-value channels:
 rule PL::@.fill:PLLine.Revenue:Year.2026 = #3B82F6
 rule PL::@.font_color:PLLine.Revenue:Year.2026 = #FFFFFF
 rule PL::@.font_weight:PLLine.Revenue:Year.2026 = 700
-rule PL::@.format_number:PLLine.Revenue:Year.2026 = 'preset:number(decimals=2; group=true)'
+rule PL::@.format_number:PLLine.Revenue:Year.2026 = 'preset:number(decimals=2)'
 ```
 
 Common channels include:
@@ -162,9 +164,9 @@ always include the channel.
 ### Channel references on the RHS
 
 The `@` sigil is only needed when writing a rule that targets a non-value
-channel. RHS references to other cells use the same channel as the target unless
-explicitly overridden. For example, a rule on `@.fill` reads the `@.fill` channel
-of the referenced cell:
+channel. RHS references to other cells use the same channel as the target
+unless explicitly overridden. For example, a rule on `@.fill` reads the
+`@.fill` channel of the referenced cell:
 
 ```openm
 rule Summary::@.fill:Plant.Apple = Inventory::@.fill:[PlantData.Status]
@@ -178,29 +180,43 @@ rule PL::PLLine.GrossProfit:Year.2026 = PL::[PLLine.Revenue] - PL::[PLLine.COGS]
 
 ## Dimension item references
 
-Items are referenced by `DimensionName.ItemName`:
+The canonical form for a cell reference is `Cube::Dim1.ItemA:Dim2.ItemB`:
 
 ```openm
 rule PL::PLLine.Revenue:Year.2026 = 100000
 ```
 
-Use brackets for shorthand references when the item name contains spaces or
-special characters, or when using positional accessors:
+For readability, an alternative bracket form is available on the RHS:
 
 ```openm
-rule PL::PLLine.Revenue:Year.2026 = PL::[PLLine.COGS] * 2.0
-rule PL::PLLine.Revenue:Year.2027 = PL::[PLLine.Revenue:Year.PREV] * 1.10
+rule PL::Revenue:Year.2026 = PL::[PLLine.Revenue, Year.2026]
+rule PL::Revenue:Year.2026 = PL::[PLLine.COGS] * 2.0
+```
+
+Use brackets for shorthand references, when item names contain spaces or special
+characters, or when using positional accessors:
+
+```openm
+rule PL::Revenue:Year.2027 = PL::[Revenue:Year[PREV]] * 1.10
 ```
 
 ## Best practices
 
-- Declare time dimensions with `--seq` so `[PREV]`, `[NEXT]`, `[FIRST]`, and
-  `[LAST]` work.
-- Use `set` for categorical dimensions. Avoid implying order that does not exist.
-- Keep dimension item names stable. Changing an item name may (still) break rules
-  that reference it. If this happens, update the rules to use the new item name.
-- Omit `@.value` in value rules for readability, but always include the channel
-  in style and format rules.
+- Declare time dimensions with `--seq` so `Dim[PREV]`, `Dim[NEXT]`,
+  `Dim[FIRST]`, and `Dim[LAST]` work.
+- Use `set` for categorical dimensions. Avoid implying order that does not
+  exist.
+- Keep dimension item names stable. Changing an item name may (still) break
+  rules that reference it. If this happens, update the rules to use the new
+  item name.
+- Omit `@.value` in value rules for readability, but always include the
+  channel in style and format rules.
+- Use the canonical form `Cube::Dim1.ItemA:Dim2.ItemB` for rule left-hand
+  sides. The bracket form `Cube::[Dim1.ItemA, Dim2.ItemB]` is useful on the
+  RHS for readability.
+- Avoid spaces in dimension and item names. Use `underscore_case` or
+  `PascalCase` instead. Names with spaces must be quoted and are harder to
+  reference in rules.
 - Use descriptive dimension names. Short names like `A` and `B` are acceptable
   only for syntax examples, not production models.
 
