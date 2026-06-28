@@ -92,6 +92,15 @@ om> source hello.openm
 
 ## What next
 
-- Read the [Scripting reference](../reference/scripting.md) to write larger models.
+- Read the [Scripting reference](../reference/scripting.md) to write larger
+  models.
 - Read [Rule syntax](../reference/rule-syntax.md) to understand the notation.
-- Read [Why not spreadsheets](why-not-spreadsheets.md) for the mental model behind OM Core.
+- Read [Why not spreadsheets](why-not-spreadsheets.md) for the mental model
+  behind OM Core.
+- For the full modeling conventions and agent instructions, see
+  [SKILLS.md](../skills/om-core-financial-modeling/SKILLS.md) or download the
+  raw file directly from [GitHub][skills-raw].
+
+<!-- markdownlint-disable MD013 -->
+[skills-raw]: https://raw.githubusercontent.com/cloudcell/om-docs/main/docs/skills/om-core-financial-modeling/SKILLS.md
+<!-- markdownlint-enable MD013 -->
