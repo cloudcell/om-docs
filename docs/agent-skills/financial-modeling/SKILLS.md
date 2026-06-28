@@ -264,6 +264,24 @@ rule Drivers::Driver.ARPU:Month.*:Scenario.Base = 50
 
 Use hardcoded values in examples only when necessary. In production-style scripts, keep assumptions in dedicated input cubes.
 
+### Hard values vs. input rules
+
+A `rule` with a literal value on the left-hand side is the standard way to seed inputs in an `.openm` script. It is readable, source-controlled, and auditable.
+
+For interactive or GUI-driven edits after the model is loaded, set a cell hardvalue with:
+
+```text
+om> set_cell_by_keys view_id=<view_id> row_key=(<item>,) col_key=(<item>,) value=<value>
+```
+
+Example after the agroforestry views are created:
+
+```text
+om> set_cell_by_keys view_id=Inventory_View row_key=(Apple,) col_key=(Quantity_m2,) value=1500
+```
+
+`set_cell_by_keys` creates a user override that survives recalculation. Clear it with `clear_cell_by_keys`. Prefer input rules for model bundles; reserve hard values for manual edits or imported data.
+
 ## 10. Checks
 
 Every serious financial model should include checks.

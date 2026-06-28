@@ -1,3 +1,7 @@
+# Inputs are defined as rules with literal values. After the model is loaded and views are created,
+# any of these can be overwritten interactively with set_cell_by_keys, e.g.:
+#   set_cell_by_keys view_id=Inventory_View row_key=(Apple,) col_key=(Quantity_m2,) value=1500
+
 # Assumptions
 rule Assumptions::Assumption.HourlyRate = 15.00
 rule Assumptions::Assumption.TotalAreaM2 = 10000.00
@@ -80,12 +84,58 @@ rule LifecycleCosts::Plant.*:PlantAge.16:LifecycleCost.Weeding = 1.00
 
 rule LifecycleCosts::Plant.*:PlantAge.*:LifecycleCost.Harvesting = 0.00
 rule LifecycleCosts::Plant.Apple:PlantAge.5:LifecycleCost.Harvesting = 5.00
-rule LifecycleCosts::Plant.Apple:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Apple:PlantAge[PREV]:LifecycleCost.Harvesting
+rule LifecycleCosts::Plant.Apple:PlantAge.6:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.7:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.8:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.9:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.10:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.11:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.12:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.13:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.14:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.15:LifecycleCost.Harvesting = 5.00
+rule LifecycleCosts::Plant.Apple:PlantAge.16:LifecycleCost.Harvesting = 5.00
 rule LifecycleCosts::Plant.Pear:PlantAge.5:LifecycleCost.Harvesting = 4.50
-rule LifecycleCosts::Plant.Pear:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Pear:PlantAge[PREV]:LifecycleCost.Harvesting
+rule LifecycleCosts::Plant.Pear:PlantAge.6:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.7:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.8:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.9:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.10:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.11:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.12:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.13:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.14:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.15:LifecycleCost.Harvesting = 4.50
+rule LifecycleCosts::Plant.Pear:PlantAge.16:LifecycleCost.Harvesting = 4.50
 rule LifecycleCosts::Plant.Hazelnut:PlantAge.5:LifecycleCost.Harvesting = 6.00
-rule LifecycleCosts::Plant.Hazelnut:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Hazelnut:PlantAge[PREV]:LifecycleCost.Harvesting
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.6:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.7:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.8:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.9:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.10:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.11:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.12:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.13:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.14:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.15:LifecycleCost.Harvesting = 6.00
+rule LifecycleCosts::Plant.Hazelnut:PlantAge.16:LifecycleCost.Harvesting = 6.00
 rule LifecycleCosts::Plant.Oak:PlantAge.10:LifecycleCost.Harvesting = 2.00
-rule LifecycleCosts::Plant.Oak:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Oak:PlantAge[PREV]:LifecycleCost.Harvesting
+rule LifecycleCosts::Plant.Oak:PlantAge.11:LifecycleCost.Harvesting = 2.00
+rule LifecycleCosts::Plant.Oak:PlantAge.12:LifecycleCost.Harvesting = 2.00
+rule LifecycleCosts::Plant.Oak:PlantAge.13:LifecycleCost.Harvesting = 2.00
+rule LifecycleCosts::Plant.Oak:PlantAge.14:LifecycleCost.Harvesting = 2.00
+rule LifecycleCosts::Plant.Oak:PlantAge.15:LifecycleCost.Harvesting = 2.00
+rule LifecycleCosts::Plant.Oak:PlantAge.16:LifecycleCost.Harvesting = 2.00
 rule LifecycleCosts::Plant.Willow:PlantAge.4:LifecycleCost.Harvesting = 1.50
-rule LifecycleCosts::Plant.Willow:PlantAge.*:LifecycleCost.Harvesting = LifecycleCosts::Plant.Willow:PlantAge[PREV]:LifecycleCost.Harvesting
+rule LifecycleCosts::Plant.Willow:PlantAge.5:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.6:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.7:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.8:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.9:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.10:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.11:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.12:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.13:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.14:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.15:LifecycleCost.Harvesting = 1.50
+rule LifecycleCosts::Plant.Willow:PlantAge.16:LifecycleCost.Harvesting = 1.50
