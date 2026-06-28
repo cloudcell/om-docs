@@ -226,7 +226,7 @@ OM Core resolves a shorthand reference in this order:
 1. Explicit selectors in the RHS reference are applied first.
 2. For any remaining dimensions in the referenced cube, OM Core carries over matching dimensions from the current target-cell context, provided the binding is unambiguous.
 3. Dimensions that exist in the target cube but not in the referenced cube are ignored.
-4. Any dimension that exists in the referenced cube but is neither explicitly selected nor available from the current context falls back to the first item of that dimension in the referenced cube.
+4. Any dimension that exists in the referenced cube but is neither explicitly selected nor available from the current context is ambiguous and should be written explicitly.
 
 For example, `AnnualDep` has dimensions `Asset` and `Year`, while `Inputs` has `Asset` and `Metric`. The shorthand `Inputs::[Metric.Cost]` binds the current `Asset` from the target cell. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
 

@@ -33,6 +33,15 @@ PL::@.fill:PL.Revenue:Year.2026 # style channel explicit
 
 If you omit the channel, the reference defaults to `@.value`. This applies to both rule targets and RHS cube references.
 
+### Strict form vs shorthand
+
+| Style | Form | Example |
+| --- | --- | --- |
+| Strict | `Cube::@.value:Dim.Item:Dim.Item` | `Sales::@.value:Month.Jan` |
+| Shorthand | `Cube::Dim.Item:Dim.Item` | `Sales::Month.Jan` |
+
+Most examples omit `@.value` for readability. Style and formatting rules must specify their channel explicitly, for example `@.fill` or `@.font_color`.
+
 ## Dimension item references
 
 A single dimension item uses dot notation:
@@ -101,7 +110,7 @@ RHS references may use cube-relative shorthand. OM Core resolves a shorthand ref
 1. Explicit selectors in the RHS reference are applied first.
 2. For any remaining dimensions in the referenced cube, OM Core carries over matching dimensions from the current target-cell context, provided the binding is unambiguous.
 3. Dimensions that exist in the target cube but not in the referenced cube are ignored.
-4. Any dimension that exists in the referenced cube but is neither explicitly selected nor available from the current context falls back to the first item of that dimension in the referenced cube.
+4. Any dimension that exists in the referenced cube but is neither explicitly selected nor available from the current context is ambiguous and should be written explicitly.
 
 A fully explicit address is always safer and required when the shorthand would be ambiguous.
 
@@ -204,8 +213,8 @@ An **anchored rule** targets exactly one cell. The user opts in by prefixing the
 If `Sales` has dimensions `(Year, Region, Scenario)`, then:
 
 ```text
-rule $Sales::Year.2024:Region.North = 1100   # anchored: one cell (Scenario defaults to its first item)
-rule  Sales::Year.2024:Region.North = 1100   # standard: slice across all Scenario items
+rule $Sales::Year.2024:Region.North:Scenario.Actual = 1100   # anchored: one cell
+rule  Sales::Year.2024:Region.North = 1100                   # standard: slice across all Scenario items
 ```
 
 The `$` prefix is the only anchored shorthand available in standalone scripts. The bracket form `$[...]` is **not** accepted as a rule target; it is only valid in contextual input such as the grid or rule panel, where the active cube, channel, and view are already known. In scripts, prefer the explicit form:
@@ -221,7 +230,7 @@ Syntax:
 
 Semantics:
 
-- **Anchored rule (`$`)**: Unspecified dimensions use their default items. The rule applies to exactly one address.
+- **Anchored rule (`$`)**: Unspecified dimensions must resolve to a single item. If they cannot be resolved unambiguously, the rule is invalid.
 - **Standard rule (no `$`)**: Unspecified dimensions use wildcards. The rule applies to a slice only when the cube has dimensions that are not specified in the target.
 
 Example with a 3D cube `(Year, Region, Scenario)`:

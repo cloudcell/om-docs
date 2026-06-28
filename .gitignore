@@ -219,3 +219,4 @@ __marimo__/
 
 
 .windsurf/**
+node_modules/*
