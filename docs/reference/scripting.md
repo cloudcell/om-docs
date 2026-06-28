@@ -46,13 +46,13 @@ From the help output you can see the three ways to define a dimension:
 
 ```openm
 # Unordered by default
- dim Region North South East West
+dim Region North South East West
 
 # Explicit unordered
- dim Region --set North South East West
+dim Region --set North South East West
 
 # Ordered sequence
- dim Year --seq Y1 Y2 Y3 Y4 Y5
+dim Year --seq Y1 Y2 Y3 Y4 Y5
 ```
 
 ## Script structure
@@ -68,24 +68,26 @@ A typical `.openm` script follows this order:
 
 ```openm
 # Define dimensions
- dim Asset Vehicle Equipment Building
- dim Year Y1 Y2 Y3 Y4 Y5
- dim Metric Cost Salvage Life
+dim Asset Vehicle Equipment Building
+dim Year Y1 Y2 Y3 Y4 Y5
+dim Metric Cost Salvage Life
 
 # Define cubes
- cube Inputs Asset Metric
- cube AnnualDep Asset Year
+cube Inputs Asset Metric
+cube AnnualDep Asset Year
 
 # Define views
- view InputsView = Inputs::Asset:Metric
+view InputsView = Inputs::Asset:Metric
 
 # Define rules
- rule Inputs::@.value:Asset.Vehicle:Metric.Cost = 50000
- rule AnnualDep::@.value:*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
+rule Inputs::@.value:Asset.Vehicle:Metric.Cost = 50000
+rule Inputs::@.value:Asset.Vehicle:Metric.Salvage = 5000
+rule Inputs::@.value:Asset.Vehicle:Metric.Life = 5
+rule AnnualDep::@.value:*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
 
 # Calculate and save
- calc
- save model.json
+calc
+save model.json
 ```
 
 ## Comments
@@ -94,7 +96,7 @@ Lines starting with `#` are comments.
 
 ```openm
 # This is a comment
- dim Year 2026 2027 2028
+dim Year 2026 2027 2028
 ```
 
 ## Variables
@@ -114,7 +116,7 @@ message="hello world"
 Use `{{name}}` to interpolate a variable into a command.
 
 ```openm
-selected="C::PL.Revenue:Year.2026"
+selected="C::@.value:PL.Revenue:Year.2026"
 echo Selected: {{selected}}
 rule {{selected}} = 100000
 ```
@@ -159,7 +161,10 @@ A cube is a multidimensional array of data defined by its dimensions.
 #### `view` — define or activate a view
 
 ```openm
-view PnL = PL::PL:Year
+# Define a Financials cube with Account and Year dimensions
+cube Financials Account Year
+
+view PnL = Financials::Account:Year
 view PnL
 ```
 
@@ -182,8 +187,8 @@ Examples:
 
 ```openm
 rule Drivers::@.value:Driver.PriceGadgets:* = 120
-rule PL::@.value:PL.TotalRevenue:* = PL.RevenueGadgets + PL.RevenueWidgets
-rule Valuation::@.value:Valuation.TerminalValue:Year.2032 = CF::CF.FreeCashFlow:Year.2032 * (1 + 0.02) / (Drivers::Driver.WACC:Year.2032 - 0.02)
+rule PnL::@.value:Account.TotalRevenue:* = PnL::[Account.RevenueGadgets] + PnL::[Account.RevenueWidgets]
+rule Valuation::@.value:Valuation.TerminalValue:Year.2032 = CF::@.value:CF.FreeCashFlow:Year.2032 * (1 + 0.02) / (Drivers::@.value:Driver.WACC:Year.2032 - 0.02)
 ```
 
 ### Rule syntax
@@ -205,6 +210,8 @@ References can also use bracket shorthand:
 ```openm
 rule AnnualDep::@.value:*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
 ```
+
+When a referenced cube shares a dimension with the current target cell, the shorthand binds that dimension from the context. Dimensions that do not exist in the referenced cube are ignored. For example, `AnnualDep` has dimensions `Asset` and `Year`, while `Inputs` has `Asset` and `Metric`. The shorthand `Inputs::[Metric.Cost]` binds the current `Asset` from the target cell but ignores the `Year` dimension because `Inputs` does not have one.
 
 ### Calculation
 
@@ -289,7 +296,7 @@ selected=exec selection
 #### `select`, `up`, `down`, `left`, `right` — navigate the grid
 
 ```openm
-select C::PL.Revenue:Year.2026
+select C::@.value:PL.Revenue:Year.2026
 up 3
 right 2
 ```
@@ -317,34 +324,34 @@ Multiple selectors are separated by `:`.
 
 ```openm
 # Dimensions
- dim Asset Vehicle Equipment Building
- dim Year Y1 Y2 Y3 Y4 Y5
- dim Metric Cost Salvage Life
+dim Asset Vehicle Equipment Building
+dim Year Y1 Y2 Y3 Y4 Y5
+dim Metric Cost Salvage Life
 
 # Cubes
- cube Inputs Asset Metric
- cube AnnualDep Asset Year
- cube AccumDep Asset Year
- cube NBV Asset Year
+cube Inputs Asset Metric
+cube AnnualDep Asset Year
+cube AccumDep Asset Year
+cube NBV Asset Year
 
 # Views
- view InputsView = Inputs::Asset:Metric
- view AnnualDepView = AnnualDep::Asset:Year
+view InputsView = Inputs::Asset:Metric
+view AnnualDepView = AnnualDep::Asset:Year
 
 # Rules
- rule Inputs::@.value:Asset.Vehicle:Metric.Cost = 50000
- rule Inputs::@.value:Asset.Vehicle:Metric.Salvage = 5000
- rule Inputs::@.value:Asset.Vehicle:Metric.Life = 5
- rule AnnualDep::@.value:*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
+rule Inputs::@.value:Asset.Vehicle:Metric.Cost = 50000
+rule Inputs::@.value:Asset.Vehicle:Metric.Salvage = 5000
+rule Inputs::@.value:Asset.Vehicle:Metric.Life = 5
+rule AnnualDep::@.value:*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
 
 # Calculate
- calc
+calc
 
 # Verify
- assert Inputs::@.value:Asset.Vehicle:Metric.Cost == 50000 "Vehicle cost"
+assert Inputs::@.value:Asset.Vehicle:Metric.Cost == 50000 "Vehicle cost"
 
 # Save
- save depreciation_schedule.json
+save depreciation_schedule.json
 ```
 
 ### Style selected cells

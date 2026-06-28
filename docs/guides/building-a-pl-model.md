@@ -28,6 +28,8 @@ view PLView = PL::Month:Account
 
 # Rules
 rule PL::@.value:Month.Jan:Account.Revenue = 1000
+rule PL::@.value:Month.Feb:Account.Revenue = 1100
+rule PL::@.value:Month.Mar:Account.Revenue = 1200
 rule PL::@.value:Month.*:Account.COGS = PL::[Account.Revenue] * 0.6
 rule PL::@.value:Month.*:Account.GrossProfit = PL::[Account.Revenue] - PL::[Account.COGS]
 rule PL::@.value:Month.*:Account.OpEx = 200
@@ -37,7 +39,13 @@ rule PL::@.value:Month.*:Account.NetProfit = PL::[Account.GrossProfit] - PL::[Ac
 calc
 ```
 
-In this example, `PL::[Account.Revenue]` binds the current `Month` from the target cell and reads the revenue for that month. Run `source pl-example.openm` in the REPL or TUI to load it.
+Save the example above as `pl-example.openm`, then run it in the REPL or TUI:
+
+```bash
+om> source pl-example.openm
+```
+
+In this example, `PL::[Account.Revenue]` binds the current `Month` from the target cell and reads the revenue for that month.
 
 ## Steps for a full model
 

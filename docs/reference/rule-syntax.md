@@ -31,7 +31,7 @@ Sales::@.value:Month.Jan
 PL::@.fill:PL.Revenue:Year.2026
 ```
 
-If you omit the channel, the rule defaults to `@.value`.
+If you omit the channel, the reference defaults to `@.value`. This applies to both rule targets and RHS cube references.
 
 ## Dimension item references
 
@@ -96,7 +96,7 @@ This is **not** the same as `Year[2026]`. Bracket shorthand applies to a full cu
 
 ### Cube-relative shorthand on the RHS
 
-RHS references may use cube-relative shorthand. If a referenced cube omits dimensions that are present in the current target cell, OM Core binds those dimensions from the current evaluation context, provided the binding is unambiguous. A fully explicit address is always safer and required when the shorthand would be ambiguous.
+RHS references may use cube-relative shorthand. If a referenced cube shares a dimension with the current target cell, OM Core binds that dimension from the current evaluation context, provided the binding is unambiguous. Dimensions that do not exist in the referenced cube are ignored. A fully explicit address is always safer and required when the shorthand would be ambiguous.
 
 For example, if the target cell is `AnnualDep::Asset.Vehicle:Year.2026`, then this shorthand:
 
@@ -104,7 +104,7 @@ For example, if the target cell is `AnnualDep::Asset.Vehicle:Year.2026`, then th
 Inputs::[Metric.Cost]
 ```
 
-carries over the current `Asset.Vehicle` and `Year.2026` context to resolve the full `Inputs::Asset.Vehicle:Metric.Cost:Year.2026` address.
+carries over the shared `Asset.Vehicle` context to resolve `Inputs::Asset.Vehicle:Metric.Cost`. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
 
 Use the full semantic address whenever you need to read from a different context than the current target cell.
 
@@ -198,8 +198,8 @@ This behavior lets you define a general rule first and then add targeted overrid
 An **anchored rule** targets exactly one cell. The user opts in by prefixing the rule target with `$`.
 
 ```text
-rule $[Year.2024, Region.North] = Revenue[THIS] * 1.1   # anchored: one cell
-rule  [Year.2024, Region.North] = Revenue[THIS] * 1.1   # standard: slice (wildcarded)
+rule $[Year.2024, Region.North] = 1100   # anchored: one cell
+rule  [Year.2024, Region.North] = 1100   # standard: slice (wildcarded)
 ```
 
 The `$[...]` form is a **contextual shorthand** used when the active cube, channel, and view context are already known, such as in the grid or rule panel. In standalone scripts, prefer the full form:
@@ -255,19 +255,19 @@ rule PL::@.font_color:PL.Revenue:Year.2026 = #FFFFFF
 ### Recurrence rule
 
 ```text
-rule BS::@.value:BS.Cash:* = IF(POS(Year)=1, Drivers::Driver.OpeningCash:Year[THIS], BS::BS.Cash:Year[PREV] + CF::CF.FreeCashFlow:Year[THIS])
+rule BS::@.value:BS.Cash:* = IF(POS(Year)=1, Drivers::@.value:Driver.OpeningCash:Year[THIS], BS::@.value:BS.Cash:Year[PREV] + CF::@.value:CF.FreeCashFlow:Year[THIS])
 ```
 
 ### Anchored rule
 
 ```text
-rule $[Year.2024, Region.North] = Revenue[THIS] * 1.1
+rule $[Year.2024, Region.North] = 1100
 ```
 
 Prefer the full script form in standalone `.openm` files:
 
 ```text
-rule Revenue::@.value:Year.2024:Region.North = Revenue::Year.2024:Region.North * 1.1
+rule Forecast::@.value:Year.2024:Region.North = Actuals::@.value:Year.2024:Region.North * 1.1
 ```
 
 ## For LLMs
