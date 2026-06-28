@@ -4,6 +4,8 @@ This page describes the main areas of the OM Core interface. The GUI and TUI sha
 
 ![OM Core interface](../assets/images/om-core-ui-full.png)
 
+![OM Core interface alternative](../assets/images/om-core-ui-full-alt.png)
+
 ## Model Browser
 
 The Model Browser is the left panel. It shows the semantic structure of the model as a tree:
@@ -37,7 +39,6 @@ It has three tabs:
 
 The Rule Panel shows rules as semantic units. A rule is not tied to a specific cell coordinate; it is attached to a slice or a single cell address.
 
-![OM Core interface with the Calculation Flow tab open](../assets/images/om-core-ui-full.png)
 
 ## Timeline
 
