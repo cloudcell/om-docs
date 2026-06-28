@@ -30,6 +30,8 @@ Statement with scenarios, checks, and dimensional structure.
 - [08_groups.openm](three-statement-model/08_groups.openm)
 - [build.openm](three-statement-model/build.openm)
 
+![Three-Statement model running in the OM Core UI](../../../assets/images/three-statement-model.png)
+
 ## Budget vs Actual / Forecast Variance Model
 
 The FP&A example. Shows Actual, Budget, and Forecast as a `Version` dimension,
@@ -61,6 +63,8 @@ Department.
 - [07_formatting.openm](agroforestry-model/07_formatting.openm)
 - [08_groups.openm](agroforestry-model/08_groups.openm)
 - [build.openm](agroforestry-model/build.openm)
+
+![Agroforestry model running in the OM Core UI](../../../assets/images/agroforestry-model.png)
 
 ## Business Valuation Model
 
