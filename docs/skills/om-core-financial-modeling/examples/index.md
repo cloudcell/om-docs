@@ -72,6 +72,8 @@ Demonstrates dimensional grouping for roles, departments, and account lines.
 - [08_groups.openm](headcount-payroll-planning/08_groups.openm)
 - [build.openm](headcount-payroll-planning/build.openm)
 
+![Headcount and Payroll Planning model running in the OM Core UI](../../../assets/images/headcount-payroll-planning.png)
+
 ## Agroforestry Model
 
 - [00_variables.openm](agroforestry-model/00_variables.openm)

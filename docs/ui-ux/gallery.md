@@ -39,6 +39,8 @@ Screenshots from the financial modeling examples shipped with the skill.
 
 ![Manufacturing CapEx & Depreciation model](../assets/images/manufacturing-capex-model.png)
 
+![Headcount and Payroll Planning model](../assets/images/headcount-payroll-planning.png)
+
 ## Examples
 
 Screenshots from other example models.
