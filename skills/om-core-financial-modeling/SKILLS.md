@@ -228,19 +228,21 @@ Prefer readable business rules:
 rule PL::Account.GrossProfit:Month.*:Scenario.* = PL::[Account.Revenue] - PL::[Account.COGS]
 ```
 
-Use full addresses when clarity matters:
+Use explicit addresses only for the dimensions you need to override. Omitted dimensions bind from the current rule context.
 
 ```openm
-rule PL::Account.EBITDA:Month.*:Scenario.* = PL::Account.GrossProfit:Month[THIS]:Scenario[THIS] - PL::Account.OperatingExpense:Month[THIS]:Scenario[THIS]
+rule PL::Account.EBITDA:Month.*:Scenario.* = PL::Account.GrossProfit:Month[THIS] - PL::Account.OperatingExpense:Month[THIS]
 ```
 
 Use full addresses for recurrence rules that reference a previous or next item:
 
 ```openm
-rule SaaSPL::Account.Customers:Month.*:Scenario.* = SaaSPL::Account.Customers:Month[PREV]:Scenario[THIS] + Drivers::[Driver.NewCustomers]
+rule SaaSPL::Account.Customers:Month.*:Scenario.* = SaaSPL::Account.Customers:Month[PREV] + Drivers::[Driver.NewCustomers]
 ```
 
 Do not combine bracket shorthand with sequential accessors such as `SaaSPL::[Account.Customers]:Month[PREV]`. Bracket shorthand resolves only one dimension and carries over the rest; it does not support explicit `:Month[PREV]` overrides. For recurrence references, write the full canonical address.
+
+`[THIS]`, `[PREV]`, `[NEXT]`, `[FIRST]`, and `[LAST]` require the dimension to be declared with `--seq`. Do not use them on non-sequential dimensions. For non-sequential dimensions, either omit them and let the engine bind from context, or use shorthand so all dimensions bind from context.
 
 Use shorthand only when it is unambiguous.
 
