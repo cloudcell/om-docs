@@ -4,15 +4,28 @@ OM Core scripts use the `.openm` extension. They are executed inside the OM Core
 
 ## Run a script
 
-Start OM Core and source the script file:
+For a single-terminal workflow, start the TUI and source the script directly:
 
 ```bash
-# Start the engine
-./start.sh --runtime
-
-# ... run commands in repl mode ...
 ./start.sh --tui
+```
+
+Then run the script inside the REPL:
+
+```text
 om> source scripts/build_financial_model.openm
+```
+
+For a multi-process workflow, use two terminals:
+
+```bash
+# Terminal 1 — start the engine
+./start.sh --runtime
+```
+
+```bash
+# Terminal 2 — connect a client
+./start.sh --tui
 ```
 
 You can also run specific runtime modes directly:
@@ -22,8 +35,6 @@ You can also run specific runtime modes directly:
 ./start.sh --gui       # graphical interface
 ./start.sh --tui       # terminal interface
 ```
-
-`--runtime` starts the engine alone. In a multi-process setup, start `--runtime` in one terminal, then connect a client such as `--tui` or `--gui` in another. For a single-terminal workflow, use `--tui` after launching the engine via `--runtime` or the default `./start.sh`.
 
 ## First two commands
 
@@ -58,7 +69,7 @@ dim Year --seq Y1 Y2 Y3 Y4 Y5
 
 ## Script structure
 
-A typical `.openm` script follows this order:
+A small `.openm` script can follow this order:
 
 1. Define dimensions
 2. Define cubes
@@ -66,6 +77,23 @@ A typical `.openm` script follows this order:
 4. Define rules
 5. Calculate
 6. Assert or save
+
+For model bundles, use the numbered structure shown in the agent skill:
+
+```text
+00_variables
+01_dimensions
+02_cubes
+03_inputs
+04_rules
+05_checks
+06_views
+07_formatting
+08_groups
+build.openm
+```
+
+`build.openm` sources the other files in order and then runs `calc`. Tiny one-file scripts may use a simpler order.
 
 ```openm
 # Define dimensions
@@ -268,23 +296,28 @@ source scripts/depreciation_schedule.openm
 
 Visual styling is applied through rule channels, not through a separate formatting command. The channel determines which property the rule sets.
 
-OM Core stores values and presentation attributes in channels. The default value channel is `@.value` and is implied when no channel is specified. Style channels change only the appearance:
+OM Core stores values and presentation attributes in channels. The default value channel is `@.value` and is implied when no channel is specified. Style and format channels change only the appearance:
 
+- `@.value` — the default value channel (implied when no channel is given)
+- `@.format_number` — number or currency display format
 - `@.fill` — the background fill color
 - `@.font_color` — the font color
+- `@.font_weight` — the font weight (e.g. `700` for bold)
 
-Set a style with a rule:
+Set a style or format with a rule:
 
 ```openm
 rule C::@.fill:PL.Revenue:Year.2026 = #3B82F6
 rule C::@.font_color:PL.Revenue:Year.2026 = #FFFFFF
+rule C::@.font_weight:PL.Revenue:Year.2026 = 700
+rule C::@.format_number:PL.Revenue:Year.2026 = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
 ```
 
-Style rules follow the same semantic addressing as value rules. A single semantic address can have both a value rule and multiple style rules.
+Style and format rules follow the same semantic addressing as value rules. A single semantic address can have both a value rule and multiple style rules.
 
 ### Number formatting
 
-For number and currency display patterns, OM Core uses CLDR-style format strings. See [Formatting](formatting.md).
+For number and currency display patterns, OM Core supports both CLDR-style patterns and OM Core preset expressions. See [Formatting](formatting.md).
 
 ### Debugging
 

@@ -36,6 +36,14 @@ view SalesByProductAndMonth = Sales::Product:Month
 
 Here, `Product` is the row dimension and `Month` is the column dimension.
 
+A view with more than two dimensions:
+
+```openm
+view SalesByProductAndMonthAndRegion = Sales::Product:Month:Region
+```
+
+The first dimension is used for rows, the second for columns, and remaining dimensions become page or filter axes. The UI displays the selected page values and lets you switch between them. If you need a different layout, create a separate view with the dimensions in a different order.
+
 ## Activating a view
 
 You can activate a view by giving its name without the cube assignment:

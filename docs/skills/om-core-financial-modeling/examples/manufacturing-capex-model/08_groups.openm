@@ -1,6 +1,6 @@
 # Dimension outline groups for presentation
 
-group create Account Inputs CapEx OpeningGrossBlock
+group create Account "Input Items" CapEx OpeningGrossBlock
 
 group create Account "Asset Value" GrossBlock AccumulatedDepreciation NetBookValue
 

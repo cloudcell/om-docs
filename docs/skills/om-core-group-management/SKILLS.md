@@ -121,8 +121,8 @@ om> dim PLAccount Revenue COGS GrossProfit Salaries Marketing Rent EBITDA
 Create an outline:
 
 ```text
-om> group create PLAccount "Revenue" Revenue
-om> group create PLAccount "COGS" COGS
+om> group create PLAccount "Revenue Section" Revenue
+om> group create PLAccount "COGS Section" COGS
 om> group create PLAccount "Operating Expenses" Salaries Marketing Rent
 om> group list PLAccount
 ```
@@ -131,8 +131,8 @@ Expected outline:
 
 ```text
 PLAccount
-  Revenue
-  COGS
+  Revenue Section
+  COGS Section
   Operating Expenses
     Salaries
     Marketing
@@ -150,7 +150,7 @@ om> dim BSAccount Cash AccountsReceivable Inventory GrossPPE AccumulatedDeprecia
 om> group create BSAccount "Current Assets" Cash AccountsReceivable Inventory
 om> group create BSAccount "Fixed Assets" GrossPPE AccumulatedDepreciation NetPPE
 om> group create BSAccount "Liabilities" AccountsPayable Debt
-om> group create BSAccount "Equity" Equity
+om> group create BSAccount "Equity Section" Equity
 om> group list BSAccount
 ```
 

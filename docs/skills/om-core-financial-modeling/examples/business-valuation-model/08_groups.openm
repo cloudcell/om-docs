@@ -1,8 +1,8 @@
 # Dimension outline groups for presentation
 
-group create PLAccount Revenue Revenue
+group create PLAccount "Revenue Section" Revenue
 
-group create PLAccount COGS COGS
+group create PLAccount "COGS Section" COGS
 
 group create PLAccount "Operating Expenses" SGA Depreciation
 
@@ -16,7 +16,7 @@ group create BSAccount "Total Assets" TotalAssets
 
 group create BSAccount Liabilities AccountsPayable Debt
 
-group create BSAccount Equity Equity
+group create BSAccount "Equity Section" Equity
 
 group create BSAccount "Total Liabilities & Equity" TotalLiabilitiesAndEquity
 

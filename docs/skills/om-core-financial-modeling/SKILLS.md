@@ -77,12 +77,12 @@ Use variables to avoid repeating important names.
 Example:
 
 ```openm
-var model_name = "SaaS Revenue Model"
-var pl_cube = PL
-var account_dim = Account
-var month_dim = Month
-var scenario_dim = Scenario
-var base_scenario = Base
+model_name="SaaS Revenue Model"
+pl_cube="PL"
+account_dim="Account"
+month_dim="Month"
+scenario_dim="Scenario"
+base_scenario="Base"
 ```
 
 Use `{{...}}` macro expansion to compose commands:
@@ -101,7 +101,7 @@ Use macro expansion for:
 * reusable script templates
 * model variants
 
-Avoid using macro expansion to hide business logic. Rules should remain readable after expansion.
+Avoid using macro expansion to hide business logic. Rules should remain readable after expansion. In concrete example bundles, variables are typically used for cube and dimension declarations, while cube names in rules and views may be hardcoded for readability. Reserve full macro saturation for reusable templates and model variants.
 
 ## 5. Naming Conventions
 
@@ -296,9 +296,7 @@ cube Checks Check Month Scenario
 Example rules:
 
 ```openm
-rule Checks::Check.GrossProfitCheck:Month.*:Scenario.* =
-  PL::[Account.GrossProfit]
-  - (PL::[Account.Revenue] - PL::[Account.COGS])
+rule Checks::Check.GrossProfitCheck:Month.*:Scenario.* = PL::[Account.GrossProfit] - (PL::[Account.Revenue] - PL::[Account.COGS])
 ```
 
 A check should equal zero when the model is valid.
@@ -326,16 +324,14 @@ For reusable model templates, use variables at the top.
 Example template:
 
 ```openm
-var pl_cube = {{pl_cube}}
-var account_dim = {{account_dim}}
-var time_dim = {{time_dim}}
-var scenario_dim = {{scenario_dim}}
+pl_cube="{{pl_cube}}"
+account_dim="{{account_dim}}"
+time_dim="{{time_dim}}"
+scenario_dim="{{scenario_dim}}"
 
 cube {{pl_cube}} {{account_dim}} {{time_dim}} {{scenario_dim}}
 
-rule {{pl_cube}}::{{account_dim}}.GrossProfit:{{time_dim}}.*:{{scenario_dim}}.* =
-  {{pl_cube}}::[{{account_dim}}.Revenue]
-  - {{pl_cube}}::[{{account_dim}}.COGS]
+rule {{pl_cube}}::{{account_dim}}.GrossProfit:{{time_dim}}.*:{{scenario_dim}}.* = {{pl_cube}}::[{{account_dim}}.Revenue] - {{pl_cube}}::[{{account_dim}}.COGS]
 ```
 
 When generating a concrete model from a template, substitute variables before execution.
@@ -402,8 +398,8 @@ calc
 Example P&L grouping:
 
 ```text
-om> group create PLAccount "Revenue" Revenue
-om> group create PLAccount "COGS" COGS
+om> group create PLAccount "Revenue Section" Revenue
+om> group create PLAccount "COGS Section" COGS
 om> group create PLAccount "Operating Expenses" Salaries Marketing Rent
 om> group create PLAccount "Totals" GrossProfit EBITDA NetIncome
 ```
@@ -414,7 +410,7 @@ Example balance sheet grouping:
 om> group create BSAccount "Current Assets" Cash AccountsReceivable Inventory
 om> group create BSAccount "Fixed Assets" GrossPPE AccumulatedDepreciation NetPPE
 om> group create BSAccount "Liabilities" AccountsPayable Debt
-om> group create BSAccount "Equity" Equity
+om> group create BSAccount "Equity Section" Equity
 om> group create BSAccount "Total" TotalAssets TotalLiabilitiesAndEquity
 ```
 

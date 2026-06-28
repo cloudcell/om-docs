@@ -16,7 +16,7 @@ This separation lets the same dimension item participate in multiple hierarchies
 | Node | Graph occurrence or hierarchy node, identified by a node ID |
 | Edge | Parent/child or relation link between nodes |
 | Hierarchy | A tree of nodes built from parent/child edges |
-| Group | A named collection of dimension items or nodes used in rules and views |
+| Group | A named collection of dimension items or nodes used for hierarchy, outline, navigation, and presentation |
 | Outline | A read-only projection of a hierarchy for display |
 
 ## Graph primitives

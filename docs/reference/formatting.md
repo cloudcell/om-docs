@@ -51,8 +51,35 @@ CLDR also defines compact patterns for values like `1M` or `1 million`. These pa
 
 ## OM Core usage
 
-When you set a format string in OM Core, you are writing a CLDR-style pattern. The engine resolves the pattern against the locale and value type of the cell or cube. This means the same model can be displayed correctly across different locales without changing the underlying data.
+When you set a format string in OM Core, you can write either a CLDR-style pattern or an OM Core preset expression.
 
-For the full specification, see the CLDR documentation:
+### CLDR-style patterns
+
+A CLDR-style pattern is a locale-aware pattern resolved against the cell or cube locale:
+
+```openm
+rule PL::@.format_number:Account.*:Year.*:Scenario.* = "#,##0.00"
+```
+
+This means the same model can be displayed correctly across different locales without changing the underlying data.
+
+### OM Core preset expressions
+
+A preset expression is a higher-level, readable directive that the engine maps to a concrete format. Presets are useful when you want explicit control over decimals, grouping, negative numbers, and zero display without writing a raw CLDR pattern:
+
+```openm
+rule PL::@.format_number:Account.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+```
+
+Common preset parameters include:
+
+| Parameter | Meaning |
+| --- | --- |
+| `decimals` | Number of decimal places |
+| `group` | Use thousands grouping |
+| `negative` | Negative number style, e.g. `parentheses` |
+| `zero` | Zero display, e.g. `dash` |
+
+For the full CLDR specification, see:
 
 [Number and currency patterns — CLDR](https://cldr.unicode.org/translation/number-currency-formats/number-and-currency-patterns)
