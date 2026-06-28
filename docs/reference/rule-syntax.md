@@ -213,7 +213,8 @@ An **anchored rule** targets exactly one cell. The user opts in by prefixing the
 If `Sales` has dimensions `(Year, Region, Scenario)`, then:
 
 ```text
-rule $Sales::Year.2024:Region.North:Scenario.Actual = 1100   # anchored: one cell
+rule $Sales::Year.2024:Region.North:Scenario.Actual = 1100   # anchored: exactly one cell
+rule  Sales::Year.2024:Region.North:Scenario.Actual = 1100   # standard: same single cell, but not anchored
 rule  Sales::Year.2024:Region.North = 1100                   # standard: slice across all Scenario items
 ```
 
@@ -230,9 +231,9 @@ Syntax:
 
 Semantics:
 
-- **Anchored rule (`$`)**: Unspecified dimensions must resolve to a single item. If they cannot be resolved unambiguously, the rule is invalid.
+- **Anchored rules must resolve to exactly one cell**. If any cube dimension is unspecified and cannot be resolved explicitly, the rule is invalid.
 - **Standard rule (no `$`)**: Unspecified dimensions use wildcards. The rule applies to a slice only when the cube has dimensions that are not specified in the target.
-- **Dimension addition protection**: When a new dimension is added to a cube, an anchored rule does not spread across all items of that new dimension. Instead, it remains confined to the default item of the newly added dimension. Without anchoring, the rule would be treated as a slice rule and applied to every item of the new dimension.
+- **Dimension addition protection**: When a new dimension is added to a cube, an anchored rule does not spread across all items of that new dimension. It stays pinned to the address it was given; if the new dimension makes the address ambiguous, the rule becomes invalid until the new dimension is specified explicitly.
 
 Example with a 3D cube `(Year, Region, Scenario)`:
 
@@ -248,20 +249,43 @@ In scripts, use `$` only as a prefix on an explicit cube-qualified address. In t
 Standalone `.openm` files have no implicit context. The parser must know which cube, channel, and dimension items a rule refers to without relying on the current UI selection. The prefix form supplies that context explicitly:
 
 ```text
-rule $Sales::Year.2024:Region.North = 1100
+rule $Sales::Year.2024:Region.North:Scenario.Actual = 1100
 ```
 
-Here `$Sales::Year.2024:Region.North` is unambiguous: the rule is anchored to exactly one cell in the `Sales` cube.
+Here `$Sales::Year.2024:Region.North:Scenario.Actual` is unambiguous: the rule is anchored to exactly one cell in the `Sales` cube.
 
 The `$[...]` bracket form is shorthand for "the currently selected cell in the active cube, channel, and view." It only makes sense where those active selections exist, such as the grid or rule panel. In a standalone script there is no active selection, so `$[...]` is undefined and should be avoided.
 
 | Form | Where it is valid | Why |
 | --- | --- | --- |
-| `rule $Cube::Dim.Item = ...` | Scripts, grid, rule panel | Explicit cube and items; no ambiguity |
+| `rule $Cube::Dim.Item:Dim.Item = ...` | Scripts, grid, rule panel | Explicit cube and items; no ambiguity |
 | `rule $[...] = ...` | Grid, rule panel only | Depends on the active cube, channel, and view |
 | `rule $[...] = ...` | **Not valid** in standalone `.openm` files | No active context to resolve the target |
 
 If you write a script that needs to anchor a rule, always use the full `$Cube::Dim.Item:...` address. If the target would be ambiguous without the active UI context, rewrite it as an explicit address before saving it to a file.
+
+## Aggregate functions
+
+OM Core supports aggregate functions in rule expressions. The currently supported aggregate is `SUM`.
+
+### SUM
+
+`SUM(address)` returns the sum of all values in the slice described by the address. Use wildcards (`*`) to select all items of one or more dimensions.
+
+```text
+SUM(Cube::Dim.Item1:Dim.*)
+SUM(Cube::[Dim1.*, Dim2.*])
+```
+
+The address inside `SUM` must resolve to a slice. Wildcards are summed over the referenced dimensions; any dimensions not wildcarded are bound from the current evaluation context or selected explicitly.
+
+Example:
+
+```text
+rule Summary::Plant.Apple:Metric.TotalLifecycleCost = SUM(LifecycleCosts::[PlantAge.*, LifecycleCost.*]) * Inventory::[PlantData.NumberOfPlants]
+```
+
+Here `SUM(LifecycleCosts::[PlantAge.*, LifecycleCost.*])` adds every lifecycle cost value across all plant ages and all cost types for the current plant, because `Plant` is not wildcarded and binds from the current context.
 
 ## Error behavior
 
@@ -297,13 +321,13 @@ rule BS::BS.Cash:* = IF(POS(Year)=1, Drivers::Driver.OpeningCash:Year[THIS], BS:
 ### Anchored rule
 
 ```text
-rule $Sales::Year.2024:Region.North = 1100
+rule $Sales::Year.2024:Region.North:Scenario.Actual = 1100
 ```
 
 Prefer the full script form in standalone `.openm` files:
 
 ```text
-rule Forecast::Year.2024:Region.North = Actuals::Year.2024:Region.North * 1.1
+rule $Forecast::Year.2024:Region.North:Scenario.Actual = Actuals::Year.2024:Region.North:Scenario.Actual * 1.1
 ```
 
 ## For LLMs

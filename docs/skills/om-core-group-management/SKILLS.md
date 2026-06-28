@@ -160,6 +160,7 @@ om> group list BSAccount
 - Do not create a group label that matches an existing item name in the same dimension; this raises a validation error.
 - Create groups after the dimension items are defined, either in a dedicated `08_groups.openm` file or interactively after the model is loaded.
 - Groups do not affect rule evaluation; a rule like `PL::PLAccount.Revenue:Year.*:Scenario.*` still works regardless of whether `Revenue` is inside a group.
+- Although groups are managed through REPL/session commands, group commands may be recorded in `.openm` scripts and replayed through `source` for reproducibility.
 - When deleting a group, its children are promoted to the root. Use `group detach` if you only want to move specific items out while keeping the group.
 - Prefer `group list` to verify the outline before saving or sharing the model.
 

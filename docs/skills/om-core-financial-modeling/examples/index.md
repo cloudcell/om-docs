@@ -2,6 +2,8 @@
 
 These example models are complete `.openm` script bundles. Each bundle includes `build.openm` and numbered script files that can be loaded into OM Core.
 
+> These examples are intended as educational script-bundle patterns. They are not investment advice, accounting advice, tax advice, valuation advice, or production-ready financial templates.
+
 To run a model, load the bundle in the OM Core REPL:
 
 ```text

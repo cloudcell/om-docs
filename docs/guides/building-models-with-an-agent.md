@@ -40,6 +40,8 @@ When the user asks for a financial, operational, planning, forecasting, budgetin
    - `04_rules.openm`
    - `05_checks.openm`
    - `06_views.openm`
+   - `07_formatting.openm` (optional but recommended)
+   - `08_groups.openm` (optional presentation outline)
    - `build.openm`
 5. Do not invent unsupported OM Core syntax.
 6. Do not rely on hidden first-item defaults.
@@ -67,6 +69,8 @@ Create:
 - 04_rules.openm
 - 05_checks.openm
 - 06_views.openm
+- 07_formatting.openm (optional but recommended)
+- 08_groups.openm (optional)
 
 The model should include:
 - Revenue
@@ -96,6 +100,8 @@ model/
   04_rules.openm
   05_checks.openm
   06_views.openm
+  07_formatting.openm
+  08_groups.openm
 ```
 
 Each file has a clear responsibility:
@@ -109,7 +115,11 @@ Each file has a clear responsibility:
 | `04_rules.openm` | Calculated outputs |
 | `05_checks.openm` | Accounting identities and invariants |
 | `06_views.openm` | User-facing views |
+| `07_formatting.openm` | Number formats, fills, and font styling (optional but recommended) |
+| `08_groups.openm` | Outline group commands (optional) |
 | `build.openm` | Sources the files in order and runs `calc` |
+
+Small models may omit `07_formatting.openm` and `08_groups.openm`.
 
 ## Macros and variables
 

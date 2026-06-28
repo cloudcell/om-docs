@@ -3,15 +3,23 @@
 rule AssetPL::Account.CapEx:AssetType.*:Year.*:Scenario.* = AssetDrivers::[Driver.CapEx]
 
 # Gross block: opening balance plus new CapEx
+# Base year is explicit; later years are explicit recurrence rules to avoid overlap.
 rule AssetPL::Account.GrossBlock:AssetType.*:Year.2026:Scenario.* = AssetDrivers::[Driver.OpeningGrossBlock] + AssetPL::[Account.CapEx]
-rule AssetPL::Account.GrossBlock:AssetType.*:Year.*:Scenario.* = AssetPL::Account.GrossBlock:Year[PREV] + AssetPL::[Account.CapEx]
+rule AssetPL::Account.GrossBlock:AssetType.*:Year.2027:Scenario.* = AssetPL::Account.GrossBlock:Year[PREV] + AssetPL::[Account.CapEx]
+rule AssetPL::Account.GrossBlock:AssetType.*:Year.2028:Scenario.* = AssetPL::Account.GrossBlock:Year[PREV] + AssetPL::[Account.CapEx]
+rule AssetPL::Account.GrossBlock:AssetType.*:Year.2029:Scenario.* = AssetPL::Account.GrossBlock:Year[PREV] + AssetPL::[Account.CapEx]
+rule AssetPL::Account.GrossBlock:AssetType.*:Year.2030:Scenario.* = AssetPL::Account.GrossBlock:Year[PREV] + AssetPL::[Account.CapEx]
 
 # Straight-line depreciation
 rule AssetPL::Account.DepreciationExpense:AssetType.*:Year.*:Scenario.* = AssetPL::[Account.GrossBlock] / AssetDrivers::[Driver.UsefulLife]
 
 # Accumulated depreciation
+# Base year is explicit; later years are explicit recurrence rules to avoid overlap.
 rule AssetPL::Account.AccumulatedDepreciation:AssetType.*:Year.2026:Scenario.* = AssetPL::[Account.DepreciationExpense]
-rule AssetPL::Account.AccumulatedDepreciation:AssetType.*:Year.*:Scenario.* = AssetPL::Account.AccumulatedDepreciation:Year[PREV] + AssetPL::[Account.DepreciationExpense]
+rule AssetPL::Account.AccumulatedDepreciation:AssetType.*:Year.2027:Scenario.* = AssetPL::Account.AccumulatedDepreciation:Year[PREV] + AssetPL::[Account.DepreciationExpense]
+rule AssetPL::Account.AccumulatedDepreciation:AssetType.*:Year.2028:Scenario.* = AssetPL::Account.AccumulatedDepreciation:Year[PREV] + AssetPL::[Account.DepreciationExpense]
+rule AssetPL::Account.AccumulatedDepreciation:AssetType.*:Year.2029:Scenario.* = AssetPL::Account.AccumulatedDepreciation:Year[PREV] + AssetPL::[Account.DepreciationExpense]
+rule AssetPL::Account.AccumulatedDepreciation:AssetType.*:Year.2030:Scenario.* = AssetPL::Account.AccumulatedDepreciation:Year[PREV] + AssetPL::[Account.DepreciationExpense]
 
 # Net book value
 rule AssetPL::Account.NetBookValue:AssetType.*:Year.*:Scenario.* = AssetPL::[Account.GrossBlock] - AssetPL::[Account.AccumulatedDepreciation]

@@ -52,6 +52,8 @@ model/
   04_rules.openm
   05_checks.openm
   06_views.openm
+  07_formatting.openm      # optional but recommended
+  08_groups.openm          # optional presentation outline
   build.openm
 ```
 
@@ -65,10 +67,12 @@ source 03_inputs.openm
 source 04_rules.openm
 source 05_checks.openm
 source 06_views.openm
+source 07_formatting.openm
+source 08_groups.openm
 calc
 ```
 
-Use fewer files for small examples, but keep this order conceptually.
+Use fewer files for small examples, but keep this order conceptually. Small models may omit `07_formatting.openm` and `08_groups.openm`.
 
 ## 4. Variables and Macro Expansion
 
@@ -266,7 +270,7 @@ Use hardcoded values in examples only when necessary. In production-style script
 
 ### Hard values vs. input rules
 
-A `rule` with a literal value on the left-hand side is the standard way to seed inputs in an `.openm` script. It is readable, source-controlled, and auditable.
+A `rule` with a literal value on the right-hand side is the standard way to seed inputs in an `.openm` script. It is readable, source-controlled, and auditable.
 
 For interactive or GUI-driven edits after the model is loaded, set a cell hardvalue with:
 
@@ -365,6 +369,8 @@ rule BS::@.font_weight:BSAccount.TotalAssets:Year.*:Scenario.* = 700
 rule BS::@.fill:BSAccount.TotalAssets:Year.*:Scenario.* = "#e2e8f0"
 ```
 
+Formatting rules may intentionally use broad defaults plus more specific overrides. This is acceptable because more specific style rules override less specific style rules, the same way calculation rules do.
+
 ## 15. Group Management
 
 Financial models benefit from grouping dimension items into outline sections. For example, a P&L account dimension can be grouped into Revenue, COGS, Operating Expenses, and Totals.
@@ -439,7 +445,11 @@ model/
   04_rules.openm
   05_checks.openm
   06_views.openm
+  07_formatting.openm
+  08_groups.openm
 ```
+
+Small models may omit `07_formatting.openm` and `08_groups.openm`.
 
 Then include each file in a separate code block.
 
