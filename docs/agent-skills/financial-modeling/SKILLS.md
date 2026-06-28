@@ -322,7 +322,29 @@ rule {{pl_cube}}::{{account_dim}}.GrossProfit:{{time_dim}}.*:{{scenario_dim}}.* 
 
 When generating a concrete model from a template, substitute variables before execution.
 
-## 13. Output Format
+## 13. Number Formatting
+
+Apply the default number format to every cube so financial values are readable. Use the cube's `@` channel with the cube's actual dimensions:
+
+```openm
+rule PL::@.format_number:Account.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+```
+
+Place the formatting rules in `07_formatting.openm` and source it after the views and before `calc`.
+
+## 14. Visual Formatting
+
+Apply number formatting and styling to every cube, not as a global directive. Use the cube's `@` channel with the cube's actual dimensions:
+
+```openm
+rule PL::@.format_number:Account.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule PL::@.fill:Account.*:Year.*:Scenario.* = "#f7f9fb"
+rule PL::@.font_color:Account.*:Year.*:Scenario.* = "#2d3748"
+```
+
+Create a `07_formatting.openm` file and source it after the views and before `calc`. Repeat the three directives for every cube in the model.
+
+## 15. Output Format
 
 When asked to build a model, return:
 
@@ -349,7 +371,7 @@ model/
 
 Then include each file in a separate code block.
 
-## 14. Validation Checklist
+## 17. Validation Checklist
 
 Before finalizing a model, check:
 
@@ -364,7 +386,7 @@ Before finalizing a model, check:
 * At least one view exists for every cube.
 * The model can be loaded through `source build.openm`.
 
-## 15. Example Minimal P&L Model
+## 18. Example Minimal P&L Model
 
 File tree:
 
@@ -433,7 +455,7 @@ Run:
 om> source build.openm
 ```
 
-## 16. Example Manufacturing CapEx & Depreciation Model
+## 19. Example Manufacturing CapEx & Depreciation Model
 
 File tree:
 
@@ -457,7 +479,7 @@ Run:
 om> source build.openm
 ```
 
-## 17. Example Business Valuation Model
+## 20. Example Business Valuation Model
 
 File tree:
 
@@ -481,7 +503,7 @@ Run:
 om> source build.openm
 ```
 
-## 18. Agent Behavior Rules
+## 21. Agent Behavior Rules
 
 The agent must not:
 

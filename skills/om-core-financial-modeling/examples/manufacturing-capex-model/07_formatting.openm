@@ -1,0 +1,12 @@
+# Per-cube formatting
+rule AssetPL::@.format_number:Account.*:AssetType.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule AssetPL::@.fill:Account.*:AssetType.*:Year.*:Scenario.* = "#f7f9fb"
+rule AssetPL::@.font_color:Account.*:AssetType.*:Year.*:Scenario.* = "#2d3748"
+
+rule AssetDrivers::@.format_number:Driver.*:AssetType.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule AssetDrivers::@.fill:Driver.*:AssetType.*:Year.*:Scenario.* = "#f7f9fb"
+rule AssetDrivers::@.font_color:Driver.*:AssetType.*:Year.*:Scenario.* = "#2d3748"
+
+rule Checks::@.format_number:Check.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule Checks::@.fill:Check.*:Year.*:Scenario.* = "#f7f9fb"
+rule Checks::@.font_color:Check.*:Year.*:Scenario.* = "#2d3748"
