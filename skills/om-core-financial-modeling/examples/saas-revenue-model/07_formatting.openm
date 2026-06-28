@@ -10,3 +10,13 @@ rule Drivers::@.font_color:Driver.*:Year.*:Scenario.* = "#2d3748"
 rule Checks::@.format_number:Check.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
 rule Checks::@.fill:Check.*:Year.*:Scenario.* = "#f7f9fb"
 rule Checks::@.font_color:Check.*:Year.*:Scenario.* = "#2d3748"
+
+# Totals and subtotals
+rule SaaSPL::@.font_weight:Account.Revenue:Year.*:Scenario.* = 700
+rule SaaSPL::@.fill:Account.Revenue:Year.*:Scenario.* = "#e2e8f0"
+rule SaaSPL::@.font_weight:Account.GrossProfit:Year.*:Scenario.* = 700
+rule SaaSPL::@.fill:Account.GrossProfit:Year.*:Scenario.* = "#edf2f7"
+rule SaaSPL::@.font_weight:Account.EBITDA:Year.*:Scenario.* = 700
+rule SaaSPL::@.fill:Account.EBITDA:Year.*:Scenario.* = "#e2e8f0"
+rule SaaSPL::@.font_weight:Account.Customers:Year.*:Scenario.* = 700
+rule SaaSPL::@.fill:Account.Customers:Year.*:Scenario.* = "#edf2f7"

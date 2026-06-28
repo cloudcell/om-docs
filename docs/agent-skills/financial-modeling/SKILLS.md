@@ -344,6 +344,13 @@ rule PL::@.font_color:Account.*:Year.*:Scenario.* = "#2d3748"
 
 Create a `07_formatting.openm` file and source it after the views and before `calc`. Repeat the three directives for every cube in the model.
 
+For totals and subtotals (e.g., `TotalAssets`, `NetIncome`, `EBITDA`, `FCFF`, `EnterpriseValue`), add specific rules that use a heavier font weight and a slightly darker background:
+
+```openm
+rule BS::@.font_weight:BSAccount.TotalAssets:Year.*:Scenario.* = 700
+rule BS::@.fill:BSAccount.TotalAssets:Year.*:Scenario.* = "#e2e8f0"
+```
+
 ## 15. Output Format
 
 When asked to build a model, return:
