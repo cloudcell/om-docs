@@ -126,8 +126,8 @@ rule {{selected}} = 100000
 Use `exec {{cmd}}` to execute a command and capture its output.
 
 ```openm
-# Legacy $(selection) is deprecated. Use exec selection instead.
-cells=exec selection
+# Legacy $(timestamp) is deprecated. Use exec timestamp instead.
+ts=exec timestamp %Y%m%d_%H%M%S
 ```
 
 ### Legacy syntax
@@ -170,6 +170,15 @@ view PnL
 
 The first form defines a view. The second form activates it.
 
+#### `use` — set the active cube context
+
+```openm
+use Sales
+rule Revenue = Cost * 1.15
+```
+
+`use` sets the default cube for subsequent `rule` commands that omit a `Cube::` prefix. It is optional; explicit `Cube::@.value:...` addresses are preferred in scripts.
+
 ### Rule definition
 
 #### `rule` — define a calculation rule
@@ -211,7 +220,7 @@ References can also use bracket shorthand:
 rule AnnualDep::@.value:*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
 ```
 
-When a referenced cube shares a dimension with the current target cell, the shorthand binds that dimension from the context. Dimensions that do not exist in the referenced cube are ignored. For example, `AnnualDep` has dimensions `Asset` and `Year`, while `Inputs` has `Asset` and `Metric`. The shorthand `Inputs::[Metric.Cost]` binds the current `Asset` from the target cell but ignores the `Year` dimension because `Inputs` does not have one.
+When a referenced cube shares a dimension with the current target cell, the shorthand binds that dimension from the context. Dimensions that do not exist in the referenced cube are not carried over; they default to the first item of that dimension in the target cube. For example, `AnnualDep` has dimensions `Asset` and `Year`, while `Inputs` has `Asset` and `Metric`. The shorthand `Inputs::[Metric.Cost]` binds the current `Asset` from the target cell. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
 
 ### Calculation
 
@@ -287,16 +296,18 @@ assert Inputs::@.value:Asset.Equipment:Metric.Life == 4 "Equipment life"
 
 ### Selection and navigation
 
-#### `selection` — return the current selection
+#### `selection` — show the current selection
 
 ```openm
-selected=exec selection
+selection
 ```
+
+Prints the current cursor position as `(row, col)`. It does not return a list of semantic addresses.
 
 #### `select`, `up`, `down`, `left`, `right` — navigate the grid
 
 ```openm
-select C::@.value:PL.Revenue:Year.2026
+select 5 2
 up 3
 right 2
 ```
@@ -372,6 +383,8 @@ When generating `.openm` scripts:
 - Place rules after dimensions and cubes.
 - Run `calc` after defining rules.
 - Use `assert` to verify expected values.
+- Use `use <cube>` to set an active cube context only when omitting the cube prefix in rules.
+- Use `$` as a prefix on a full canonical address for anchored rules; do not use the `$[...]` bracket form in scripts.
 
 ## See also
 

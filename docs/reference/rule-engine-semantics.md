@@ -24,18 +24,18 @@ Rule semantics must preserve:
 
 ## Rule execution order
 
-Rules execute in the order specified by `workspace.formula_rule_order`. This list of rule IDs is the semantic contract. Do not rely on dictionary insertion order as a semantic execution contract — always use `formula_rule_order`.
+Rules execute in the order specified by `workspace.rule_order`. This list of rule IDs is the semantic contract. Do not rely on dictionary insertion order as a semantic execution contract — always use `rule_order`.
 
 ## Value precedence
 
 When a cell is evaluated, the engine resolves value precedence from highest to lowest:
 
-1. Hardcoded user override (`user_override_addrs`)
+1. Hardcoded user override (`cube.user_override_addrs`)
 2. Cell rule (single-cell rule)
 3. Slice rule (rule targeted at a pattern)
 4. Empty cell (`None`)
 
-A more specific rule always wins over a less specific rule. When two rules have the same specificity and match the same cell, the later rule in `workspace.formula_rule_order` wins.
+A more specific rule always wins over a less specific rule. When two rules have the same specificity and match the same cell, the later rule in `workspace.rule_order` wins.
 
 ## Rule invalidation
 
@@ -49,7 +49,7 @@ The system must not expose a durable state where deleted graph or item reference
 
 ## Rule deletion
 
-Deleting a rule must remove its rule ID from `workspace.formula_rule_order` in the same semantic mutation. The system must not persist dangling rule-order entries.
+Deleting a rule must remove its rule ID from `workspace.rule_order` in the same semantic mutation. The system must not persist dangling rule-order entries.
 
 ## Anti-patterns
 
@@ -57,7 +57,7 @@ Deleting a rule must remove its rule ID from `workspace.formula_rule_order` in t
 | --- | --- | --- |
 | Skipping dependency cleanup during recompute | Leaves stale state | Ensure recompute cleanup and indegree updates always run |
 | Rule references stored by label | Renames break rules | Resolve to stable IDs |
-| Relying on dict order for rule execution | Serialization drift | Use `workspace.formula_rule_order` |
+| Relying on dict order for rule execution | Serialization drift | Use `workspace.rule_order` |
 | Bidirectional recurrence | Ambiguous dependency direction | Use only `PREV` or only `NEXT` |
 | Writing to `PREV` / `NEXT` on LHS | Ambiguous mutation target | LHS may target only current cell or explicit slice |
 | Persisting error values | Reload corrupts state | Recalculate errors on load |

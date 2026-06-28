@@ -96,7 +96,7 @@ This is **not** the same as `Year[2026]`. Bracket shorthand applies to a full cu
 
 ### Cube-relative shorthand on the RHS
 
-RHS references may use cube-relative shorthand. If a referenced cube shares a dimension with the current target cell, OM Core binds that dimension from the current evaluation context, provided the binding is unambiguous. Dimensions that do not exist in the referenced cube are ignored. A fully explicit address is always safer and required when the shorthand would be ambiguous.
+RHS references may use cube-relative shorthand. If a referenced cube shares a dimension with the current target cell, OM Core binds that dimension from the current evaluation context, provided the binding is unambiguous. Dimensions that do not exist in the referenced cube are not carried over; they default to the first item of that dimension in the target cube. A fully explicit address is always safer and required when the shorthand would be ambiguous.
 
 For example, if the target cell is `AnnualDep::Asset.Vehicle:Year.2026`, then this shorthand:
 
@@ -104,7 +104,7 @@ For example, if the target cell is `AnnualDep::Asset.Vehicle:Year.2026`, then th
 Inputs::[Metric.Cost]
 ```
 
-carries over the shared `Asset.Vehicle` context to resolve `Inputs::Asset.Vehicle:Metric.Cost`. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
+carries over the shared `Asset.Vehicle` context to resolve `Inputs::Asset.Vehicle:Metric.Cost`. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension; it would default to the first `Year` item of `Inputs` if that dimension existed there.
 
 Use the full semantic address whenever you need to read from a different context than the current target cell.
 
@@ -198,11 +198,11 @@ This behavior lets you define a general rule first and then add targeted overrid
 An **anchored rule** targets exactly one cell. The user opts in by prefixing the rule target with `$`.
 
 ```text
-rule $[Year.2024, Region.North] = 1100   # anchored: one cell
-rule  [Year.2024, Region.North] = 1100   # standard: slice (wildcarded)
+rule $Sales::@.value:Year.2024:Region.North = 1100   # anchored: one cell
+rule  Sales::@.value:Year.2024:Region.North = 1100   # standard: slice (wildcarded)
 ```
 
-The `$[...]` form is a **contextual shorthand** used when the active cube, channel, and view context are already known, such as in the grid or rule panel. In standalone scripts, prefer the full form:
+The `$` prefix is the only anchored shorthand available in standalone scripts. The bracket form `$[...]` is **not** accepted as a rule target; it is only valid in contextual input such as the grid or rule panel, where the active cube, channel, and view are already known. In scripts, prefer the full form:
 
 ```text
 rule Cube::@.value:Dim.Item:Dim.Item = expression
@@ -222,10 +222,10 @@ Example with a 3D cube `(Year, Region, Scenario)`:
 
 | Target | Anchored? | Scenario selector | Coverage |
 | --- | --- | --- | --- |
-| `$[Year.2024, Region.North, Scenario.Actual]` | Yes | `Actual` | One cell: `(2024, North, Actual)` |
-| `[Year.2024, Region.North]` | No | wildcard | Slice: `(2024, North, *)` |
+| `$Sales::@.value:Year.2024:Region.North:Scenario.Actual` | Yes | `Actual` | One cell: `(2024, North, Actual)` |
+| `Sales::@.value:Year.2024:Region.North` | No | wildcard | Slice: `(2024, North, *)` |
 
-Use `$` when entering a rule via the grid or rule panel to bind it to one specific cell. In scripts, use the full `Cube::@.channel:...` form and omit `$` when defining rules that should apply across dimensions.
+In scripts, use `$` only as a prefix on a full canonical address. In the grid or rule panel, the contextual `$[...]` form may be used to bind a rule to one specific cell.
 
 ## Error behavior
 
@@ -261,7 +261,7 @@ rule BS::@.value:BS.Cash:* = IF(POS(Year)=1, Drivers::@.value:Driver.OpeningCash
 ### Anchored rule
 
 ```text
-rule $[Year.2024, Region.North] = 1100
+rule $Sales::@.value:Year.2024:Region.North = 1100
 ```
 
 Prefer the full script form in standalone `.openm` files:
@@ -279,7 +279,7 @@ When generating rule syntax:
 - Use `[THIS]` for the current item, `[PREV]` / `[NEXT]` for recurrence on the RHS only.
 - Use `*` for slice wildcards on the LHS.
 - Use cube-relative shorthand (`Cube::[Dim.Item]`) only when the context binding is unambiguous.
-- Use `$` only for contextual input such as the grid or rule panel; in scripts, use the full `Cube::@.channel:...` form.
+- Use `$` only as a prefix on a full canonical address in scripts. Avoid the `$[...]` bracket form in standalone `.openm` files.
 - Avoid `PREV` / `NEXT` / `FIRST` / `LAST` on the LHS.
 - Avoid mixing `PREV` and `NEXT` in the same rule.
 - Reference cells by stable semantic address, not grid coordinates.
