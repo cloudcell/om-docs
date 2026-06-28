@@ -2,7 +2,7 @@
 
 This page describes the main areas of the OM Core interface. The GUI and TUI share the same core areas, although they are rendered differently.
 
-![OM Core interface](../assets/images/om-core-ui.png)
+![OM Core interface](../assets/images/om-core-ui-full.png)
 
 ## Model Browser
 
@@ -36,6 +36,8 @@ It has three tabs:
 - **Circular References** — diagnostics when a rule introduces a cycle.
 
 The Rule Panel shows rules as semantic units. A rule is not tied to a specific cell coordinate; it is attached to a slice or a single cell address.
+
+![OM Core interface with the Calculation Flow tab open](../assets/images/om-core-ui-full.png)
 
 ## Timeline
 

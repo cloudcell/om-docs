@@ -11,3 +11,5 @@ OM Core is a multidimensional modeling engine for building structured financial,
 Unlike a spreadsheet, where the grid is the model, OM Core separates the model structure from its views. A model is built from dimensions, cubes, groups, and rules. Views and grids are generated from that structure, not stored as the source of truth.
 
 This makes models easier to audit, extend, and maintain as they grow.
+
+![OM Core interface with the Model Browser, Matrix Grid, Timeline, and Calculation Flow](../assets/images/om-core-ui-full.png)
