@@ -433,7 +433,31 @@ Run:
 om> source build.openm
 ```
 
-## 16. Agent Behavior Rules
+## 16. Example Manufacturing CapEx & Depreciation Model
+
+File tree:
+
+```text
+examples/manufacturing-capex-model/
+  00_variables.openm
+  01_dimensions.openm
+  02_cubes.openm
+  03_inputs.openm
+  04_rules.openm
+  05_checks.openm
+  06_views.openm
+  build.openm
+```
+
+This model tracks fixed assets across three asset types (Machinery, Equipment, Vehicles) with different useful lives. It computes gross block, straight-line depreciation, accumulated depreciation, and net book value over five years for three scenarios.
+
+Run:
+
+```text
+om> source build.openm
+```
+
+## 17. Agent Behavior Rules
 
 The agent must not:
 

@@ -1,0 +1,6 @@
+dim Account CapEx OpeningGrossBlock GrossBlock DepreciationExpense AccumulatedDepreciation NetBookValue
+dim Driver UsefulLife OpeningGrossBlock CapEx
+dim AssetType Machinery Equipment Vehicles
+dim Year --seq 2026 2027 2028 2029 2030
+dim Scenario Base Upside Downside
+dim Check DepreciationCheck NetBookValueCheck

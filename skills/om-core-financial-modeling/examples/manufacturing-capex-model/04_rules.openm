@@ -1,0 +1,17 @@
+# Fixed asset dynamics
+# CapEx is visible in the main asset cube
+rule AssetPL::Account.CapEx:AssetType.*:Year.*:Scenario.* = AssetDrivers::[Driver.CapEx]
+
+# Gross block: opening balance plus new CapEx
+rule AssetPL::Account.GrossBlock:AssetType.*:Year.2026:Scenario.* = AssetDrivers::[Driver.OpeningGrossBlock] + AssetPL::[Account.CapEx]
+rule AssetPL::Account.GrossBlock:AssetType.*:Year.*:Scenario.* = AssetPL::Account.GrossBlock:Year[PREV] + AssetPL::[Account.CapEx]
+
+# Straight-line depreciation
+rule AssetPL::Account.DepreciationExpense:AssetType.*:Year.*:Scenario.* = AssetPL::[Account.GrossBlock] / AssetDrivers::[Driver.UsefulLife]
+
+# Accumulated depreciation
+rule AssetPL::Account.AccumulatedDepreciation:AssetType.*:Year.2026:Scenario.* = AssetPL::[Account.DepreciationExpense]
+rule AssetPL::Account.AccumulatedDepreciation:AssetType.*:Year.*:Scenario.* = AssetPL::Account.AccumulatedDepreciation:Year[PREV] + AssetPL::[Account.DepreciationExpense]
+
+# Net book value
+rule AssetPL::Account.NetBookValue:AssetType.*:Year.*:Scenario.* = AssetPL::[Account.GrossBlock] - AssetPL::[Account.AccumulatedDepreciation]

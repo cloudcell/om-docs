@@ -1,0 +1,3 @@
+cube {{asset_cube}} {{account_dim}} {{asset_type_dim}} {{year_dim}} {{scenario_dim}}
+cube {{drivers_cube}} {{driver_dim}} {{asset_type_dim}} {{year_dim}} {{scenario_dim}}
+cube {{checks_cube}} {{check_dim}} {{year_dim}} {{scenario_dim}}

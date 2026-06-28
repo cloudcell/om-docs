@@ -1,0 +1,80 @@
+# Base scenario assumptions
+rule AssetDrivers::Driver.UsefulLife:AssetType.Machinery:Year.*:Scenario.Base = 10
+rule AssetDrivers::Driver.UsefulLife:AssetType.Equipment:Year.*:Scenario.Base = 7
+rule AssetDrivers::Driver.UsefulLife:AssetType.Vehicles:Year.*:Scenario.Base = 5
+
+rule AssetDrivers::Driver.OpeningGrossBlock:AssetType.Machinery:Year.2026:Scenario.Base = 5000
+rule AssetDrivers::Driver.OpeningGrossBlock:AssetType.Equipment:Year.2026:Scenario.Base = 3000
+rule AssetDrivers::Driver.OpeningGrossBlock:AssetType.Vehicles:Year.2026:Scenario.Base = 2000
+
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2026:Scenario.Base = 1000
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2027:Scenario.Base = 1200
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2028:Scenario.Base = 1500
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2029:Scenario.Base = 1800
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2030:Scenario.Base = 2000
+
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2026:Scenario.Base = 800
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2027:Scenario.Base = 900
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2028:Scenario.Base = 1000
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2029:Scenario.Base = 1100
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2030:Scenario.Base = 1200
+
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2026:Scenario.Base = 500
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2027:Scenario.Base = 600
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2028:Scenario.Base = 700
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2029:Scenario.Base = 800
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2030:Scenario.Base = 900
+
+# Upside scenario assumptions
+rule AssetDrivers::Driver.UsefulLife:AssetType.Machinery:Year.*:Scenario.Upside = 12
+rule AssetDrivers::Driver.UsefulLife:AssetType.Equipment:Year.*:Scenario.Upside = 8
+rule AssetDrivers::Driver.UsefulLife:AssetType.Vehicles:Year.*:Scenario.Upside = 6
+
+rule AssetDrivers::Driver.OpeningGrossBlock:AssetType.Machinery:Year.2026:Scenario.Upside = 6000
+rule AssetDrivers::Driver.OpeningGrossBlock:AssetType.Equipment:Year.2026:Scenario.Upside = 3500
+rule AssetDrivers::Driver.OpeningGrossBlock:AssetType.Vehicles:Year.2026:Scenario.Upside = 2500
+
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2026:Scenario.Upside = 1500
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2027:Scenario.Upside = 1800
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2028:Scenario.Upside = 2200
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2029:Scenario.Upside = 2600
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2030:Scenario.Upside = 3000
+
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2026:Scenario.Upside = 1200
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2027:Scenario.Upside = 1400
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2028:Scenario.Upside = 1600
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2029:Scenario.Upside = 1800
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2030:Scenario.Upside = 2000
+
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2026:Scenario.Upside = 700
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2027:Scenario.Upside = 850
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2028:Scenario.Upside = 1000
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2029:Scenario.Upside = 1150
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2030:Scenario.Upside = 1300
+
+# Downside scenario assumptions
+rule AssetDrivers::Driver.UsefulLife:AssetType.Machinery:Year.*:Scenario.Downside = 8
+rule AssetDrivers::Driver.UsefulLife:AssetType.Equipment:Year.*:Scenario.Downside = 6
+rule AssetDrivers::Driver.UsefulLife:AssetType.Vehicles:Year.*:Scenario.Downside = 4
+
+rule AssetDrivers::Driver.OpeningGrossBlock:AssetType.Machinery:Year.2026:Scenario.Downside = 4000
+rule AssetDrivers::Driver.OpeningGrossBlock:AssetType.Equipment:Year.2026:Scenario.Downside = 2500
+rule AssetDrivers::Driver.OpeningGrossBlock:AssetType.Vehicles:Year.2026:Scenario.Downside = 1500
+
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2026:Scenario.Downside = 700
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2027:Scenario.Downside = 800
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2028:Scenario.Downside = 900
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2029:Scenario.Downside = 1000
+rule AssetDrivers::Driver.CapEx:AssetType.Machinery:Year.2030:Scenario.Downside = 1100
+
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2026:Scenario.Downside = 500
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2027:Scenario.Downside = 550
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2028:Scenario.Downside = 600
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2029:Scenario.Downside = 650
+rule AssetDrivers::Driver.CapEx:AssetType.Equipment:Year.2030:Scenario.Downside = 700
+
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2026:Scenario.Downside = 300
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2027:Scenario.Downside = 350
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2028:Scenario.Downside = 400
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2029:Scenario.Downside = 450
+rule AssetDrivers::Driver.CapEx:AssetType.Vehicles:Year.2030:Scenario.Downside = 500

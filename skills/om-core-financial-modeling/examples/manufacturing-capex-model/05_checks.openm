@@ -1,0 +1,2 @@
+rule Checks::Check.DepreciationCheck:Year.*:Scenario.* = AssetPL::[Account.DepreciationExpense] - (AssetPL::[Account.GrossBlock] / AssetDrivers::[Driver.UsefulLife])
+rule Checks::Check.NetBookValueCheck:Year.*:Scenario.* = AssetPL::[Account.NetBookValue] - (AssetPL::[Account.GrossBlock] - AssetPL::[Account.AccumulatedDepreciation])

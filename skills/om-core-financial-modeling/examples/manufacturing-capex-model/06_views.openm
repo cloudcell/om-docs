@@ -1,0 +1,3 @@
+view AssetPL_View = AssetPL::Account:AssetType:Year
+view AssetDrivers_View = AssetDrivers::Driver:AssetType:Year
+view Checks_View = Checks::Check:Year
