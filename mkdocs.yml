@@ -9,6 +9,8 @@ theme:
   name: material
   logo: assets/brand/om-core-icon.png
   favicon: assets/brand/om-core-icon.png
+  palette:
+    primary: black
   features:
     - navigation.sections
     - navigation.expand
