@@ -232,6 +232,7 @@ Semantics:
 
 - **Anchored rule (`$`)**: Unspecified dimensions must resolve to a single item. If they cannot be resolved unambiguously, the rule is invalid.
 - **Standard rule (no `$`)**: Unspecified dimensions use wildcards. The rule applies to a slice only when the cube has dimensions that are not specified in the target.
+- **Dimension addition protection**: When a new dimension is added to a cube, an anchored rule does not spread across all items of that new dimension. Instead, it remains confined to the default item of the newly added dimension. Without anchoring, the rule would be treated as a slice rule and applied to every item of the new dimension.
 
 Example with a 3D cube `(Year, Region, Scenario)`:
 
