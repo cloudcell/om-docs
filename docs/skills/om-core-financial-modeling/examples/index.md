@@ -68,6 +68,12 @@ Department.
 
 ## Business Valuation Model
 
+A DCF-style valuation built from integrated P&L, Balance Sheet, and Driver
+assumptions. Working-capital items (Accounts Receivable, Inventory, Accounts
+Payable) tie to Driver days; Net Fixed Assets roll forward with CapEx and
+Depreciation; Equity and Debt feed the balance sheet; and Cash is the balancing
+plug.
+
 - [00_variables.openm](business-valuation-model/00_variables.openm)
 - [01_dimensions.openm](business-valuation-model/01_dimensions.openm)
 - [02_cubes.openm](business-valuation-model/02_cubes.openm)
@@ -78,6 +84,8 @@ Department.
 - [07_formatting.openm](business-valuation-model/07_formatting.openm)
 - [08_groups.openm](business-valuation-model/08_groups.openm)
 - [build.openm](business-valuation-model/build.openm)
+
+![Business Valuation model running in the OM Core UI](../../../assets/images/business-valuation-model.png)
 
 ## Manufacturing CapEx & Depreciation Model
 
