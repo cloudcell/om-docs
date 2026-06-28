@@ -46,6 +46,7 @@ nav:
       - Views: concepts/views.md
   - Guides:
       - Build a P&L model: guides/building-a-pl-model.md
+      - Build models with an agent: guides/building-models-with-an-agent.md
   - UI/UX:
       - Interface overview: ui-ux/interface.md
       - TUI: ui-ux/tui.md
