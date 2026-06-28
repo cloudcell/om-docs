@@ -59,4 +59,5 @@ rule Valuation::ValAccount.PVFCFF:Year.2030:Scenario.* = (CFS::CFSAccount.FCFF:Y
 rule Valuation::ValAccount.EnterpriseValue:Year.2026:Scenario.* = Valuation::[ValAccount.PVFCFF]
 rule Valuation::ValAccount.EnterpriseValue:Year.*:Scenario.* = Valuation::ValAccount.EnterpriseValue:Year[PREV] + Valuation::[ValAccount.PVFCFF]
 
-rule Valuation::ValAccount.EquityValue:Year.2030:Scenario.* = Valuation::ValAccount.EnterpriseValue:Year.2030 - BS::[BSAccount.Debt]
+rule Valuation::ValAccount.NetDebt:Year.*:Scenario.* = BS::[BSAccount.Debt] - BS::[BSAccount.Cash]
+rule Valuation::ValAccount.EquityValue:Year.*:Scenario.* = Valuation::[ValAccount.EnterpriseValue] - Valuation::[ValAccount.NetDebt]

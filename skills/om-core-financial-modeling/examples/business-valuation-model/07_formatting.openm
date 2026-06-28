@@ -43,5 +43,7 @@ rule CFS::@.fill:CFSAccount.FCFF:Year.*:Scenario.* = "#e2e8f0"
 
 rule Valuation::@.font_weight:ValAccount.EnterpriseValue:Year.*:Scenario.* = 700
 rule Valuation::@.fill:ValAccount.EnterpriseValue:Year.*:Scenario.* = "#e2e8f0"
+rule Valuation::@.font_weight:ValAccount.NetDebt:Year.*:Scenario.* = 700
+rule Valuation::@.fill:ValAccount.NetDebt:Year.*:Scenario.* = "#edf2f7"
 rule Valuation::@.font_weight:ValAccount.EquityValue:Year.*:Scenario.* = 700
 rule Valuation::@.fill:ValAccount.EquityValue:Year.*:Scenario.* = "#e2e8f0"

@@ -24,4 +24,4 @@ group create CFSAccount "Cash Flow" NetIncome Depreciation ChangeInWC CapEx FCFF
 
 group create ValAccount "WACC Inputs" WACC CostOfEquity CostOfDebt
 
-group create ValAccount Valuation DiscountFactor TerminalValue PVFCFF EnterpriseValue EquityValue
+group create ValAccount Valuation DiscountFactor TerminalValue PVFCFF EnterpriseValue NetDebt EquityValue

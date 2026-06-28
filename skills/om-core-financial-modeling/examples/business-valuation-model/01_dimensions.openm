@@ -1,7 +1,7 @@
 dim PLAccount Revenue COGS GrossProfit SGA EBITDA Depreciation EBIT InterestExpense EBT Tax NetIncome
 dim BSAccount Cash AccountsReceivable Inventory AccountsPayable NetFixedAssets TotalAssets Debt Equity TotalLiabilitiesAndEquity
 dim CFSAccount NetIncome Depreciation ChangeInWC CapEx FCFF
-dim ValAccount WACC CostOfEquity CostOfDebt DiscountFactor TerminalValue PVFCFF EnterpriseValue EquityValue
+dim ValAccount WACC CostOfEquity CostOfDebt DiscountFactor TerminalValue PVFCFF EnterpriseValue NetDebt EquityValue
 dim Check BalanceSheetCheck FCFFCheck EnterpriseValueCheck
 dim Driver RevenueGrowth COGSRate SGARate ARDays InventoryDays APDays TaxRate InterestRate CapEx UsefulLife Debt RiskFreeRate Beta MarketRiskPremium TargetDE TerminalGrowthRate BaseRevenue BaseNetFixedAssets BaseAccountsReceivable BaseInventory BaseAccountsPayable BaseEquity
 dim Year --seq 2026 2027 2028 2029 2030
