@@ -1,0 +1,61 @@
+# Financial Modeling Examples
+
+These example models are complete `.openm` script bundles. Each bundle includes `build.openm` and numbered script files that can be loaded into OM Core.
+
+To run a model, load the bundle in the OM Core REPL:
+
+```text
+om> source build.openm
+```
+
+## Agroforestry Model
+
+- [00_variables.openm](agroforestry-model/00_variables.openm)
+- [01_dimensions.openm](agroforestry-model/01_dimensions.openm)
+- [02_cubes.openm](agroforestry-model/02_cubes.openm)
+- [03_inputs.openm](agroforestry-model/03_inputs.openm)
+- [04_rules.openm](agroforestry-model/04_rules.openm)
+- [05_checks.openm](agroforestry-model/05_checks.openm)
+- [06_views.openm](agroforestry-model/06_views.openm)
+- [07_formatting.openm](agroforestry-model/07_formatting.openm)
+- [08_groups.openm](agroforestry-model/08_groups.openm)
+- [build.openm](agroforestry-model/build.openm)
+
+## Business Valuation Model
+
+- [00_variables.openm](business-valuation-model/00_variables.openm)
+- [01_dimensions.openm](business-valuation-model/01_dimensions.openm)
+- [02_cubes.openm](business-valuation-model/02_cubes.openm)
+- [03_inputs.openm](business-valuation-model/03_inputs.openm)
+- [04_rules.openm](business-valuation-model/04_rules.openm)
+- [05_checks.openm](business-valuation-model/05_checks.openm)
+- [06_views.openm](business-valuation-model/06_views.openm)
+- [07_formatting.openm](business-valuation-model/07_formatting.openm)
+- [08_groups.openm](business-valuation-model/08_groups.openm)
+- [build.openm](business-valuation-model/build.openm)
+
+## Manufacturing CapEx & Depreciation Model
+
+- [00_variables.openm](manufacturing-capex-model/00_variables.openm)
+- [01_dimensions.openm](manufacturing-capex-model/01_dimensions.openm)
+- [02_cubes.openm](manufacturing-capex-model/02_cubes.openm)
+- [03_inputs.openm](manufacturing-capex-model/03_inputs.openm)
+- [04_rules.openm](manufacturing-capex-model/04_rules.openm)
+- [05_checks.openm](manufacturing-capex-model/05_checks.openm)
+- [06_views.openm](manufacturing-capex-model/06_views.openm)
+- [07_formatting.openm](manufacturing-capex-model/07_formatting.openm)
+- [08_groups.openm](manufacturing-capex-model/08_groups.openm)
+- [build.openm](manufacturing-capex-model/build.openm)
+
+## SaaS Revenue Model
+
+- [00_variables.openm](saas-revenue-model/00_variables.openm)
+- [01_dimensions.openm](saas-revenue-model/01_dimensions.openm)
+- [02_cubes.openm](saas-revenue-model/02_cubes.openm)
+- [03_inputs.openm](saas-revenue-model/03_inputs.openm)
+- [04_rules.openm](saas-revenue-model/04_rules.openm)
+- [05_checks.openm](saas-revenue-model/05_checks.openm)
+- [06_views.openm](saas-revenue-model/06_views.openm)
+- [07_formatting.openm](saas-revenue-model/07_formatting.openm)
+- [08_groups.openm](saas-revenue-model/08_groups.openm)
+- [build.openm](saas-revenue-model/build.openm)

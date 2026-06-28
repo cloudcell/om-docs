@@ -9,7 +9,7 @@ This guide explains how to prompt the agent, what output to expect, and how to v
 The agent skill lives at:
 
 ```text
-skills/om-core-financial-modeling/SKILLS.md
+docs/skills/om-core-financial-modeling/SKILLS.md
 ```
 
 It defines the agent's workflow, naming conventions, standard dimensions, cube layout, rule-writing conventions, and a validation checklist. When asking an agent to build a model, tell it to read the skill first.
@@ -29,7 +29,7 @@ with:
 
 When the user asks for a financial, operational, planning, forecasting, budgeting, or analytical model in OM Core:
 
-1. First read `skills/om-core-financial-modeling/SKILLS.md`.
+1. First read `docs/skills/om-core-financial-modeling/SKILLS.md`.
 2. Build models as `.openm` script bundles, not prose-only descriptions.
 3. Use dimensions, cubes, rules, views, checks, variables, and `{{...}}` macro expansion.
 4. Prefer a multi-file structure:
@@ -52,7 +52,7 @@ When the user asks for a financial, operational, planning, forecasting, budgetin
 Describe the business purpose, then ask for the script bundle. A good prompt is:
 
 ```text
-Read `skills/om-core-financial-modeling/SKILLS.md`.
+Read `docs/skills/om-core-financial-modeling/SKILLS.md`.
 
 Using that skill, create an OM Core financial model script bundle for a 3-year SaaS revenue model.
 
