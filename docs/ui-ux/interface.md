@@ -6,6 +6,9 @@ This page describes the main areas of the OM Core interface. The GUI and TUI sha
 
 ![OM Core interface alternative](../assets/images/om-core-ui-full-alt.png)
 
+![OM Core toolbox editor](../assets/images/om-core-toolbox-macro.png)
+
+
 ## Model Browser
 
 The Model Browser is the left panel. It shows the semantic structure of the model as a tree:
