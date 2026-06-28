@@ -1,0 +1,3 @@
+rule Checks::Check.RevenueCheck:Year.*:Scenario.* = SaaSPL::[Account.Revenue] - (SaaSPL::[Account.Customers] * Drivers::[Driver.ARPU])
+rule Checks::Check.GrossProfitCheck:Year.*:Scenario.* = SaaSPL::[Account.GrossProfit] - (SaaSPL::[Account.Revenue] - SaaSPL::[Account.COGS])
+rule Checks::Check.EBITDACheck:Year.*:Scenario.* = SaaSPL::[Account.EBITDA] - (SaaSPL::[Account.GrossProfit] - SaaSPL::[Account.OperatingExpense])

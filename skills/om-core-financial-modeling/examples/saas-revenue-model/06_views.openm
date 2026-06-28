@@ -1,0 +1,3 @@
+view SaaSPL_View = SaaSPL::Account:Year
+view Drivers_View = Drivers::Driver:Year
+view Checks_View = Checks::Check:Year

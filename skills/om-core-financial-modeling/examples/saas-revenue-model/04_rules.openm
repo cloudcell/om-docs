@@ -1,0 +1,13 @@
+# Customer dynamics
+rule SaaSPL::Account.Customers:Year.2026:Scenario.* = Drivers::[Driver.StartingCustomers]
+rule SaaSPL::Account.Customers:Year.*:Scenario.* = SaaSPL::[Account.Customers]:Year[PREV] + Drivers::[Driver.NewCustomers] - SaaSPL::[Account.ChurnedCustomers]
+
+rule SaaSPL::Account.ChurnedCustomers:Year.2026:Scenario.* = Drivers::[Driver.StartingCustomers] * Drivers::[Driver.ChurnRate]
+rule SaaSPL::Account.ChurnedCustomers:Year.*:Scenario.* = SaaSPL::[Account.Customers]:Year[PREV] * Drivers::[Driver.ChurnRate]
+
+# Financial outputs
+rule SaaSPL::Account.Revenue:Year.*:Scenario.* = SaaSPL::[Account.Customers] * Drivers::[Driver.ARPU]
+rule SaaSPL::Account.COGS:Year.*:Scenario.* = SaaSPL::[Account.Revenue] * Drivers::[Driver.COGS_Rate]
+rule SaaSPL::Account.GrossProfit:Year.*:Scenario.* = SaaSPL::[Account.Revenue] - SaaSPL::[Account.COGS]
+rule SaaSPL::Account.OperatingExpense:Year.*:Scenario.* = Drivers::[Driver.OperatingExpense]
+rule SaaSPL::Account.EBITDA:Year.*:Scenario.* = SaaSPL::[Account.GrossProfit] - SaaSPL::[Account.OperatingExpense]
