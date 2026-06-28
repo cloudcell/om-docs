@@ -11,6 +11,7 @@ Common terms used in OM Core.
 - **Cube** — a multidimensional array of data defined by a set of dimensions.
 - **Slice** — a subset of a cube, often fixing one or more dimensions to specific dimension items.
 - **Rule** — a calculation rule that defines how values are derived.
+- **REPL** — Read-Eval-Print Loop; an interactive command-line environment for running OM Core expressions and scripts.
 - **Model** — the complete set of dimensions, cubes, rules, and groups that describe a domain.
 - **View** — a saved projection of a cube into rows, columns, and filters. A view is part of the workspace metadata, but it is not the source of truth for values or calculations.
 - **Outline** — a read-only projection of a hierarchy for display.
