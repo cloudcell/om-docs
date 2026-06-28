@@ -134,19 +134,19 @@ Use these standard dimensions when appropriate.
 For short examples:
 
 ```openm
-dim --seq Month Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+dim Month --seq Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
 ```
 
 For annual models:
 
 ```openm
-dim --seq Year 2026 2027 2028 2029 2030
+dim Year --seq 2026 2027 2028 2029 2030
 ```
 
 For quarterly models:
 
 ```openm
-dim --seq Quarter Q1 Q2 Q3 Q4
+dim Quarter --seq Q1 Q2 Q3 Q4
 ```
 
 Time dimensions must be declared with `--seq` so that sequential accessors (`Month[PREV]`, `Year[NEXT]`, `Quarter[THIS]`, etc.) resolve correctly. Without `--seq`, the engine reports `#REF!` for these references.
@@ -391,7 +391,7 @@ calc
 
 ```openm
 dim Account Revenue COGS GrossProfit OperatingExpense EBITDA
-dim Month Jan Feb Mar
+dim Month --seq Jan Feb Mar
 dim Scenario Base Upside Downside
 ```
 
@@ -415,11 +415,8 @@ rule PL::Account.OperatingExpense:Month.*:Scenario.Base = 250
 `04_rules.openm`:
 
 ```openm
-rule PL::Account.GrossProfit:Month.*:Scenario.* =
-  PL::[Account.Revenue] - PL::[Account.COGS]
-
-rule PL::Account.EBITDA:Month.*:Scenario.* =
-  PL::[Account.GrossProfit] - PL::[Account.OperatingExpense]
+rule PL::Account.GrossProfit:Month.*:Scenario.* = PL::[Account.Revenue] - PL::[Account.COGS]
+rule PL::Account.EBITDA:Month.*:Scenario.* = PL::[Account.GrossProfit] - PL::[Account.OperatingExpense]
 ```
 
 `05_views.openm`:

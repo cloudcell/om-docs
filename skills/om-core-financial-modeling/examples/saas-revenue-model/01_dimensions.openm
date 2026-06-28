@@ -1,5 +1,5 @@
 dim Account Revenue Customers NewCustomers ChurnedCustomers ChurnRate ARPU COGS GrossProfit OperatingExpense EBITDA
 dim Driver StartingCustomers NewCustomers ChurnRate ARPU COGS_Rate OperatingExpense
-dim --seq Year 2026 2027 2028
+dim Year --seq 2026 2027 2028
 dim Scenario Base Upside Downside
 dim Check RevenueCheck GrossProfitCheck EBITDACheck
