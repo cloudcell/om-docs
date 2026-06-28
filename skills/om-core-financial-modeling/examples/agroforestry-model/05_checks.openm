@@ -1,1 +1,1 @@
-rule Checks::Check.AreaCheck = Assumptions::[Assumption.TotalAreaM2] - Summary::Plant.*:Metric.TotalAreaM2
+rule Checks::Check.AreaCheck = Assumptions::[Assumption.TotalAreaM2] - SUM(Summary::[Plant.*, Metric.TotalAreaM2])
