@@ -1,0 +1,6 @@
+cube {{pl_cube}} {{pl_account_dim}} {{year_dim}} {{scenario_dim}}
+cube {{bs_cube}} {{bs_account_dim}} {{year_dim}} {{scenario_dim}}
+cube {{cfs_cube}} {{cfs_account_dim}} {{year_dim}} {{scenario_dim}}
+cube {{valuation_cube}} {{val_account_dim}} {{year_dim}} {{scenario_dim}}
+cube {{drivers_cube}} {{driver_dim}} {{year_dim}} {{scenario_dim}}
+cube Checks Check Year Scenario

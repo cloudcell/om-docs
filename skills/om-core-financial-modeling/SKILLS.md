@@ -457,7 +457,31 @@ Run:
 om> source build.openm
 ```
 
-## 17. Agent Behavior Rules
+## 17. Example Business Valuation Model
+
+File tree:
+
+```text
+examples/business-valuation-model/
+  00_variables.openm
+  01_dimensions.openm
+  02_cubes.openm
+  03_inputs.openm
+  04_rules.openm
+  05_checks.openm
+  06_views.openm
+  build.openm
+```
+
+This model builds a 5-year pro-forma P&L, balance sheet, and cash flow statement, then derives FCFF, WACC, terminal value, enterprise value, and equity value. It includes working capital (accounts receivable, inventory, accounts payable), fixed assets, debt, and taxes.
+
+Run:
+
+```text
+om> source build.openm
+```
+
+## 18. Agent Behavior Rules
 
 The agent must not:
 

@@ -1,0 +1,62 @@
+# P&L rules
+rule PL::PLAccount.Revenue:Year.2026:Scenario.* = Drivers::[Driver.BaseRevenue]
+rule PL::PLAccount.Revenue:Year.*:Scenario.* = PL::PLAccount.Revenue:Year[PREV] * (1 + Drivers::[Driver.RevenueGrowth])
+
+rule PL::PLAccount.COGS:Year.*:Scenario.* = PL::[PLAccount.Revenue] * Drivers::[Driver.COGSRate]
+rule PL::PLAccount.GrossProfit:Year.*:Scenario.* = PL::[PLAccount.Revenue] - PL::[PLAccount.COGS]
+rule PL::PLAccount.SGA:Year.*:Scenario.* = PL::[PLAccount.Revenue] * Drivers::[Driver.SGARate]
+rule PL::PLAccount.EBITDA:Year.*:Scenario.* = PL::[PLAccount.GrossProfit] - PL::[PLAccount.SGA]
+
+rule PL::PLAccount.Depreciation:Year.2026:Scenario.* = Drivers::[Driver.BaseNetFixedAssets] / Drivers::[Driver.UsefulLife]
+rule PL::PLAccount.Depreciation:Year.*:Scenario.* = BS::BSAccount.NetFixedAssets:Year[PREV] / Drivers::[Driver.UsefulLife]
+
+rule PL::PLAccount.EBIT:Year.*:Scenario.* = PL::[PLAccount.EBITDA] - PL::[PLAccount.Depreciation]
+rule PL::PLAccount.InterestExpense:Year.*:Scenario.* = BS::[BSAccount.Debt] * Drivers::[Driver.InterestRate]
+rule PL::PLAccount.EBT:Year.*:Scenario.* = PL::[PLAccount.EBIT] - PL::[PLAccount.InterestExpense]
+rule PL::PLAccount.Tax:Year.*:Scenario.* = PL::[PLAccount.EBT] * Drivers::[Driver.TaxRate]
+rule PL::PLAccount.NetIncome:Year.*:Scenario.* = PL::[PLAccount.EBT] - PL::[PLAccount.Tax]
+
+# Balance Sheet rules
+rule BS::BSAccount.AccountsReceivable:Year.*:Scenario.* = PL::[PLAccount.Revenue] * Drivers::[Driver.ARDays] / 365
+rule BS::BSAccount.Inventory:Year.*:Scenario.* = PL::[PLAccount.COGS] * Drivers::[Driver.InventoryDays] / 365
+rule BS::BSAccount.AccountsPayable:Year.*:Scenario.* = PL::[PLAccount.COGS] * Drivers::[Driver.APDays] / 365
+
+rule BS::BSAccount.NetFixedAssets:Year.2026:Scenario.* = Drivers::[Driver.BaseNetFixedAssets] + Drivers::[Driver.CapEx] - PL::[PLAccount.Depreciation]
+rule BS::BSAccount.NetFixedAssets:Year.*:Scenario.* = BS::BSAccount.NetFixedAssets:Year[PREV] + Drivers::[Driver.CapEx] - PL::[PLAccount.Depreciation]
+
+rule BS::BSAccount.Debt:Year.*:Scenario.* = Drivers::[Driver.Debt]
+
+rule BS::BSAccount.Equity:Year.2026:Scenario.* = Drivers::[Driver.BaseEquity] + PL::[PLAccount.NetIncome]
+rule BS::BSAccount.Equity:Year.*:Scenario.* = BS::BSAccount.Equity:Year[PREV] + PL::[PLAccount.NetIncome]
+
+rule BS::BSAccount.Cash:Year.*:Scenario.* = BS::[BSAccount.AccountsPayable] + BS::[BSAccount.Debt] + BS::[BSAccount.Equity] - BS::[BSAccount.AccountsReceivable] - BS::[BSAccount.Inventory] - BS::[BSAccount.NetFixedAssets]
+rule BS::BSAccount.TotalAssets:Year.*:Scenario.* = BS::[BSAccount.Cash] + BS::[BSAccount.AccountsReceivable] + BS::[BSAccount.Inventory] + BS::[BSAccount.NetFixedAssets]
+rule BS::BSAccount.TotalLiabilitiesAndEquity:Year.*:Scenario.* = BS::[BSAccount.AccountsPayable] + BS::[BSAccount.Debt] + BS::[BSAccount.Equity]
+
+# Cash Flow Statement rules
+rule CFS::CFSAccount.NetIncome:Year.*:Scenario.* = PL::[PLAccount.NetIncome]
+rule CFS::CFSAccount.Depreciation:Year.*:Scenario.* = PL::[PLAccount.Depreciation]
+
+rule CFS::CFSAccount.ChangeInWC:Year.2026:Scenario.* = (BS::[BSAccount.AccountsReceivable] + BS::[BSAccount.Inventory] - BS::[BSAccount.AccountsPayable]) - (Drivers::[Driver.BaseAccountsReceivable] + Drivers::[Driver.BaseInventory] - Drivers::[Driver.BaseAccountsPayable])
+rule CFS::CFSAccount.ChangeInWC:Year.*:Scenario.* = (BS::[BSAccount.AccountsReceivable] + BS::[BSAccount.Inventory] - BS::[BSAccount.AccountsPayable]) - (BS::BSAccount.AccountsReceivable:Year[PREV] + BS::BSAccount.Inventory:Year[PREV] - BS::BSAccount.AccountsPayable:Year[PREV])
+
+rule CFS::CFSAccount.CapEx:Year.*:Scenario.* = Drivers::[Driver.CapEx]
+rule CFS::CFSAccount.FCFF:Year.*:Scenario.* = CFS::[CFSAccount.NetIncome] + CFS::[CFSAccount.Depreciation] - CFS::[CFSAccount.ChangeInWC] - CFS::[CFSAccount.CapEx]
+
+# Valuation rules
+rule Valuation::ValAccount.CostOfEquity:Year.*:Scenario.* = Drivers::[Driver.RiskFreeRate] + Drivers::[Driver.Beta] * Drivers::[Driver.MarketRiskPremium]
+rule Valuation::ValAccount.CostOfDebt:Year.*:Scenario.* = Drivers::[Driver.InterestRate] * (1 - Drivers::[Driver.TaxRate])
+rule Valuation::ValAccount.WACC:Year.*:Scenario.* = (1 / (1 + Drivers::[Driver.TargetDE])) * Valuation::[ValAccount.CostOfEquity] + (Drivers::[Driver.TargetDE] / (1 + Drivers::[Driver.TargetDE])) * Valuation::[ValAccount.CostOfDebt]
+
+rule Valuation::ValAccount.DiscountFactor:Year.2026:Scenario.* = 1 / (1 + Valuation::[ValAccount.WACC])
+rule Valuation::ValAccount.DiscountFactor:Year.*:Scenario.* = Valuation::ValAccount.DiscountFactor:Year[PREV] / (1 + Valuation::[ValAccount.WACC])
+
+rule Valuation::ValAccount.TerminalValue:Year.2030:Scenario.* = CFS::CFSAccount.FCFF:Year.2030 * (1 + Drivers::[Driver.TerminalGrowthRate]) / (Valuation::[ValAccount.WACC] - Drivers::[Driver.TerminalGrowthRate])
+
+rule Valuation::ValAccount.PVFCFF:Year.*:Scenario.* = CFS::[CFSAccount.FCFF] * Valuation::[ValAccount.DiscountFactor]
+rule Valuation::ValAccount.PVFCFF:Year.2030:Scenario.* = (CFS::CFSAccount.FCFF:Year.2030 + Valuation::ValAccount.TerminalValue:Year.2030) * Valuation::ValAccount.DiscountFactor:Year.2030
+
+rule Valuation::ValAccount.EnterpriseValue:Year.2026:Scenario.* = Valuation::[ValAccount.PVFCFF]
+rule Valuation::ValAccount.EnterpriseValue:Year.*:Scenario.* = Valuation::ValAccount.EnterpriseValue:Year[PREV] + Valuation::[ValAccount.PVFCFF]
+
+rule Valuation::ValAccount.EquityValue:Year.2030:Scenario.* = Valuation::ValAccount.EnterpriseValue:Year.2030 - BS::[BSAccount.Debt]

@@ -1,0 +1,3 @@
+rule Checks::Check.BalanceSheetCheck:Year.*:Scenario.* = BS::[BSAccount.TotalAssets] - BS::[BSAccount.TotalLiabilitiesAndEquity]
+rule Checks::Check.FCFFCheck:Year.*:Scenario.* = CFS::[CFSAccount.FCFF] - (CFS::[CFSAccount.NetIncome] + CFS::[CFSAccount.Depreciation] - CFS::[CFSAccount.ChangeInWC] - CFS::[CFSAccount.CapEx])
+rule Checks::Check.EnterpriseValueCheck:Year.2030:Scenario.* = Valuation::[ValAccount.EnterpriseValue] - (Valuation::[ValAccount.PVFCFF] + Valuation::ValAccount.EnterpriseValue:Year.2029)
