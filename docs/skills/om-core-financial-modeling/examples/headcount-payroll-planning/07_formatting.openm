@@ -1,3 +1,7 @@
+# Format base inputs as integers (headcount) and currency (salary)
+rule HCInputs::@.format_number:InputAccount.Headcount:Role.*:Department.*:Month.* = 'preset:number(decimals=0; group=true)'
+rule HCInputs::@.format_number:InputAccount.AvgSalary:Role.*:Department.*:Month.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+
 # Format headcount as integers
 rule HCPayroll::@.format_number:Account.Headcount:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true)'
 

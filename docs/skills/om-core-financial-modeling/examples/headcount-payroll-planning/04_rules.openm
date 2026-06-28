@@ -1,3 +1,22 @@
+# Headcount and salary planning by scenario
+# Base scenario uses the input cube directly
+rule HCPayroll::Account.Headcount:Role.*:Department.*:Month.*:Scenario.Base = HCInputs::[InputAccount.Headcount]
+rule HCPayroll::Account.AvgSalary:Role.*:Department.*:Month.*:Scenario.Base = HCInputs::[InputAccount.AvgSalary]
+
+# Upside scenario (10% above base for ICs and managers)
+rule HCPayroll::Account.Headcount:Role.IC:Department.*:Month.*:Scenario.Upside = HCInputs::[InputAccount.Headcount] * 1.1
+rule HCPayroll::Account.Headcount:Role.Manager:Department.*:Month.*:Scenario.Upside = HCInputs::[InputAccount.Headcount] * 1.1
+rule HCPayroll::Account.Headcount:Role.Director:Department.*:Month.*:Scenario.Upside = HCInputs::[InputAccount.Headcount] * 1.0
+rule HCPayroll::Account.Headcount:Role.VP:Department.*:Month.*:Scenario.Upside = HCInputs::[InputAccount.Headcount] * 1.0
+rule HCPayroll::Account.AvgSalary:Role.*:Department.*:Month.*:Scenario.Upside = HCInputs::[InputAccount.AvgSalary]
+
+# Downside scenario (10% below base for ICs and managers)
+rule HCPayroll::Account.Headcount:Role.IC:Department.*:Month.*:Scenario.Downside = HCInputs::[InputAccount.Headcount] * 0.9
+rule HCPayroll::Account.Headcount:Role.Manager:Department.*:Month.*:Scenario.Downside = HCInputs::[InputAccount.Headcount] * 0.9
+rule HCPayroll::Account.Headcount:Role.Director:Department.*:Month.*:Scenario.Downside = HCInputs::[InputAccount.Headcount] * 1.0
+rule HCPayroll::Account.Headcount:Role.VP:Department.*:Month.*:Scenario.Downside = HCInputs::[InputAccount.Headcount] * 1.0
+rule HCPayroll::Account.AvgSalary:Role.*:Department.*:Month.*:Scenario.Downside = HCInputs::[InputAccount.AvgSalary]
+
 # Payroll calculation rules
 # Base salary = headcount * average annual salary / 12 (monthly)
 rule HCPayroll::Account.BaseSalary:Role.*:Department.*:Month.*:Scenario.* = HCPayroll::[Account.Headcount] * HCPayroll::[Account.AvgSalary] / 12

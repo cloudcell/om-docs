@@ -20,6 +20,9 @@ group create Department "Support Functions" G&A
 # Scenario groups
 group create Scenario "Planning Scenarios"
 
+# Input account groups
+group create InputAccount "Base Inputs"
+
 # Account groups
 group create Account "Planning Lines"
 group create Account "Headcount Inputs" Headcount

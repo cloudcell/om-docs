@@ -15,5 +15,8 @@ dim Scenario Base Upside Downside
 # Account lines for headcount and payroll
 dim Account Headcount AvgSalary BaseSalary Benefits Taxes TotalCompensation
 
+# Input account lines (base values, no scenario)
+dim InputAccount Headcount AvgSalary
+
 # Validation checks
 dim Check TotalCompCheck HeadcountPositive AvgSalaryPositive

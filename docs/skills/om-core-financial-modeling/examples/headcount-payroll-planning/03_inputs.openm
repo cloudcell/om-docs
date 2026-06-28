@@ -1,36 +1,23 @@
-# Headcount inputs by role, department, month, and scenario
-# Base case headcount
-rule HCPayroll::Account.Headcount:Role.IC:Department.Engineering:Month.*:Scenario.Base = 10
-rule HCPayroll::Account.Headcount:Role.Manager:Department.Engineering:Month.*:Scenario.Base = 2
-rule HCPayroll::Account.Headcount:Role.Director:Department.Engineering:Month.*:Scenario.Base = 1
-rule HCPayroll::Account.Headcount:Role.VP:Department.Engineering:Month.*:Scenario.Base = 0
-rule HCPayroll::Account.Headcount:Role.IC:Department.Sales:Month.*:Scenario.Base = 8
-rule HCPayroll::Account.Headcount:Role.Manager:Department.Sales:Month.*:Scenario.Base = 3
-rule HCPayroll::Account.Headcount:Role.Director:Department.Sales:Month.*:Scenario.Base = 1
-rule HCPayroll::Account.Headcount:Role.VP:Department.Sales:Month.*:Scenario.Base = 0
-rule HCPayroll::Account.Headcount:Role.IC:Department.Marketing:Month.*:Scenario.Base = 4
-rule HCPayroll::Account.Headcount:Role.Manager:Department.Marketing:Month.*:Scenario.Base = 1
-rule HCPayroll::Account.Headcount:Role.Director:Department.Marketing:Month.*:Scenario.Base = 1
-rule HCPayroll::Account.Headcount:Role.VP:Department.Marketing:Month.*:Scenario.Base = 0
-rule HCPayroll::Account.Headcount:Role.IC:Department.G&A:Month.*:Scenario.Base = 6
-rule HCPayroll::Account.Headcount:Role.Manager:Department.G&A:Month.*:Scenario.Base = 2
-rule HCPayroll::Account.Headcount:Role.Director:Department.G&A:Month.*:Scenario.Base = 1
-rule HCPayroll::Account.Headcount:Role.VP:Department.G&A:Month.*:Scenario.Base = 1
+# Base headcount inputs (no scenario dimension)
+rule HCInputs::InputAccount.Headcount:Role.IC:Department.Engineering:Month.* = 10
+rule HCInputs::InputAccount.Headcount:Role.Manager:Department.Engineering:Month.* = 2
+rule HCInputs::InputAccount.Headcount:Role.Director:Department.Engineering:Month.* = 1
+rule HCInputs::InputAccount.Headcount:Role.VP:Department.Engineering:Month.* = 0
+rule HCInputs::InputAccount.Headcount:Role.IC:Department.Sales:Month.* = 8
+rule HCInputs::InputAccount.Headcount:Role.Manager:Department.Sales:Month.* = 3
+rule HCInputs::InputAccount.Headcount:Role.Director:Department.Sales:Month.* = 1
+rule HCInputs::InputAccount.Headcount:Role.VP:Department.Sales:Month.* = 0
+rule HCInputs::InputAccount.Headcount:Role.IC:Department.Marketing:Month.* = 4
+rule HCInputs::InputAccount.Headcount:Role.Manager:Department.Marketing:Month.* = 1
+rule HCInputs::InputAccount.Headcount:Role.Director:Department.Marketing:Month.* = 1
+rule HCInputs::InputAccount.Headcount:Role.VP:Department.Marketing:Month.* = 0
+rule HCInputs::InputAccount.Headcount:Role.IC:Department.G&A:Month.* = 6
+rule HCInputs::InputAccount.Headcount:Role.Manager:Department.G&A:Month.* = 2
+rule HCInputs::InputAccount.Headcount:Role.Director:Department.G&A:Month.* = 1
+rule HCInputs::InputAccount.Headcount:Role.VP:Department.G&A:Month.* = 1
 
-# Upside headcount (10% above base for ICs and managers)
-rule HCPayroll::Account.Headcount:Role.IC:Department.*:Month.*:Scenario.Upside = HCPayroll::[Account.Headcount] * 1.1
-rule HCPayroll::Account.Headcount:Role.Manager:Department.*:Month.*:Scenario.Upside = HCPayroll::[Account.Headcount] * 1.1
-rule HCPayroll::Account.Headcount:Role.Director:Department.*:Month.*:Scenario.Upside = HCPayroll::[Account.Headcount] * 1.0
-rule HCPayroll::Account.Headcount:Role.VP:Department.*:Month.*:Scenario.Upside = HCPayroll::[Account.Headcount] * 1.0
-
-# Downside headcount (10% below base for ICs and managers)
-rule HCPayroll::Account.Headcount:Role.IC:Department.*:Month.*:Scenario.Downside = HCPayroll::[Account.Headcount] * 0.9
-rule HCPayroll::Account.Headcount:Role.Manager:Department.*:Month.*:Scenario.Downside = HCPayroll::[Account.Headcount] * 0.9
-rule HCPayroll::Account.Headcount:Role.Director:Department.*:Month.*:Scenario.Downside = HCPayroll::[Account.Headcount] * 1.0
-rule HCPayroll::Account.Headcount:Role.VP:Department.*:Month.*:Scenario.Downside = HCPayroll::[Account.Headcount] * 1.0
-
-# Average annual salary by role (same across all departments, months, and scenarios in base)
-rule HCPayroll::Account.AvgSalary:Role.IC:Department.*:Month.*:Scenario.* = 80000
-rule HCPayroll::Account.AvgSalary:Role.Manager:Department.*:Month.*:Scenario.* = 120000
-rule HCPayroll::Account.AvgSalary:Role.Director:Department.*:Month.*:Scenario.* = 180000
-rule HCPayroll::Account.AvgSalary:Role.VP:Department.*:Month.*:Scenario.* = 250000
+# Base average annual salary by role (no scenario dimension)
+rule HCInputs::InputAccount.AvgSalary:Role.IC:Department.*:Month.* = 80000
+rule HCInputs::InputAccount.AvgSalary:Role.Manager:Department.*:Month.* = 120000
+rule HCInputs::InputAccount.AvgSalary:Role.Director:Department.*:Month.* = 180000
+rule HCInputs::InputAccount.AvgSalary:Role.VP:Department.*:Month.* = 250000
