@@ -50,7 +50,7 @@ The main areas are:
 - **Model Browser** (left) — lists dimensions, cubes, and views. This is the semantic structure of your model.
 - **Matrix Grid** (center) — the data grid. Rows and columns are dimension items, not cells like in a spreadsheet.
 - **Rule Panel** (bottom) — where you create and inspect rules. The tabs switch between rules, calculation flow, and circular reference diagnostics.
-- **Timeline** (right) — checkpoint and dump state for versioning and rollback.
+- **Timeline** (right) — checkpoint and dump state for debugging and experimental workflows.
 
 ## Build your first model
 
@@ -69,6 +69,7 @@ view SalesView = Sales::Month
 # Rules
 # This example writes each month explicitly for clarity.
 # A real time series model is more compact with a recurrence rule.
+rule Sales::@.value:Month.Jan = 100
 rule Sales::@.value:Month.Feb = Sales::[Month.Jan] * 1.1
 rule Sales::@.value:Month.Mar = Sales::[Month.Feb] * 1.1
 

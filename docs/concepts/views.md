@@ -7,7 +7,7 @@ A view is a projection of a cube into a grid. It defines which dimensions appear
 In OM Core, the model and the view are separate. A cube stores the data. A view decides how to display that data.
 
 - A cube is a multidimensional array.
-- A view is a report, grid, or slice layout.
+- A view is a projection of a cube into rows, columns, and page filters.
 - Multiple views can point to the same cube.
 
 For example, a cube with dimensions `Product`, `Region`, and `Time` can be viewed as:
@@ -74,7 +74,7 @@ Changing the data in the cube updates every view. Changing a view does not chang
 
 ## Views in scripts
 
-Views are first-class objects in `.openm` scripts. You can define them, activate them, and switch between them.
+Views are saved workspace objects in `.openm` scripts. You can define them, activate them, and switch between them. A view is part of the workspace metadata, but it is not the source of truth for values or calculations.
 
 ```openm
 cube Revenue Product Region Month

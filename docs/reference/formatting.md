@@ -10,7 +10,7 @@ The formatting syntax in OM Core originates from CLDR number and currency patter
 
 [Number and currency patterns — CLDR](https://cldr.unicode.org/translation/number-currency-formats/number-and-currency-patterns)
 
-CLDR defines locale-aware patterns for presenting numbers, currencies, percentages, and compact numbers. OM Core uses these patterns as the basis for formatting values in views and reports.
+CLDR defines locale-aware patterns for presenting numbers, currencies, percentages, and compact numbers. OM Core uses these patterns as the basis for formatting values in views.
 
 ## Pattern types
 

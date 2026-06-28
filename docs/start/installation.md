@@ -24,14 +24,3 @@ You can also start specific runtime modes directly:
 ./start.sh --gui       # graphical interface
 ./start.sh --tui       # terminal interface
 ```
-
-## Build the documentation site
-
-To build or serve this documentation site locally, install the doc dependencies from `requirements.txt`:
-
-```bash
-pip install -r requirements.txt
-mkdocs serve
-```
-
-Then open `http://127.0.0.1:8000` in your browser.

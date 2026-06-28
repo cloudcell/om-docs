@@ -44,7 +44,7 @@ The Timeline panel is on the right. It gives you control over the workspace stat
 - **Checkpoint** — save a named snapshot of the current workspace.
 - **Dump State** — export the current state for debugging or sharing.
 
-Checkpoints let you experiment safely. You can save a checkpoint before a big change, try the change, and revert if needed.
+Checkpoints help capture workspace state before experiments or debugging sessions.
 
 ## Status bar
 

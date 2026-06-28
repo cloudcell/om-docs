@@ -74,6 +74,6 @@ OM Core addresses these problems by making the model explicit:
 - **Rules** define calculations separately from any single view.
 - **Groups** organize related elements.
 
-This separation makes it easier to reason about the model, test changes, and reuse logic across reports.
+This separation makes it easier to reason about the model, test changes, and reuse logic across views.
 
 For more background on rules as a higher-level paradigm, see [Programming with Rules](https://openmodeling.substack.com/p/programming-with-rules).
