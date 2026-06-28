@@ -1,5 +1,7 @@
 # Groups and Hierarchies
 
+!!! note "Draft"
+
 OM Core separates dimension items from the graphs that organize them into hierarchies, groups, and outlines.
 
 - A **dimension item** is a stable semantic element in a dimension, identified by its item ID.

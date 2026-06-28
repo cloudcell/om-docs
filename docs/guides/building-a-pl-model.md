@@ -1,9 +1,8 @@
 # Build a P&L model
 
-This guide walks through building a simple profit and loss model in OM Core.
-
 !!! note "Draft"
-    A more detailed, production-style P&L example is coming soon.
+
+This guide walks through building a simple profit and loss model in OM Core.
 
 ## Model outline
 
