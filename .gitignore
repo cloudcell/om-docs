@@ -220,3 +220,5 @@ __marimo__/
 !.windsurf/rules/om-core-financial-modeling.md
 .windsurf/**
 node_modules/*
+
+# NOP
