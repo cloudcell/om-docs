@@ -134,20 +134,22 @@ Use these standard dimensions when appropriate.
 For short examples:
 
 ```openm
-dim Month Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+dim --seq Month Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
 ```
 
 For annual models:
 
 ```openm
-dim Year 2026 2027 2028 2029 2030
+dim --seq Year 2026 2027 2028 2029 2030
 ```
 
 For quarterly models:
 
 ```openm
-dim Quarter Q1 Q2 Q3 Q4
+dim --seq Quarter Q1 Q2 Q3 Q4
 ```
+
+Time dimensions must be declared with `--seq` so that sequential accessors (`Month[PREV]`, `Year[NEXT]`, `Quarter[THIS]`, etc.) resolve correctly. Without `--seq`, the engine reports `#REF!` for these references.
 
 ### Scenario
 
@@ -218,27 +220,24 @@ cube Checks Check Month Scenario
 
 Use rules to express business logic over semantic addresses.
 
+Write each rule on a single line. The REPL and `source` command process one line at a time, so a rule body that continues on the next line is ignored.
+
 Prefer readable business rules:
 
 ```openm
-rule PL::Account.GrossProfit:Month.*:Scenario.* =
-  PL::[Account.Revenue] - PL::[Account.COGS]
+rule PL::Account.GrossProfit:Month.*:Scenario.* = PL::[Account.Revenue] - PL::[Account.COGS]
 ```
 
 Use full addresses when clarity matters:
 
 ```openm
-rule PL::Account.EBITDA:Month.*:Scenario.* =
-  PL::Account.GrossProfit:Month[THIS]:Scenario[THIS]
-  - PL::Account.OperatingExpense:Month[THIS]:Scenario[THIS]
+rule PL::Account.EBITDA:Month.*:Scenario.* = PL::Account.GrossProfit:Month[THIS]:Scenario[THIS] - PL::Account.OperatingExpense:Month[THIS]:Scenario[THIS]
 ```
 
 Use full addresses for recurrence rules that reference a previous or next item:
 
 ```openm
-rule SaaSPL::Account.Customers:Month.*:Scenario.* =
-  SaaSPL::Account.Customers:Month[PREV]:Scenario[THIS]
-  + Drivers::[Driver.NewCustomers]
+rule SaaSPL::Account.Customers:Month.*:Scenario.* = SaaSPL::Account.Customers:Month[PREV]:Scenario[THIS] + Drivers::[Driver.NewCustomers]
 ```
 
 Do not combine bracket shorthand with sequential accessors such as `SaaSPL::[Account.Customers]:Month[PREV]`. Bracket shorthand resolves only one dimension and carries over the rest; it does not support explicit `:Month[PREV]` overrides. For recurrence references, write the full canonical address.

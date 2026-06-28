@@ -1,19 +1,19 @@
 # Customer dynamics
-# Use the full canonical form for recurrence references so the engine resolves
-# Year[PREV] against the correct dimension. Bracket shorthand such as
+# Use the full canonical form for recurrence references. Bracket shorthand such as
 # SaaSPL::[Account.Customers]:Year[PREV] is not supported.
 rule SaaSPL::Account.Customers:Year.2026:Scenario.* = Drivers::[Driver.StartingCustomers]
-rule SaaSPL::Account.Customers:Year.*:Scenario.* =
-  SaaSPL::Account.Customers:Year[PREV]:Scenario[THIS]
-  + Drivers::[Driver.NewCustomers]
-  - SaaSPL::Account.ChurnedCustomers:Year[THIS]:Scenario[THIS]
+rule SaaSPL::Account.Customers:Year.*:Scenario.* = SaaSPL::Account.Customers:Year[PREV]:Scenario[THIS] + Drivers::[Driver.NewCustomers] - SaaSPL::[Account.ChurnedCustomers]
 
 rule SaaSPL::Account.ChurnedCustomers:Year.2026:Scenario.* = Drivers::[Driver.StartingCustomers] * Drivers::[Driver.ChurnRate]
-rule SaaSPL::Account.ChurnedCustomers:Year.*:Scenario.* =
-  SaaSPL::Account.Customers:Year[PREV]:Scenario[THIS] * Drivers::[Driver.ChurnRate]
+rule SaaSPL::Account.ChurnedCustomers:Year.*:Scenario.* = SaaSPL::Account.Customers:Year[PREV]:Scenario[THIS] * Drivers::[Driver.ChurnRate]
+
+# Driver visibility in the PL cube
+rule SaaSPL::Account.NewCustomers:Year.*:Scenario.* = Drivers::[Driver.NewCustomers]
+rule SaaSPL::Account.ChurnRate:Year.*:Scenario.* = Drivers::[Driver.ChurnRate]
+rule SaaSPL::Account.ARPU:Year.*:Scenario.* = Drivers::[Driver.ARPU]
 
 # Financial outputs
-rule SaaSPL::Account.Revenue:Year.*:Scenario.* = SaaSPL::[Account.Customers] * Drivers::[Driver.ARPU]
+rule SaaSPL::Account.Revenue:Year.*:Scenario.* = SaaSPL::[Account.Customers] * SaaSPL::[Account.ARPU]
 rule SaaSPL::Account.COGS:Year.*:Scenario.* = SaaSPL::[Account.Revenue] * Drivers::[Driver.COGS_Rate]
 rule SaaSPL::Account.GrossProfit:Year.*:Scenario.* = SaaSPL::[Account.Revenue] - SaaSPL::[Account.COGS]
 rule SaaSPL::Account.OperatingExpense:Year.*:Scenario.* = Drivers::[Driver.OperatingExpense]
