@@ -31,11 +31,8 @@ Because formatting is rule-driven, it can be conditional. A rule on `@.fill`,
 other cells:
 
 ```openm
-rule Checks::@.fill:Check.Variance:Month.*:Department.* =
-  if(abs(Variance::[VarianceLine.Variance]) > 1000, "#FFCCCC", "#FFFFFF")
-
-rule PL::@.font_color:Account.EBITDA:Year.*:Scenario.* =
-  if(PL::[Account.EBITDA] < 0, "#FF0000", "#000000")
+rule Checks::@.fill:Check.Variance:Month.*:Department.* = if(abs(Variance::[VarianceLine.Variance]) > 1000, "#FFCCCC", "#FFFFFF")
+rule PL::@.font_color:Account.EBITDA:Year.*:Scenario.* = if(PL::[Account.EBITDA] < 0, "#FF0000", "#000000")
 ```
 
 The format or style is recomputed automatically when the underlying values change,
@@ -116,8 +113,7 @@ decimals, grouping, negative numbers, and zero display without writing a raw CLD
 pattern:
 
 ```openm
-rule PL::@.format_number:Account.*:Year.*:Scenario.* =
-  'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule PL::@.format_number:Account.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
 ```
 
 Common preset parameters include:
@@ -151,11 +147,8 @@ between `min` and `max` across the named gradient.
 Use `COLORMAP` on the `@.fill` or `@.font_color` channel:
 
 ```openm
-rule PL::@.fill:Account.EBITDA:Year.*:Scenario.* =
-  COLORMAP("viridis", [0; 100000])
-
-rule Variance::@.fill:VarianceLine.VariancePct:Account.*:Month.* =
-  COLORMAP("plasma", [-0.5; 0.5])
+rule PL::@.fill:Account.EBITDA:Year.*:Scenario.* = COLORMAP("viridis", [0; 100000])
+rule Variance::@.fill:VarianceLine.VariancePct:Account.*:Month.* = COLORMAP("plasma", [-0.5; 0.5])
 ```
 
 In the first example, an EBITDA value of `0` maps to one end of the Viridis
