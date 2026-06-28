@@ -14,6 +14,10 @@ docs/skills/om-core-financial-modeling/SKILLS.md
 
 It defines the agent's workflow, naming conventions, standard dimensions, cube layout, rule-writing conventions, and a validation checklist. When asking an agent to build a model, tell it to read the skill first.
 
+For the full modeling conventions and agent instructions, see
+[SKILLS.md](../skills/om-core-financial-modeling/SKILLS.md) or download the
+raw file directly from [GitHub][skills-raw].
+
 ## Windsurf rule (optional)
 
 If you use Windsurf or Cascade, you can add a workspace rule so the agent reads the skill automatically. Create:
@@ -182,3 +186,7 @@ Agent-assisted modeling works well when:
 * You need a consistent, repeatable workflow.
 
 For small one-off calculations, a single handwritten `.openm` file is usually faster.
+
+<!-- markdownlint-disable MD013 -->
+[skills-raw]: https://raw.githubusercontent.com/cloudcell/om-docs/main/docs/skills/om-core-financial-modeling/SKILLS.md
+<!-- markdownlint-enable MD013 -->
