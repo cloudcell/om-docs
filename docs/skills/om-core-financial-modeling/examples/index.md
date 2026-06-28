@@ -55,6 +55,23 @@ Department.
 
 ![Budget vs Actual model running in the OM Core UI](../../../assets/images/budget-vs-actual-model.png)
 
+## Headcount and Payroll Planning
+
+A core FP&A use case. Plans headcount by role, department, month, and scenario,
+then rolls it up into base salary, benefits, taxes, and total compensation.
+Demonstrates dimensional grouping for roles, departments, and account lines.
+
+- [00_variables.openm](headcount-payroll-planning/00_variables.openm)
+- [01_dimensions.openm](headcount-payroll-planning/01_dimensions.openm)
+- [02_cubes.openm](headcount-payroll-planning/02_cubes.openm)
+- [03_inputs.openm](headcount-payroll-planning/03_inputs.openm)
+- [04_rules.openm](headcount-payroll-planning/04_rules.openm)
+- [05_checks.openm](headcount-payroll-planning/05_checks.openm)
+- [06_views.openm](headcount-payroll-planning/06_views.openm)
+- [07_formatting.openm](headcount-payroll-planning/07_formatting.openm)
+- [08_groups.openm](headcount-payroll-planning/08_groups.openm)
+- [build.openm](headcount-payroll-planning/build.openm)
+
 ## Agroforestry Model
 
 - [00_variables.openm](agroforestry-model/00_variables.openm)

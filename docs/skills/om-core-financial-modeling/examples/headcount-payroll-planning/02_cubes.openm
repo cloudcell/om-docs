@@ -1,0 +1,4 @@
+# Cubes
+
+cube {{main_cube}} {{account_dim}} {{role_dim}} {{dept_dim}} {{month_dim}} {{scenario_dim}}
+cube Checks Check {{role_dim}} {{dept_dim}} {{month_dim}} {{scenario_dim}}

@@ -1,0 +1,3 @@
+# Views
+view HCPayroll_View = {{main_cube}}::{{account_dim}}:{{role_dim}}:{{dept_dim}}:{{month_dim}}:{{scenario_dim}}
+view Checks_View = Checks::Check:{{role_dim}}:{{dept_dim}}:{{month_dim}}:{{scenario_dim}}

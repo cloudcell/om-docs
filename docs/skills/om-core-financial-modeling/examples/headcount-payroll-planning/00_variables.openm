@@ -1,0 +1,7 @@
+# Model variables and repeated address fragments
+main_cube="HCPayroll"
+role_dim="Role"
+dept_dim="Department"
+month_dim="Month"
+scenario_dim="Scenario"
+account_dim="Account"

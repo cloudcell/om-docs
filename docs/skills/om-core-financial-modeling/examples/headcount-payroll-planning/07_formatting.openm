@@ -1,0 +1,12 @@
+# Format headcount as integers
+rule HCPayroll::@.format_number:Account.Headcount:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true)'
+
+# Format payroll metrics as currency with grouping, parenthesized negatives, and dashed zeros
+rule HCPayroll::@.format_number:Account.BaseSalary:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+rule HCPayroll::@.format_number:Account.Benefits:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+rule HCPayroll::@.format_number:Account.Taxes:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+rule HCPayroll::@.format_number:Account.TotalCompensation:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+rule HCPayroll::@.format_number:Account.AvgSalary:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true; negative=parentheses; zero=dash)'
+
+# Format check flags as integers
+rule Checks::@.format_number:Check.*:Role.*:Department.*:Month.*:Scenario.* = 'preset:number(decimals=0; group=true)'

@@ -1,0 +1,19 @@
+# Dimensions
+
+# Role levels in the organization
+dim Role IC Manager Director VP
+
+# Functional departments
+dim Department Engineering Sales Marketing G&A
+
+# Planning months (12-month horizon)
+dim Month M1 M2 M3 M4 M5 M6 M7 M8 M9 M10 M11 M12
+
+# Planning scenarios
+dim Scenario Base Upside Downside
+
+# Account lines for headcount and payroll
+dim Account Headcount AvgSalary BaseSalary Benefits Taxes TotalCompensation
+
+# Validation checks
+dim Check TotalCompCheck HeadcountPositive AvgSalaryPositive

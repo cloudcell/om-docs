@@ -1,0 +1,9 @@
+# Checks: payroll totals must be internally consistent
+# TotalCompensation should equal BaseSalary + Benefits + Taxes
+rule Checks::Check.TotalCompCheck:Role.*:Department.*:Month.*:Scenario.* = HCPayroll::[Account.TotalCompensation] - (HCPayroll::[Account.BaseSalary] + HCPayroll::[Account.Benefits] + HCPayroll::[Account.Taxes])
+
+# Headcount should be positive (0 means OK, 1 means error)
+rule Checks::Check.HeadcountPositive:Role.*:Department.*:Month.*:Scenario.* = IF(HCPayroll::[Account.Headcount] <= 0, 1, 0)
+
+# Average salary should be positive (0 means OK, 1 means error)
+rule Checks::Check.AvgSalaryPositive:Role.*:Department.*:Month.*:Scenario.* = IF(HCPayroll::[Account.AvgSalary] <= 0, 1, 0)

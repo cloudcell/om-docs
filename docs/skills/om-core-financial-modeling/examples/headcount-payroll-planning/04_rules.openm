@@ -1,0 +1,12 @@
+# Payroll calculation rules
+# Base salary = headcount * average annual salary / 12 (monthly)
+rule HCPayroll::Account.BaseSalary:Role.*:Department.*:Month.*:Scenario.* = HCPayroll::[Account.Headcount] * HCPayroll::[Account.AvgSalary] / 12
+
+# Benefits = 20% of base salary
+rule HCPayroll::Account.Benefits:Role.*:Department.*:Month.*:Scenario.* = HCPayroll::[Account.BaseSalary] * 0.20
+
+# Taxes = 15% of base salary (payroll taxes)
+rule HCPayroll::Account.Taxes:Role.*:Department.*:Month.*:Scenario.* = HCPayroll::[Account.BaseSalary] * 0.15
+
+# Total compensation = base salary + benefits + taxes
+rule HCPayroll::Account.TotalCompensation:Role.*:Department.*:Month.*:Scenario.* = HCPayroll::[Account.BaseSalary] + HCPayroll::[Account.Benefits] + HCPayroll::[Account.Taxes]

@@ -1,0 +1,32 @@
+# Groups
+
+# Role hierarchy
+# first need to create the group? Actually the existing examples use `group create`.
+# Let me check the syntax.
+# From the business-valuation-model 08_groups.openm:
+# group create ValueMetrics "Value Metrics"
+# group create ValueMetrics "Input Assumptions" RevenueGrowth OperatingMargin NetIncomeTaxRate DiscountRate
+# group create ValueMetrics "Computed Value" TerminalValue PresentValue
+
+# Role hierarchy groups
+group create Role "Roles"
+group create Role "Individual Contributor" IC
+group create Role "Management" Manager Director VP
+
+# Department groups
+group create Department "Revenue Departments" Engineering Sales Marketing
+group create Department "Support Functions" G&A
+
+# Scenario groups
+group create Scenario "Planning Scenarios"
+
+# Account groups
+group create Account "Planning Lines"
+group create Account "Headcount Inputs" Headcount
+group create Account "Cash Compensation" AvgSalary BaseSalary
+group create Account "Employer Costs" Benefits Taxes TotalCompensation
+
+# Check groups
+group create Check "Validation Checks"
+group create Check "Consistency Checks" TotalCompCheck
+group create Check "Input Validity Checks" HeadcountPositive AvgSalaryPositive
