@@ -126,6 +126,8 @@ book value remains or the tranche is fully depreciated.
 > color values must be passed as **string literals** inside the formula, e.g.
 > `"#EF4444"` rather than `#EF4444`.
 
+![Fixed Asset Depreciation model running in the OM Core UI](../../../assets/images/fixed-asset-depreciation-model.png)
+
 ## SaaS Revenue Model
 
 - [00_variables.openm](saas-revenue-model/00_variables.openm)
