@@ -47,6 +47,8 @@ Department.
 - [08_groups.openm](budget-vs-actual-model/08_groups.openm)
 - [build.openm](budget-vs-actual-model/build.openm)
 
+![Budget vs Actual model running in the OM Core UI](../../../assets/images/budget-vs-actual-model.png)
+
 ## Agroforestry Model
 
 - [00_variables.openm](agroforestry-model/00_variables.openm)

@@ -266,7 +266,7 @@ If you write a script that needs to anchor a rule, always use the full `$Cube::D
 
 ## Aggregate functions
 
-OM Core supports aggregate functions in rule expressions. The currently supported aggregate is `SUM`.
+OM Core supports aggregate functions in rule expressions. The currently documented aggregate is `SUM`.
 
 ### SUM
 
