@@ -1,0 +1,11 @@
+# Dimension outline groups for presentation
+
+group create Account Inputs CapEx OpeningGrossBlock
+
+group create Account "Asset Value" GrossBlock AccumulatedDepreciation NetBookValue
+
+group create Account "Expense" DepreciationExpense
+
+group create Driver "Drivers" UsefulLife OpeningGrossBlock CapEx
+
+group create AssetType "Asset Types" Machinery Equipment Vehicles

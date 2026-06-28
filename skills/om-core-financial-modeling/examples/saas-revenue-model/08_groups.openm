@@ -1,0 +1,13 @@
+# Dimension outline groups for presentation
+
+group create Account "Revenue Metrics" Revenue ARPU
+
+group create Account Customers Customers NewCustomers ChurnedCustomers ChurnRate
+
+group create Account Profitability COGS GrossProfit OperatingExpense EBITDA
+
+group create Driver "Customer Drivers" StartingCustomers NewCustomers ChurnRate
+
+group create Driver "Revenue Drivers" ARPU COGS_Rate OperatingExpense
+
+group create Check Checks RevenueCheck GrossProfitCheck EBITDACheck

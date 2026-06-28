@@ -1,0 +1,27 @@
+# Dimension outline groups for presentation
+
+group create PLAccount Revenue Revenue
+
+group create PLAccount COGS COGS
+
+group create PLAccount "Operating Expenses" SGA Depreciation
+
+group create PLAccount Profitability GrossProfit EBITDA EBIT NetIncome
+
+group create BSAccount "Current Assets" Cash AccountsReceivable Inventory
+
+group create BSAccount "Fixed Assets" NetFixedAssets
+
+group create BSAccount "Total Assets" TotalAssets
+
+group create BSAccount Liabilities AccountsPayable Debt
+
+group create BSAccount Equity Equity
+
+group create BSAccount "Total Liabilities & Equity" TotalLiabilitiesAndEquity
+
+group create CFSAccount "Cash Flow" NetIncome Depreciation ChangeInWC CapEx FCFF
+
+group create ValAccount "WACC Inputs" WACC CostOfEquity CostOfDebt
+
+group create ValAccount Valuation DiscountFactor TerminalValue PVFCFF EnterpriseValue EquityValue

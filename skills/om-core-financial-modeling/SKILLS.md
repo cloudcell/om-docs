@@ -351,7 +351,58 @@ rule BS::@.font_weight:BSAccount.TotalAssets:Year.*:Scenario.* = 700
 rule BS::@.fill:BSAccount.TotalAssets:Year.*:Scenario.* = "#e2e8f0"
 ```
 
-## 15. Output Format
+## 15. Group Management
+
+Financial models benefit from grouping dimension items into outline sections. For example, a P&L account dimension can be grouped into Revenue, COGS, Operating Expenses, and Totals.
+
+See the full `om-core-group-management` skillset for command syntax. The available REPL commands are:
+
+```text
+group create <dim> <label> [parent=<group>] [item1 item2 ...]
+group add <dim> <group> <item1 item2 ...>
+group detach <dim> <item1 item2 ...>
+group delete <dim> <group>
+group rename <dim> <group> <new_label>
+group list <dim>
+```
+
+Add a `08_groups.openm` file and source it after `07_formatting.openm` and before `calc`:
+
+```text
+source 00_variables.openm
+source 01_dimensions.openm
+source 02_cubes.openm
+source 03_inputs.openm
+source 04_rules.openm
+source 05_checks.openm
+source 06_views.openm
+source 07_formatting.openm
+source 08_groups.openm
+calc
+```
+
+Example P&L grouping:
+
+```text
+om> group create PLAccount "Revenue" Revenue
+om> group create PLAccount "COGS" COGS
+om> group create PLAccount "Operating Expenses" Salaries Marketing Rent
+om> group create PLAccount "Totals" GrossProfit EBITDA NetIncome
+```
+
+Example balance sheet grouping:
+
+```text
+om> group create BSAccount "Current Assets" Cash AccountsReceivable Inventory
+om> group create BSAccount "Fixed Assets" GrossPPE AccumulatedDepreciation NetPPE
+om> group create BSAccount "Liabilities" AccountsPayable Debt
+om> group create BSAccount "Equity" Equity
+om> group create BSAccount "Total" TotalAssets TotalLiabilitiesAndEquity
+```
+
+Groups affect only the outline presentation; rules continue to reference individual items.
+
+## 16. Output Format
 
 When asked to build a model, return:
 
@@ -378,7 +429,7 @@ model/
 
 Then include each file in a separate code block.
 
-## 16. Validation Checklist
+## 17. Validation Checklist
 
 Before finalizing a model, check:
 
@@ -393,7 +444,7 @@ Before finalizing a model, check:
 * At least one view exists for every cube.
 * The model can be loaded through `source build.openm`.
 
-## 17. Example Minimal P&L Model
+## 18. Example Minimal P&L Model
 
 File tree:
 
@@ -462,7 +513,7 @@ Run:
 om> source build.openm
 ```
 
-## 18. Example Manufacturing CapEx & Depreciation Model
+## 19. Example Manufacturing CapEx & Depreciation Model
 
 File tree:
 
@@ -475,6 +526,8 @@ examples/manufacturing-capex-model/
   04_rules.openm
   05_checks.openm
   06_views.openm
+  07_formatting.openm
+  08_groups.openm
   build.openm
 ```
 
@@ -486,7 +539,7 @@ Run:
 om> source build.openm
 ```
 
-## 19. Example Business Valuation Model
+## 20. Example Business Valuation Model
 
 File tree:
 
@@ -499,6 +552,8 @@ examples/business-valuation-model/
   04_rules.openm
   05_checks.openm
   06_views.openm
+  07_formatting.openm
+  08_groups.openm
   build.openm
 ```
 
@@ -510,7 +565,7 @@ Run:
 om> source build.openm
 ```
 
-## 20. Agent Behavior Rules
+## 21. Agent Behavior Rules
 
 The agent must not:
 
