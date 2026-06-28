@@ -58,11 +58,27 @@ Month.Jan
 Region.North
 ```
 
-If a name resolves to multiple items, the parser rejects it as ambiguous. It never chooses one silently.
+If a name resolves to multiple items, the parser rejects it as ambiguous. It never
+chooses one silently.
+
+## Range references
+
+For sequential (`seq`) dimensions, the range syntax `start..end` selects a
+contiguous sequence of items. It is valid only on the RHS of a rule or inside an
+aggregate function.
+
+```text
+SUM(Cube::Dim.2026..2030)
+Cube::[Dim.2026..2030]
+```
+
+The bounds are matched case-insensitively against item names. Using `..` on a
+non-sequential dimension raises a validation error.
 
 ## Sequential accessors
 
-Sequential accessors refer to the order of an ordered dimension. Valid accessors are `[FIRST]`, `[LAST]`, `[PREV]`, `[NEXT]`, and `[THIS]`.
+Sequential accessors refer to the order of an ordered dimension. Valid accessors
+are `[FIRST]`, `[LAST]`, `[PREV]`, `[NEXT]`, and `[THIS]`.
 
 | Reference | Meaning |
 | --- | --- |
@@ -163,24 +179,30 @@ Recurrence rules use ordered dimension context to chain values forward or backwa
 - A recurrence may be forward-looking or backward-looking, but not both.
 - A `PREV` recurrence is evaluated in increasing order of the ordered dimension.
 - A `NEXT` recurrence is evaluated in reverse order of the ordered dimension.
-- A rule using both `PREV` and `NEXT` is rejected because it implies bidirectional dependency.
+- A rule using both `PREV` and `NEXT` is rejected because it implies bidirectional
+  dependency.
 
-Sequential accessors use the active stable order of the referenced dimension. If both dimension order and graph order are possible and the rule does not disambiguate, validation fails.
+Sequential accessors use the active stable order of the referenced dimension. If both
+dimension order and graph order are possible and the rule does not disambiguate,
+validation fails.
 
 ## Rule precedence
 
-When a cell is evaluated, the engine decides which rule produces the value. Two principles control this: specificity and rule order.
+When a cell is evaluated, the engine decides which rule produces the value. Two
+principles control this: specificity and rule order.
 
 ### Specificity
 
-More specific rules override less specific rules. The precedence from highest to lowest is:
+More specific rules override less specific rules. The precedence from highest to
+lowest is:
 
 1. Hardcoded user override
 2. Cell rule (single-cell rule)
 3. Slice rule (rule targeted at a pattern)
 4. Empty cell
 
-A cell rule that targets `Sales::Month.Jan` wins over a slice rule that targets `Sales::*`. A slice rule wins over an empty cell.
+A cell rule that targets `Sales::Month.Jan` wins over a slice rule that targets
+`Sales::*`. A slice rule wins over an empty cell.
 
 For example, with these rules:
 
@@ -189,11 +211,14 @@ rule Sales::* = 100
 rule Sales::Month.Jan = 200
 ```
 
-The cell for `Month.Jan` resolves to `200` because the cell rule is more specific. All other months resolve to `100` from the slice rule.
+The cell for `Month.Jan` resolves to `200` because the cell rule is more specific.
+All other months resolve to `100` from the slice rule.
 
 ### Rule order and overriding
 
-When multiple rules have the same specificity and match the same cell, the later rule wins. The rule order is the semantic contract; do not rely on dictionary insertion order.
+When multiple rules have the same specificity and match the same cell, the later rule
+wins. The rule order is the semantic contract; do not rely on dictionary insertion
+order.
 
 For example:
 
@@ -202,13 +227,17 @@ rule Sales::* = 100
 rule Sales::* = 150
 ```
 
-Both rules are slice rules covering the same cells. The second rule overrides the first, so every cell resolves to `150`.
+Both rules are slice rules covering the same cells. The second rule overrides the
+first, so every cell resolves to `150`.
 
-This behavior lets you define a general rule first and then add targeted overrides later. A later rule with the same target replaces the earlier one for the cells it matches.
+This behavior lets you define a general rule first and then add targeted overrides
+later. A later rule with the same target replaces the earlier one for the cells it
+matches.
 
 ## Anchored rules
 
-An **anchored rule** targets exactly one cell. The user opts in by prefixing the rule target with `$`.
+An **anchored rule** targets exactly one cell. The user opts in by prefixing the rule
+target with `$`.
 
 If `Sales` has dimensions `(Year, Region, Scenario)`, then:
 
@@ -218,7 +247,10 @@ rule  Sales::Year.2024:Region.North:Scenario.Actual = 1100   # standard: same si
 rule  Sales::Year.2024:Region.North = 1100                   # standard: slice across all Scenario items
 ```
 
-The `$` prefix is the only anchored shorthand available in standalone scripts. The bracket form `$[...]` is **not** accepted as a rule target; it is only valid in contextual input such as the grid or rule panel, where the active cube, channel, and view are already known. In scripts, prefer the explicit form:
+The `$` prefix is the only anchored shorthand available in standalone scripts. The
+bracket form `$[...]` is **not** accepted as a rule target; it is only valid in
+contextual input such as the grid or rule panel. In scripts, prefer the explicit
+form:
 
 ```text
 rule Cube::Dim.Item:Dim.Item = expression
@@ -227,13 +259,21 @@ rule Cube::Dim.Item:Dim.Item = expression
 Syntax:
 
 - `$` immediately before the target address marks the rule as anchored.
-- The `$` is stripped before parsing the target; it carries no semantic meaning in the expression.
+- The `$` is stripped before parsing the target; it carries no semantic meaning in
+  the expression.
 
 Semantics:
 
-- **Anchored rules must resolve to exactly one cell**. If any cube dimension is unspecified and cannot be resolved explicitly, the rule is invalid.
-- **Standard rule (no `$`)**: Unspecified dimensions use wildcards. The rule applies to a slice only when the cube has dimensions that are not specified in the target.
-- **Dimension addition protection**: When a new dimension is added to a cube, an anchored rule does not spread across all items of that new dimension. It stays pinned to the address it was given; if the new dimension makes the address ambiguous, the rule becomes invalid until the new dimension is specified explicitly.
+- **Anchored rules must resolve to exactly one cell**. If any cube dimension is
+  unspecified and cannot be resolved explicitly, the rule is invalid.
+- **Standard rule (no `$`)**: Unspecified dimensions use wildcards. The rule applies
+  to a slice only when the cube has dimensions that are not specified in the
+  target.
+- **Dimension addition protection**: When a new dimension is added to a cube, an
+  anchored rule does not spread across all items of that new dimension. It stays
+  pinned to the address it was given; if the new dimension makes the address
+  ambiguous, the rule becomes invalid until the new dimension is specified
+  explicitly.
 
 Example with a 3D cube `(Year, Region, Scenario)`:
 
@@ -242,54 +282,93 @@ Example with a 3D cube `(Year, Region, Scenario)`:
 | `$Sales::Year.2024:Region.North:Scenario.Actual` | Yes | `Actual` | One cell: `(2024, North, Actual)` |
 | `Sales::Year.2024:Region.North` | No | wildcard | Slice: `(2024, North, *)` |
 
-In scripts, use `$` only as a prefix on an explicit cube-qualified address. In the grid or rule panel, the contextual `$[...]` form may be used to bind a rule to one specific cell.
+In scripts, use `$` only as a prefix on an explicit cube-qualified address. In the
+grid or rule panel, the contextual `$[...]` form may be used to bind a rule to one
+specific cell.
 
 ### Why scripts require an explicit cube-qualified address
 
-Standalone `.openm` files have no implicit context. The parser must know which cube, channel, and dimension items a rule refers to without relying on the current UI selection. The prefix form supplies that context explicitly:
+Standalone `.openm` files have no implicit context. The parser must know which cube,
+channel, and dimension items a rule refers to without relying on the current UI
+selection. The prefix form supplies that context explicitly:
 
 ```text
 rule $Sales::Year.2024:Region.North:Scenario.Actual = 1100
 ```
 
-Here `$Sales::Year.2024:Region.North:Scenario.Actual` is unambiguous: the rule is anchored to exactly one cell in the `Sales` cube.
+Here `$Sales::Year.2024:Region.North:Scenario.Actual` is unambiguous: the rule is
+anchored to exactly one cell in the `Sales` cube.
 
-The `$[...]` bracket form is shorthand for "the currently selected cell in the active cube, channel, and view." It only makes sense where those active selections exist, such as the grid or rule panel. In a standalone script there is no active selection, so `$[...]` is undefined and should be avoided.
+The `$[...]` bracket form is shorthand for "the currently selected cell in the active
+cube, channel, and view." It only makes sense where those active selections exist,
+such as the grid or rule panel. In a script there is no active selection, so `$[...]`
+is undefined and should be avoided.
 
 | Form | Where it is valid | Why |
 | --- | --- | --- |
-| `rule $Cube::Dim.Item:Dim.Item = ...` | Scripts, grid, rule panel | Explicit cube and items; no ambiguity |
-| `rule $[...] = ...` | Grid, rule panel only | Depends on the active cube, channel, and view |
-| `rule $[...] = ...` | **Not valid** in standalone `.openm` files | No active context to resolve the target |
+| `rule $Cube::Dim.Item:Dim.Item = ...` | Scripts, grid, rule panel | Explicit cube and items |
+| `rule $[...] = ...` | Grid, rule panel only | Depends on active context |
+| `rule $[...] = ...` | **Not valid** in `.openm` files | No context |
 
-If you write a script that needs to anchor a rule, always use the full `$Cube::Dim.Item:...` address. If the target would be ambiguous without the active UI context, rewrite it as an explicit address before saving it to a file.
+If you write a script that needs to anchor a rule, always use the full
+`$Cube::Dim.Item:...` address. If the target would be ambiguous without the active
+UI context, rewrite it as an explicit address before saving it to a file.
 
 ## Aggregate functions
 
-OM Core supports aggregate functions in rule expressions. The currently documented aggregate is `SUM`.
+OM Core supports aggregate functions in rule expressions. Each takes a single
+slice reference as its argument.
 
-### SUM
+| Function | Result |
+| --- | --- |
+| `SUM(address)` | Sum of all values in the slice |
+| `MIN(address)` | Smallest value in the slice |
+| `MAX(address)` | Largest value in the slice |
+| `AVG(address)` | Average of the values in the slice |
+| `COUNT(address)` | Number of numeric values in the slice |
+| `COUNTA(address)` | Number of non-empty values in the slice |
 
-`SUM(address)` returns the sum of all values in the slice described by the address. Use wildcards (`*`) to select all items of one or more dimensions.
+Use wildcards (`*`) to select all items of one or more dimensions:
 
 ```text
 SUM(Cube::Dim.Item1:Dim.*)
 SUM(Cube::[Dim1.*, Dim2.*])
 ```
 
-The address inside `SUM` must resolve to a slice. Wildcards are summed over the referenced dimensions; any dimensions not wildcarded are bound from the current evaluation context or selected explicitly.
+The address inside the aggregate must resolve to a slice. Wildcards are aggregated
+over the referenced dimensions; any dimensions not wildcarded are bound from the
+current evaluation context or selected explicitly.
 
 Example:
 
 ```text
-rule Summary::Plant.Apple:Metric.TotalLifecycleCost = SUM(LifecycleCosts::[PlantAge.*, LifecycleCost.*]) * Inventory::[PlantData.NumberOfPlants]
+rule Sum::Plant.Apple:Metric.Total = SUM(Costs::[Age.*, Type.*]) * Inv::[Qty]
 ```
 
-Here `SUM(LifecycleCosts::[PlantAge.*, LifecycleCost.*])` adds every lifecycle cost value across all plant ages and all cost types for the current plant, because `Plant` is not wildcarded and binds from the current context.
+Here `SUM(Costs::[Age.*, Type.*])` adds every cost value across all ages and all
+cost types for the current plant, because `Plant` is not wildcarded and binds from
+the current context.
+
+## Conditional functions
+
+| Function | Result |
+| --- | --- |
+| `IF(cond, then, else)` | Returns `then` if `cond` is true, otherwise `else` |
+| `IFERROR(value, fallback)` | Returns `value`, or `fallback` on error |
+
+## Position and metadata functions
+
+| Function | Result |
+| --- | --- |
+| `POS(Dim)` | 1-based position of the current item in `Dim` |
+| `POSMAX(Dim)` | Number of items in `Dim` |
+| `LABEL(Dim)` | Display label for the current item in `Dim` |
 
 ## Error behavior
 
-Error values (`#CIRC!`, `#DIV/0!`, `#EXPRESSION!`, `#REF!`) are never persisted as cell values. They are always recalculated on load. Diagnostics may be logged, but they are not canonical cell state.
+Error values (`#CIRC!`, `#DIV/0!`, `#EXPRESSION!`, `#REF!`) are never persisted
+as cell values. They are always recalculated on load. Diagnostics may be logged,
+but they are not canonical cell state.
 
 ## Examples
 
@@ -315,7 +394,7 @@ rule PL::@.font_color:PL.Revenue:Year.2026 = #FFFFFF
 ### Recurrence rule
 
 ```text
-rule BS::BS.Cash:* = IF(POS(Year)=1, Drivers::Driver.OpeningCash:Year[THIS], BS::BS.Cash:Year[PREV] + CF::CF.FreeCashFlow:Year[THIS])
+rule PL::Revenue:* = IF(POS(Year)=1, 1000, PL::Revenue:Year[PREV] * 1.05)
 ```
 
 ### Anchored rule
@@ -327,7 +406,7 @@ rule $Sales::Year.2024:Region.North:Scenario.Actual = 1100
 Prefer the full script form in standalone `.openm` files:
 
 ```text
-rule $Forecast::Year.2024:Region.North:Scenario.Actual = Actuals::Year.2024:Region.North:Scenario.Actual * 1.1
+rule $Sales::Year.2024:Region.North:Scenario.Actual = Actuals::[Sales] * 1.1
 ```
 
 ## For LLMs
@@ -335,11 +414,15 @@ rule $Forecast::Year.2024:Region.North:Scenario.Actual = Actuals::Year.2024:Regi
 When generating rule syntax:
 
 - Use `DimensionName.ItemName` for item references.
-- Use `Cube::Dim.Item:Dim.Item` for rule addresses in standalone scripts. Add `@.channel` only when targeting a non-value channel.
-- Use `[THIS]` for the current item, `[PREV]` / `[NEXT]` for recurrence on the RHS only.
+- Use `Cube::Dim.Item:Dim.Item` for rule addresses in standalone scripts. Add
+  `@.channel` only when targeting a non-value channel.
+- Use `[THIS]` for the current item, `[PREV]` / `[NEXT]` for recurrence on the RHS
+  only.
 - Use `*` for slice wildcards on the LHS.
-- Use cube-relative shorthand (`Cube::[Dim.Item]`) only when the context binding is unambiguous.
-- Use `$` only as a prefix on an explicit cube-qualified address in scripts. Avoid the `$[...]` bracket form in standalone `.openm` files.
+- Use cube-relative shorthand (`Cube::[Dim.Item]`) only when context binding is
+  unambiguous.
+- Use `$` only as a prefix on an explicit cube-qualified address in scripts. Avoid
+  the `$[...]` bracket form in standalone `.openm` files.
 - Avoid `PREV` / `NEXT` / `FIRST` / `LAST` on the LHS.
 - Avoid mixing `PREV` and `NEXT` in the same rule.
 - Reference cells by stable semantic address, not grid coordinates.

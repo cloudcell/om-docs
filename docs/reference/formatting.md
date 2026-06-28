@@ -1,8 +1,7 @@
 # Formatting patterns
 
-OM Core uses number and currency formatting patterns based on the Unicode Common
-Locale Data Repository (CLDR). This page explains the origin of the syntax and
-the pattern types OM Core supports.
+OM Core uses number formatting patterns that are compatible with Excel-style
+masks. This page explains the syntax and the patterns OM Core supports.
 
 This page is about **number and currency display patterns**, not visual styles such
 as font color or background fill. Visual styles are set through channels like
@@ -31,134 +30,101 @@ Because formatting is rule-driven, it can be conditional. A rule on `@.fill`,
 other cells:
 
 ```openm
-rule Checks::@.fill:Check.Variance:Month.*:Department.* = if(abs(Variance::[VarianceLine.Variance]) > 1000, "#FFCCCC", "#FFFFFF")
+rule Checks::@.fill:Check.Variance:Month.*:Department.* = if(Variance::[VarianceLine.Variance] > 1000, "#FFCCCC", "#FFFFFF")
 rule PL::@.font_color:Account.EBITDA:Year.*:Scenario.* = if(PL::[Account.EBITDA] < 0, "#FF0000", "#000000")
 ```
 
 The format or style is recomputed automatically when the underlying values change,
 so the visual presentation always stays consistent with the model state.
 
-## Source
+## Number format masks
 
-The formatting syntax in OM Core originates from CLDR number and currency patterns:
+OM Core applies an Excel-compatible number mask to the raw cell value. The mask
+controls decimal places, thousands grouping, percentage scaling, and negative/zero
+sections.
 
-[Number and currency patterns — CLDR](https://cldr.unicode.org/translation/number-currency-formats/number-and-currency-patterns)
-
-CLDR defines locale-aware patterns for presenting numbers, currencies,
-percentages, and compact numbers. OM Core uses these patterns as the basis for
-formatting values in views.
-
-## Pattern types
-
-CLDR supports four general-purpose number patterns:
-
-- **Decimal** — standard numeric values, e.g. `1,234.56`
-- **Currency** — monetary values, with standard and accounting variants
-- **Percent** — values expressed as percentages
-- **Scientific** — values in scientific notation
-
-## Pattern characters
-
-In CLDR patterns, characters such as `.` and `,` are placeholders. The actual
-decimal and grouping symbols are determined by the active locale. Literal
-characters that are not placeholders must be quoted.
-
-Common pattern characters:
+### Pattern characters
 
 | Character | Meaning |
 | --- | --- |
-| `0` | Required digit |
-| `#` | Optional digit |
-| `.` | Decimal placeholder |
-| `,` | Grouping placeholder |
-| `%` | Percent placeholder |
-| `¤` | Currency symbol placeholder |
+| `0` | Digit placeholder |
+| `#` | Digit placeholder (currently treated the same as `0`) |
+| `.` | Decimal point position |
+| `,` | Thousands grouping marker |
+| `%` | Multiply by 100 and add `%` |
 
-## Currency variants
+### Example masks
 
-CLDR currency patterns may include:
+| Mask | Value | Display |
+| --- | --- | --- |
+| `#,##0.00` | `1234.5` | `1,234.50` |
+| `#,##0` | `1234.6` | `1,235` |
+| `0.00%` | `0.125` | `12.50%` |
+| `0;(#,##0)` | `-5` | `(5)` |
+| `0;(#,##0);-` | `0` | `-` |
 
-- **standard** — the default currency format
-- **accounting** — used for accounting contexts
-- **alphaNextToNumber** — variant used when a currency code appears next to a number
-- **noCurrency** — variant without an explicit currency symbol
+### Sections
 
-## Compact numbers
+A mask can contain up to three semicolon-separated sections:
 
-CLDR also defines compact patterns for values like `1M` or `1 million`. These
-patterns vary significantly by language and may include plural categories.
-
-## OM Core usage
-
-When you set a format string in OM Core, you can write either a CLDR-style
-pattern or an OM Core preset expression.
-
-### CLDR-style patterns
-
-A CLDR-style pattern is a locale-aware pattern resolved against the cell or cube
-locale:
+- **First section** — positive numbers.
+- **Second section** — negative numbers.
+- **Third section** — zero values.
 
 ```openm
-rule PL::@.format_number:Account.*:Year.*:Scenario.* = "#,##0.00"
+rule PL::@.format_number:Account.EBITDA:Year.*:Scenario.* = '#,##0.00;(#,##0.00);-'
 ```
 
-This means the same model can be displayed correctly across different locales
-without changing the underlying data.
+### Color codes and conditions
 
-### OM Core preset expressions
+Excel-style bracket color codes such as `[Red]` or `[Blue]` are returned as literal
+text by the current formatter. They are not interpreted as font colors.
 
-A preset expression is a higher-level, readable directive that the engine maps to
-a concrete format. Presets are useful when you want explicit control over
-decimals, grouping, negative numbers, and zero display without writing a raw CLDR
-pattern:
+### Rounding
+
+The formatter uses Python's default rounding mode (round-half-to-even). For example,
+`1234.5` formatted with `#,##0` produces `1,234`, not `1,235`.
+
+## OM Core preset expressions
+
+A preset expression is a higher-level directive that the engine maps to a concrete
+format. Presets are useful when you want explicit control over decimals, grouping,
+negative numbers, and zero display without writing a raw mask:
 
 ```openm
 rule PL::@.format_number:Account.*:Year.*:Scenario.* = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
 ```
 
-Common preset parameters include:
+### Supported preset kinds
 
-| Parameter | Meaning |
-| --- | --- |
-| `decimals` | Number of decimal places |
-| `group` | Use thousands grouping |
-| `negative` | Negative number style, e.g. `parentheses` |
-| `zero` | Zero display, e.g. `dash` |
+| Kind | Required arguments | Notes |
+| --- | --- | --- |
+| `general` | none | Default, no special formatting |
+| `number` | none | `decimals`, `group`, `negative`, `zero` |
+| `currency` | `code` | ISO currency code, e.g. `code=USD` |
+| `percent` | none | `decimals` |
+| `scientific` | none | `decimals` |
+| `boolean` | `style` | `true_false`, `yes_no`, or `one_zero` |
+| `date` | `pattern` | Quoted pattern string |
+| `time` | `pattern` | Quoted pattern string |
+| `datetime` | `pattern` | Quoted pattern string |
 
-## Color maps
+### Common parameters
 
-OM Core supports color map functions for conditional color formatting. A color map
-maps a numeric value to a color along a named gradient.
+| Parameter | Meaning | Example |
+| --- | --- | --- |
+| `decimals` | Number of decimal places | `decimals=2` |
+| `group` | Use thousands grouping | `group=true` |
+| `negative` | Negative number style | `negative=parentheses` |
+| `zero` | Zero display | `zero=dash` |
+| `symbol` | Show currency symbol | `symbol=true` |
+| `code` | ISO currency code | `code=USD` |
+| `style` | Boolean display style | `style=true_false` |
+| `pattern` | Date/time pattern | `pattern="yyyy-mm-dd"` |
 
-### Syntax
+### Notes
 
-```text
-COLORMAP("name", [min; max])
-```
-
-- `name` — the color map name, e.g. `"viridis"` or `"plasma"`.
-- `[min; max]` — the value range to map to the gradient.
-
-The function returns a color for the current cell value by interpolating it
-between `min` and `max` across the named gradient.
-
-### Examples
-
-Use `COLORMAP` on the `@.fill` or `@.font_color` channel:
-
-```openm
-rule PL::@.fill:Account.EBITDA:Year.*:Scenario.* = COLORMAP("viridis", [0; 100000])
-rule Variance::@.fill:VarianceLine.VariancePct:Account.*:Month.* = COLORMAP("plasma", [-0.5; 0.5])
-```
-
-In the first example, an EBITDA value of `0` maps to one end of the Viridis
-gradient and `100000` maps to the other end. Values in between receive an
-interpolated color. In the second example, negative and positive variance
-percentages are shown on opposite ends of the Plasma gradient.
-
-Color maps are useful for heatmaps, variance highlighting, and any visual
-formatting that should scale continuously with a numeric value.
-
-For the full CLDR specification, see:
-
-[Number and currency patterns — CLDR](https://cldr.unicode.org/translation/number-currency-formats/number-and-currency-patterns)
+- Preset arguments are separated by `;` and use `=` for assignment, not `:`.
+- `negative` accepts `minus` or `parentheses`.
+- `zero` accepts `normal` or `dash`.
+- `pattern` must be quoted.

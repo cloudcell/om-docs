@@ -26,14 +26,21 @@ dim <name> [--set | --seq] <item1> <item2> ... <itemN>
   sequential references.
 - Items are separated by whitespace. Multi-word items must be quoted.
 
-### Sequential ranges
+### Sequential ranges in references
 
-For `seq` dimensions, a range expression `start..end` expands to a consecutive
-sequence of intermediary items in rules. This is useful for time and index dimensions.
+For `seq` dimensions, a range expression `start..end` can be used inside a cell
+reference to select a contiguous sequence of items. This is useful for aggregation
+and recurrence over time or index dimensions.
 
-Ranges are only valid on `seq` dimensions. The engine expands the range into a
-sequence of items at declaration time, so the resulting items behave exactly like
-explicitly listed items.
+```openm
+rule PL::PLLine.TotalRevenue:Year.2026 = SUM(PL::[PLLine.Revenue:Year.2026..2030])
+```
+
+The reference `Year.2026..2030` expands to `Year.2026`, `Year.2027`, `Year.2028`,
+`Year.2029`, and `Year.2030`. The `SUM` then aggregates the corresponding values.
+
+Ranges are only valid on `seq` dimensions. Using `..` on a `set` dimension raises
+an error. The bounds are matched case-insensitively against the item names.
 
 ## Dimension types
 

@@ -1,6 +1,8 @@
 # OM Core scripting
 
-OM Core scripts use the `.openm` extension. They are executed inside the OM Core REPL with the `source` command. Scripts are designed for use with LLMs because they are explicit, semantic, and independent of grid layout.
+OM Core scripts use the `.openm` extension. They are executed inside the OM Core
+REPL with the `source` command. Scripts are designed for use with LLMs because they
+are explicit, semantic, and independent of grid layout.
 
 ## Run a script
 
@@ -46,7 +48,8 @@ om> help
 
 ![OM Core help command](../assets/images/om-core-help.png)
 
-The second command to learn is `help dim`. Dimensions are the first thing you define in almost every model, and the built-in help shows the exact syntax.
+The second command to learn is `help dim`. Dimensions are the first thing you define
+in almost every model, and the built-in help shows the exact syntax.
 
 ```bash
 om> help dim
@@ -93,7 +96,8 @@ For model bundles, use the numbered structure shown in the agent skill:
 build.openm
 ```
 
-`build.openm` sources the other files in order and then runs `calc`. Tiny one-file scripts may use a simpler order.
+`build.openm` sources the other files in order and then runs `calc`. Tiny one-file
+scripts may use a simpler order.
 
 ```openm
 # Define dimensions
@@ -130,9 +134,20 @@ dim Year 2026 2027 2028
 
 ## Variables
 
-Variables store strings or command output. Use them for reusing semantic addresses, values, or messages.
+Variables store strings, numbers, lists, or command output. Use them for reusing
+semantic addresses, values, or messages.
 
 ### Assignment
+
+Three forms are accepted. The canonical form is `var` (or `set`):
+
+```openm
+var count = 42
+set name = "test"
+var message = "hello world"
+```
+
+Bash-style assignment also works when there are no spaces around `=`:
 
 ```openm
 count=42
@@ -140,9 +155,16 @@ name="test"
 message="hello world"
 ```
 
+Use `var -g` (or `set -g`) to create a global variable that persists across macro
+playback:
+
+```openm
+var -g theme_color = "#3B82F6"
+```
+
 ### Expansion
 
-Use `{{name}}` to interpolate a variable into a command.
+The canonical expansion syntax is `{{name}}`:
 
 ```openm
 selected="PL::Account.Revenue:Year.2026"
@@ -152,16 +174,23 @@ rule {{selected}} = 100000
 
 ### Command capture
 
-Use `exec {{cmd}}` to execute a command and capture its output.
+The canonical command capture syntax is `exec {{cmd}}`:
 
 ```openm
-# Legacy $(timestamp) is deprecated. Use exec timestamp instead.
-ts=exec timestamp %Y%m%d_%H%M%S
+cmd = "timestamp %Y%m%d_%H%M%S"
+ts = exec {{cmd}}
+```
+
+You can also capture directly in an assignment:
+
+```openm
+ts = exec timestamp %Y%m%d_%H%M%S
 ```
 
 ### Legacy syntax
 
-The `$name`, `${name}`, and `$(command)` syntax is deprecated. Use `{{name}}` and `exec {{cmd}}` instead.
+The `$name`, `${name}`, and `$(command)` syntax still works but is deprecated
+and emits a warning. Use `{{name}}` and `exec {{cmd}}` instead.
 
 ## Commands
 
@@ -206,7 +235,9 @@ use Sales
 rule Revenue = Cost * 1.15
 ```
 
-`use` sets the default cube for subsequent `rule` commands that omit a `Cube::` prefix. It is optional; explicit `Cube::Dim.Item:...` addresses are preferred in scripts.
+`use` sets the default cube for subsequent `rule` commands that omit a `Cube::`
+prefix. It is optional; explicit `Cube::Dim.Item:...` addresses are preferred in
+scripts.
 
 ### Rule definition
 
@@ -217,7 +248,8 @@ rule Cube::Dim.Item:Dim.Item = expression
 ```
 
 - `Cube::` is the target cube.
-- The value channel is implied if no `@.channel` is given. Use `@.fill`, `@.font_color`, etc., only for style/format rules.
+- The value channel is implied if no `@.channel` is given. Use `@.fill`,
+  `@.font_color`, etc., only for style/format rules.
 - `Dim.Item:Dim.Item` is the semantic address.
 - `*` is a slice wildcard.
 
@@ -226,7 +258,7 @@ Examples:
 ```openm
 rule Drivers::Driver.PriceGadgets:* = 120
 rule PnL::Account.TotalRevenue:* = PnL::[Account.RevenueGadgets] + PnL::[Account.RevenueWidgets]
-rule Valuation::Valuation.TerminalValue:Year.2032 = CF::CF.FreeCashFlow:Year.2032 * (1 + 0.02) / (Drivers::Driver.WACC:Year.2032 - 0.02)
+rule Valuation::TV:Year.2032 = CF::FCF:Year.2032 / (Drivers::WACC:Year.2032 - 0.05)
 ```
 
 ### Rule syntax
@@ -252,11 +284,19 @@ rule AnnualDep::*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Input
 OM Core resolves a shorthand reference in this order:
 
 1. Explicit selectors in the RHS reference are applied first.
-2. For any remaining dimensions in the referenced cube, OM Core carries over matching dimensions from the current target-cell context, provided the binding is unambiguous.
-3. Dimensions that exist in the target cube but not in the referenced cube are ignored.
-4. Any dimension that exists in the referenced cube but is neither explicitly selected nor available from the current context is ambiguous and should be written explicitly.
+2. For any remaining dimensions in the referenced cube, OM Core carries over
+   matching dimensions from the current target-cell context, provided the binding
+   is unambiguous.
+3. Dimensions that exist in the target cube but not in the referenced cube are
+   ignored.
+4. Any dimension that exists in the referenced cube but is neither explicitly
+   selected nor available from the current context is ambiguous and should be
+   written explicitly.
 
-For example, `AnnualDep` has dimensions `Asset` and `Year`, while `Inputs` has `Asset` and `Metric`. The shorthand `Inputs::[Metric.Cost]` binds the current `Asset` from the target cell. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
+For example, `AnnualDep` has dimensions `Asset` and `Year`, while `Inputs` has
+`Asset` and `Metric`. The shorthand `Inputs::[Metric.Cost]` binds the current
+`Asset` from the target cell. The `Year` dimension is not carried over because
+`Inputs` does not have a `Year` dimension.
 
 ### Calculation
 
@@ -294,9 +334,12 @@ source scripts/depreciation_schedule.openm
 
 ### Style channels
 
-Visual styling is applied through rule channels, not through a separate formatting command. The channel determines which property the rule sets.
+Visual styling is applied through rule channels, not through a separate formatting
+command. The channel determines which property the rule sets.
 
-OM Core stores values and presentation attributes in channels. The default value channel is `@.value` and is implied when no channel is specified. Style and format channels change only the appearance:
+OM Core stores values and presentation attributes in channels. The default value
+channel is `@.value` and is implied when no channel is specified. Style and format
+channels change only the appearance:
 
 - `@.value` — the default value channel (implied when no channel is given)
 - `@.format_number` — number or currency display format
@@ -310,14 +353,16 @@ Set a style or format with a rule:
 rule C::@.fill:PL.Revenue:Year.2026 = #3B82F6
 rule C::@.font_color:PL.Revenue:Year.2026 = #FFFFFF
 rule C::@.font_weight:PL.Revenue:Year.2026 = 700
-rule C::@.format_number:PL.Revenue:Year.2026 = 'preset:number(decimals=2; group=true; negative=parentheses; zero=dash)'
+rule C::@.format_number:PL.Revenue:Year.2026 = 'preset:number(decimals=2; group=true)'
 ```
 
-Style and format rules follow the same semantic addressing as value rules. A single semantic address can have both a value rule and multiple style rules.
+Style and format rules follow the same semantic addressing as value rules. A single
+semantic address can have both a value rule and multiple style rules.
 
 ### Number formatting
 
-For number and currency display patterns, OM Core supports both CLDR-style patterns and OM Core preset expressions. See [Formatting](formatting.md).
+For number and currency display patterns, OM Core supports Excel-compatible masks
+and OM Core preset expressions. See [Formatting](formatting.md).
 
 ### Debugging
 
@@ -355,7 +400,8 @@ arrow keys or `j`/`k`, and press `Esc` or `F2` to close the overlay.
 selection
 ```
 
-Prints the current cursor position as `(row, col)`. It does not return a list of semantic addresses.
+Prints the current cursor position as `(row, col)`. It does not return a list of
+semantic addresses.
 
 #### `select`, `up`, `down`, `left`, `right` — navigate the grid
 
@@ -379,7 +425,8 @@ Components:
 - `Dim1.Item1` — a dimension item selector
 - `Dim2.Item2` — another dimension item selector
 
-Add `@.channel` only when targeting a style or format channel such as `@.fill` or `@.font_color`. The default value channel is implied otherwise.
+Add `@.channel` only when targeting a style or format channel such as `@.fill` or
+`@.font_color`. The default value channel is implied otherwise.
 
 Multiple selectors are separated by `:`.
 
@@ -437,8 +484,10 @@ When generating `.openm` scripts:
 - Place rules after dimensions and cubes.
 - Run `calc` after defining rules.
 - Use `assert` to verify expected values.
-- Use `use <cube>` to set an active cube context only when omitting the cube prefix in rules.
-- Use `$` as a prefix on an explicit cube-qualified address for anchored rules; do not use the `$[...]` bracket form in scripts.
+- Use `use <cube>` to set an active cube context only when omitting the cube prefix
+  in rules.
+- Use `$` as a prefix on an explicit cube-qualified address for anchored rules;
+  do not use the `$[...]` bracket form in scripts.
 
 ## See also
 
