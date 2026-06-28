@@ -57,6 +57,7 @@ nav:
   - 🖥️ UI/UX:
       - Interface overview: ui-ux/interface.md
       - TUI: ui-ux/tui.md
+      - Gallery: ui-ux/gallery.md
   - 📖 Reference:
       - Dimensions: reference/dimensions.md
       - Rule syntax: reference/rule-syntax.md
