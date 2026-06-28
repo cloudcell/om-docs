@@ -58,6 +58,7 @@ nav:
       - Interface overview: ui-ux/interface.md
       - TUI: ui-ux/tui.md
   - 📖 Reference:
+      - Dimensions: reference/dimensions.md
       - Rule syntax: reference/rule-syntax.md
       - Scripting: reference/scripting.md
       - Formatting: reference/formatting.md
