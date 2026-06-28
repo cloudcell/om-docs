@@ -91,19 +91,6 @@ plug.
 
 ![Business Valuation model running in the OM Core UI](../../../assets/images/business-valuation-model.png)
 
-## Manufacturing CapEx & Depreciation Model
-
-- [00_variables.openm](manufacturing-capex-model/00_variables.openm)
-- [01_dimensions.openm](manufacturing-capex-model/01_dimensions.openm)
-- [02_cubes.openm](manufacturing-capex-model/02_cubes.openm)
-- [03_inputs.openm](manufacturing-capex-model/03_inputs.openm)
-- [04_rules.openm](manufacturing-capex-model/04_rules.openm)
-- [05_checks.openm](manufacturing-capex-model/05_checks.openm)
-- [06_views.openm](manufacturing-capex-model/06_views.openm)
-- [07_formatting.openm](manufacturing-capex-model/07_formatting.openm)
-- [08_groups.openm](manufacturing-capex-model/08_groups.openm)
-- [build.openm](manufacturing-capex-model/build.openm)
-
 ## Fixed Asset Depreciation by Tranche
 
 Tracks each annual asset acquisition as a separate tranche and depreciates it
@@ -140,6 +127,19 @@ book value remains or the tranche is fully depreciated.
 - [07_formatting.openm](saas-revenue-model/07_formatting.openm)
 - [08_groups.openm](saas-revenue-model/08_groups.openm)
 - [build.openm](saas-revenue-model/build.openm)
+
+## Manufacturing CapEx & Depreciation Model
+
+- [00_variables.openm](manufacturing-capex-model/00_variables.openm)
+- [01_dimensions.openm](manufacturing-capex-model/01_dimensions.openm)
+- [02_cubes.openm](manufacturing-capex-model/02_cubes.openm)
+- [03_inputs.openm](manufacturing-capex-model/03_inputs.openm)
+- [04_rules.openm](manufacturing-capex-model/04_rules.openm)
+- [05_checks.openm](manufacturing-capex-model/05_checks.openm)
+- [06_views.openm](manufacturing-capex-model/06_views.openm)
+- [07_formatting.openm](manufacturing-capex-model/07_formatting.openm)
+- [08_groups.openm](manufacturing-capex-model/08_groups.openm)
+- [build.openm](manufacturing-capex-model/build.openm)
 
 <!-- markdownlint-disable MD013 -->
 [skills-raw]: https://raw.githubusercontent.com/cloudcell/om-docs/main/docs/skills/om-core-financial-modeling/SKILLS.md
