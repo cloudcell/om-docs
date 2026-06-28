@@ -51,12 +51,26 @@ save model.json
 
 See the [Scripting reference](../reference/scripting.md) for the full command set.
 
+## Bus Monitor
+
+The TUI includes a read-only **Bus Monitor** overlay (press `F2`) that shows the
+live `MessageBus` trace. This is useful for debugging command flow, observing
+command lifecycle events, and tracing correlations without leaving the terminal.
+
+![OM Core REPL Bus Monitor](../assets/images/om-core-repl-bus-monitor.png)
+
+The monitor is split into a topic filter pane on the left and a formatted
+message log on the right. Toggle topics with `Space`, navigate with the arrow keys
+or `j`/`k`, and press `Esc` or `F2` again to close the overlay and return to the
+REPL prompt.
+
 ## When to use the TUI
 
 - You prefer keyboard-only interaction.
 - You are working over SSH or a remote terminal.
 - You want a lightweight alternative to the GUI.
 - You are automating or recording a session.
+- You need to inspect the bus trace while debugging rules or commands.
 
 ## See also
 

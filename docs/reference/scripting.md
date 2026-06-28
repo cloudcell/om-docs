@@ -334,6 +334,19 @@ echo Total is: {{total}}
 assert Inputs::Asset.Vehicle:Metric.Cost == 50000 "Vehicle cost"
 ```
 
+#### Bus Monitor (TUI) — inspect the live trace
+
+When running the TUI, press `F2` to open the read-only **Bus Monitor** overlay.
+It renders the live `MessageBus` trace so you can follow command lifecycle events,
+correlate requests with replies, and diagnose failures without leaving the
+terminal.
+
+![OM Core REPL Bus Monitor](../assets/images/om-core-repl-bus-monitor.png)
+
+The left pane lists every topic seen on the bus; the right pane shows formatted
+messages for the checked topics. Toggle a topic with `Space`, navigate with the
+arrow keys or `j`/`k`, and press `Esc` or `F2` to close the overlay.
+
 ### Selection and navigation
 
 #### `selection` — show the current selection
