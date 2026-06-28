@@ -2,3 +2,4 @@ view PL_View = PL::PLAccount:Year
 view BS_View = BS::BSAccount:Year
 view CFS_View = CFS::CFSAccount:Year
 view Valuation_View = Valuation::ValAccount:Year
+view Checks_View = Checks::Check:Year

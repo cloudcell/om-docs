@@ -289,7 +289,7 @@ Prefer check names that describe the invariant being tested.
 
 ## 11. Views
 
-Create views for important cubes.
+Create at least one view for every cube in the model.
 
 Example:
 
@@ -299,7 +299,7 @@ view Drivers_View = Drivers::Driver:Month
 view Checks_View = Checks::Check:Month
 ```
 
-Views are saved projections of cubes. They are not the source of truth for calculations.
+Views are saved projections of cubes. They are not the source of truth for calculations, but they let you inspect every cube quickly.
 
 ## 12. Template Pattern
 
@@ -361,7 +361,7 @@ Before finalizing a model, check:
 * No RHS reference relies on hidden first-item defaults.
 * Input assumptions are separated from calculated outputs.
 * Checks exist for important accounting identities.
-* Views exist for the main output cubes.
+* At least one view exists for every cube.
 * The model can be loaded through `source build.openm`.
 
 ## 15. Example Minimal P&L Model
