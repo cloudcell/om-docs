@@ -69,9 +69,9 @@ view SalesView = Sales::Month
 # Rules
 # This example writes each month explicitly for clarity.
 # A real time series model is more compact with a recurrence rule.
-rule Sales::@.value:Month.Jan = 100
-rule Sales::@.value:Month.Feb = Sales::[Month.Jan] * 1.1
-rule Sales::@.value:Month.Mar = Sales::[Month.Feb] * 1.1
+rule Sales::Month.Jan = 100
+rule Sales::Month.Feb = Sales::[Month.Jan] * 1.1
+rule Sales::Month.Mar = Sales::[Month.Feb] * 1.1
 
 # Calculate
 calc

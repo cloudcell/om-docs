@@ -21,14 +21,14 @@ Cube::@.channel:Dim1.Item1:Dim2.Item2
 ```
 
 - `Cube` — the target cube.
-- `@.channel` — the channel the rule writes to. Use `@.value` for the value channel, `@.fill` for background fill, or `@.font_color` for font color.
+- `@.channel` — the channel the rule writes to. If omitted, the value channel `@.value` is implied. Explicit channels are required only for style or format rules, such as `@.fill` or `@.font_color`.
 - `Dim1.Item1:Dim2.Item2` — dimension item selectors, separated by `:`.
 
 For example:
 
 ```text
-Sales::@.value:Month.Jan
-PL::@.fill:PL.Revenue:Year.2026
+Sales::Month.Jan                 # value channel implied
+PL::@.fill:PL.Revenue:Year.2026 # style channel explicit
 ```
 
 If you omit the channel, the reference defaults to `@.value`. This applies to both rule targets and RHS cube references.
@@ -118,16 +118,16 @@ Use the full semantic address whenever you need to read from a different context
 ### LHS examples
 
 ```text
-Revenue::@.value:Account.Revenue:Year[THIS]   # current item of the target dimension
-Costs::@.value:Account.Costs:Year.*           # explicit slice wildcard
+Revenue::Account.Revenue:Year[THIS]   # current item of the target dimension
+Costs::Account.Costs:Year.*           # explicit slice wildcard
 ```
 
 ### Invalid LHS examples
 
 ```text
-Revenue::@.value:Account.Revenue:Year[PREV]   # relative cell write
-Costs::@.value:Account.Costs:Year[NEXT]         # relative cell write
-Cube::@.value:Dim1[Item1]                      # wrong bracket syntax
+Revenue::Account.Revenue:Year[PREV]   # relative cell write
+Costs::Account.Costs:Year[NEXT]       # relative cell write
+Cube::Dim1[Item1]                     # wrong bracket syntax
 ```
 
 `PREV`, `NEXT`, `FIRST`, and `LAST` are invalid on the LHS.
@@ -138,7 +138,7 @@ Cube::@.value:Dim1[Item1]                      # wrong bracket syntax
 
 `THIS` is a rule-template placeholder that binds to the current item during rule evaluation. It is not a wildcard.
 
-For example, `Revenue::@.value:Account.Revenue:Year[THIS]` on the LHS means the rule applies to the current item of the target dimension.
+For example, `Revenue::Account.Revenue:Year[THIS]` on the LHS means the rule applies to the current item of the target dimension.
 
 ## Recurrence rules
 
@@ -172,8 +172,8 @@ A cell rule that targets `Sales::Month.Jan` wins over a slice rule that targets 
 For example, with these rules:
 
 ```text
-rule Sales::@.value:* = 100
-rule Sales::@.value:Month.Jan = 200
+rule Sales::* = 100
+rule Sales::Month.Jan = 200
 ```
 
 The cell for `Month.Jan` resolves to `200` because the cell rule is more specific. All other months resolve to `100` from the slice rule.
@@ -185,8 +185,8 @@ When multiple rules have the same specificity and match the same cell, the later
 For example:
 
 ```text
-rule Sales::@.value:* = 100
-rule Sales::@.value:* = 150
+rule Sales::* = 100
+rule Sales::* = 150
 ```
 
 Both rules are slice rules covering the same cells. The second rule overrides the first, so every cell resolves to `150`.
@@ -198,14 +198,14 @@ This behavior lets you define a general rule first and then add targeted overrid
 An **anchored rule** targets exactly one cell. The user opts in by prefixing the rule target with `$`.
 
 ```text
-rule $Sales::@.value:Year.2024:Region.North = 1100   # anchored: one cell
-rule  Sales::@.value:Year.2024:Region.North = 1100   # standard: slice (wildcarded)
+rule $Sales::Year.2024:Region.North = 1100   # anchored: one cell
+rule  Sales::Year.2024:Region.North = 1100   # standard: slice (wildcarded)
 ```
 
 The `$` prefix is the only anchored shorthand available in standalone scripts. The bracket form `$[...]` is **not** accepted as a rule target; it is only valid in contextual input such as the grid or rule panel, where the active cube, channel, and view are already known. In scripts, prefer the full form:
 
 ```text
-rule Cube::@.value:Dim.Item:Dim.Item = expression
+rule Cube::Dim.Item:Dim.Item = expression
 ```
 
 Syntax:
@@ -222,8 +222,8 @@ Example with a 3D cube `(Year, Region, Scenario)`:
 
 | Target | Anchored? | Scenario selector | Coverage |
 | --- | --- | --- | --- |
-| `$Sales::@.value:Year.2024:Region.North:Scenario.Actual` | Yes | `Actual` | One cell: `(2024, North, Actual)` |
-| `Sales::@.value:Year.2024:Region.North` | No | wildcard | Slice: `(2024, North, *)` |
+| `$Sales::Year.2024:Region.North:Scenario.Actual` | Yes | `Actual` | One cell: `(2024, North, Actual)` |
+| `Sales::Year.2024:Region.North` | No | wildcard | Slice: `(2024, North, *)` |
 
 In scripts, use `$` only as a prefix on a full canonical address. In the grid or rule panel, the contextual `$[...]` form may be used to bind a rule to one specific cell.
 
@@ -236,13 +236,13 @@ Error values (`#CIRC!`, `#DIV/0!`, `#EXPRESSION!`, `#REF!`) are never persisted 
 ### Simple cell rule
 
 ```text
-rule Inputs::@.value:Asset.Vehicle:Metric.Cost = 50000
+rule Inputs::Asset.Vehicle:Metric.Cost = 50000
 ```
 
 ### Slice rule
 
 ```text
-rule Drivers::@.value:Driver.PriceGadgets:* = 120
+rule Drivers::Driver.PriceGadgets:* = 120
 ```
 
 ### Style rule
@@ -255,19 +255,19 @@ rule PL::@.font_color:PL.Revenue:Year.2026 = #FFFFFF
 ### Recurrence rule
 
 ```text
-rule BS::@.value:BS.Cash:* = IF(POS(Year)=1, Drivers::@.value:Driver.OpeningCash:Year[THIS], BS::@.value:BS.Cash:Year[PREV] + CF::@.value:CF.FreeCashFlow:Year[THIS])
+rule BS::BS.Cash:* = IF(POS(Year)=1, Drivers::Driver.OpeningCash:Year[THIS], BS::BS.Cash:Year[PREV] + CF::CF.FreeCashFlow:Year[THIS])
 ```
 
 ### Anchored rule
 
 ```text
-rule $Sales::@.value:Year.2024:Region.North = 1100
+rule $Sales::Year.2024:Region.North = 1100
 ```
 
 Prefer the full script form in standalone `.openm` files:
 
 ```text
-rule Forecast::@.value:Year.2024:Region.North = Actuals::@.value:Year.2024:Region.North * 1.1
+rule Forecast::Year.2024:Region.North = Actuals::Year.2024:Region.North * 1.1
 ```
 
 ## For LLMs
@@ -275,7 +275,7 @@ rule Forecast::@.value:Year.2024:Region.North = Actuals::@.value:Year.2024:Regio
 When generating rule syntax:
 
 - Use `DimensionName.ItemName` for item references.
-- Use `Cube::@.channel:Dim.Item:Dim.Item` for rule addresses in standalone scripts.
+- Use `Cube::Dim.Item:Dim.Item` for rule addresses in standalone scripts. Add `@.channel` only when targeting a non-value channel.
 - Use `[THIS]` for the current item, `[PREV]` / `[NEXT]` for recurrence on the RHS only.
 - Use `*` for slice wildcards on the LHS.
 - Use cube-relative shorthand (`Cube::[Dim.Item]`) only when the context binding is unambiguous.

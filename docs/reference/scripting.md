@@ -80,10 +80,10 @@ cube AnnualDep Asset Year
 view InputsView = Inputs::Asset:Metric
 
 # Define rules
-rule Inputs::@.value:Asset.Vehicle:Metric.Cost = 50000
-rule Inputs::@.value:Asset.Vehicle:Metric.Salvage = 5000
-rule Inputs::@.value:Asset.Vehicle:Metric.Life = 5
-rule AnnualDep::@.value:*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
+rule Inputs::Asset.Vehicle:Metric.Cost = 50000
+rule Inputs::Asset.Vehicle:Metric.Salvage = 5000
+rule Inputs::Asset.Vehicle:Metric.Life = 5
+rule AnnualDep::*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
 
 # Calculate and save
 calc
@@ -116,7 +116,7 @@ message="hello world"
 Use `{{name}}` to interpolate a variable into a command.
 
 ```openm
-selected="C::@.value:PL.Revenue:Year.2026"
+selected="PL::Revenue:Year.2026"
 echo Selected: {{selected}}
 rule {{selected}} = 100000
 ```
@@ -177,27 +177,27 @@ use Sales
 rule Revenue = Cost * 1.15
 ```
 
-`use` sets the default cube for subsequent `rule` commands that omit a `Cube::` prefix. It is optional; explicit `Cube::@.value:...` addresses are preferred in scripts.
+`use` sets the default cube for subsequent `rule` commands that omit a `Cube::` prefix. It is optional; explicit `Cube::Dim.Item:...` addresses are preferred in scripts.
 
 ### Rule definition
 
 #### `rule` — define a calculation rule
 
 ```openm
-rule Cube::@.value:Dim.Item:Dim.Item = expression
+rule Cube::Dim.Item:Dim.Item = expression
 ```
 
 - `Cube::` is the target cube.
-- `@.value:` selects the value channel.
+- The value channel is implied if no `@.channel` is given. Use `@.fill`, `@.font_color`, etc., only for style/format rules.
 - `Dim.Item:Dim.Item` is the semantic address.
 - `*` is a slice wildcard.
 
 Examples:
 
 ```openm
-rule Drivers::@.value:Driver.PriceGadgets:* = 120
-rule PnL::@.value:Account.TotalRevenue:* = PnL::[Account.RevenueGadgets] + PnL::[Account.RevenueWidgets]
-rule Valuation::@.value:Valuation.TerminalValue:Year.2032 = CF::@.value:CF.FreeCashFlow:Year.2032 * (1 + 0.02) / (Drivers::@.value:Driver.WACC:Year.2032 - 0.02)
+rule Drivers::Driver.PriceGadgets:* = 120
+rule PnL::Account.TotalRevenue:* = PnL::[Account.RevenueGadgets] + PnL::[Account.RevenueWidgets]
+rule Valuation::Valuation.TerminalValue:Year.2032 = CF::CF.FreeCashFlow:Year.2032 * (1 + 0.02) / (Drivers::Driver.WACC:Year.2032 - 0.02)
 ```
 
 ### Rule syntax
@@ -217,7 +217,7 @@ Dim[THIS]              # current item during rule evaluation
 References can also use bracket shorthand:
 
 ```openm
-rule AnnualDep::@.value:*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
+rule AnnualDep::*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
 ```
 
 When a referenced cube shares a dimension with the current target cell, the shorthand binds that dimension from the context. Dimensions that do not exist in the referenced cube are not carried over; they default to the first item of that dimension in the target cube. For example, `AnnualDep` has dimensions `Asset` and `Year`, while `Inputs` has `Asset` and `Metric`. The shorthand `Inputs::[Metric.Cost]` binds the current `Asset` from the target cell. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
@@ -260,7 +260,7 @@ source scripts/depreciation_schedule.openm
 
 Visual styling is applied through rule channels, not through a separate formatting command. The channel determines which property the rule sets.
 
-OM Core stores values and presentation attributes in channels. The default value channel is `@.value`. Style channels change only the appearance:
+OM Core stores values and presentation attributes in channels. The default value channel is `@.value` and is implied when no channel is specified. Style channels change only the appearance:
 
 - `@.fill` — the background fill color
 - `@.font_color` — the font color
@@ -290,8 +290,8 @@ echo Total is: {{total}}
 #### `assert` — verify a value
 
 ```openm
-assert Inputs::@.value:Asset.Vehicle:Metric.Cost == 50000 "Vehicle cost"
-assert Inputs::@.value:Asset.Equipment:Metric.Life == 4 "Equipment life"
+assert Inputs::Asset.Vehicle:Metric.Cost == 50000 "Vehicle cost"
+assert Inputs::Asset.Equipment:Metric.Life == 4 "Equipment life"
 ```
 
 ### Selection and navigation
@@ -317,15 +317,16 @@ right 2
 Semantic addresses identify cells or slices without referring to grid coordinates.
 
 ```text
-Cube::@.value:Dim1.Item1:Dim2.Item2
+Cube::Dim1.Item1:Dim2.Item2
 ```
 
 Components:
 
 - `Cube` — the cube name
-- `@` or `@.value` — the default value channel, not a style channel
 - `Dim1.Item1` — a dimension item selector
 - `Dim2.Item2` — another dimension item selector
+
+Add `@.channel` only when targeting a style or format channel such as `@.fill` or `@.font_color`. The default value channel is implied otherwise.
 
 Multiple selectors are separated by `:`.
 
@@ -350,16 +351,16 @@ view InputsView = Inputs::Asset:Metric
 view AnnualDepView = AnnualDep::Asset:Year
 
 # Rules
-rule Inputs::@.value:Asset.Vehicle:Metric.Cost = 50000
-rule Inputs::@.value:Asset.Vehicle:Metric.Salvage = 5000
-rule Inputs::@.value:Asset.Vehicle:Metric.Life = 5
-rule AnnualDep::@.value:*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
+rule Inputs::Asset.Vehicle:Metric.Cost = 50000
+rule Inputs::Asset.Vehicle:Metric.Salvage = 5000
+rule Inputs::Asset.Vehicle:Metric.Life = 5
+rule AnnualDep::*.* = (Inputs::[Metric.Cost] - Inputs::[Metric.Salvage]) / Inputs::[Metric.Life]
 
 # Calculate
 calc
 
 # Verify
-assert Inputs::@.value:Asset.Vehicle:Metric.Cost == 50000 "Vehicle cost"
+assert Inputs::Asset.Vehicle:Metric.Cost == 50000 "Vehicle cost"
 
 # Save
 save depreciation_schedule.json

@@ -27,13 +27,13 @@ cube PL Month Account
 view PLView = PL::Month:Account
 
 # Rules
-rule PL::@.value:Month.Jan:Account.Revenue = 1000
-rule PL::@.value:Month.Feb:Account.Revenue = 1100
-rule PL::@.value:Month.Mar:Account.Revenue = 1200
-rule PL::@.value:Month.*:Account.COGS = PL::[Account.Revenue] * 0.6
-rule PL::@.value:Month.*:Account.GrossProfit = PL::[Account.Revenue] - PL::[Account.COGS]
-rule PL::@.value:Month.*:Account.OpEx = 200
-rule PL::@.value:Month.*:Account.NetProfit = PL::[Account.GrossProfit] - PL::[Account.OpEx]
+rule PL::Month.Jan:Account.Revenue = 1000
+rule PL::Month.Feb:Account.Revenue = 1100
+rule PL::Month.Mar:Account.Revenue = 1200
+rule PL::Month.*:Account.COGS = PL::[Account.Revenue] * 0.6
+rule PL::Month.*:Account.GrossProfit = PL::[Account.Revenue] - PL::[Account.COGS]
+rule PL::Month.*:Account.OpEx = 200
+rule PL::Month.*:Account.NetProfit = PL::[Account.GrossProfit] - PL::[Account.OpEx]
 
 # Calculate
 calc
