@@ -137,10 +137,22 @@ Inputs::[Metric.Cost]
 
 carries over the shared `Asset.Vehicle` context to resolve `Inputs::Asset.Vehicle:Metric.Cost`. The `Year` dimension is not carried over because `Inputs` does not have a `Year` dimension.
 
-## LHS and RHS
+## LHS, RHS, and rule body
 
-- The **LHS** (left-hand side) identifies the target cell or slice.
-- The **RHS** (right-hand side) is the expression that produces the value.
+A rule is written as a single statement with two sides separated by an assignment operator:
+
+```text
+LHS = RHS
+```
+
+| Term | Meaning | Example |
+| --- | --- | --- |
+| **LHS** | The left-hand side. It identifies the target cell or slice the rule writes to. | `Revenue::Account.Revenue:Year.*` |
+| **RHS** | The right-hand side. It is the expression that produces the value. | `Sales::Account.Sales:Year[THIS] * 1.1` |
+| **Rule body** | The RHS expression itself: the formula, function calls, references, and literals that are evaluated to produce the result. | `Sales::Account.Sales:Year[THIS] * 1.1` |
+
+So the LHS is the *address* and the RHS is the *formula*. The **rule body** is just another name for the RHS formula.
+
 - RHS references may use explicit semantic addresses or documented cube-relative shorthand.
 - LHS may target only the current cell or an explicit slice. It may not write to relative cells.
 

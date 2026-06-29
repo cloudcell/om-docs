@@ -1,6 +1,8 @@
 # Rule functions reference
 
-This page lists all functions that can be used inside OM Core rule bodies. Function names are case-insensitive in rules but are shown here in uppercase.
+This page lists all functions that can be used inside OM Core rule bodies. A **rule body** is the right-hand side (RHS) expression of a rule — the formula that produces the cell value. The left-hand side (LHS) is the target address. For a full explanation of LHS, RHS, and rule body syntax, see [Rule syntax](rule-syntax.md).
+
+Function names are case-insensitive in rules but are shown here in uppercase.
 
 ## Conditional and logical functions
 
