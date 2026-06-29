@@ -61,6 +61,7 @@ nav:
   - 📖 Reference:
       - Dimensions: reference/dimensions.md
       - Rule syntax: reference/rule-syntax.md
+      - Functions: reference/functions.md
       - Scripting: reference/scripting.md
       - Formatting: reference/formatting.md
       - Rule engine semantics: reference/rule-engine-semantics.md
