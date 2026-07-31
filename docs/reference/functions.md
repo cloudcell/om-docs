@@ -116,6 +116,8 @@ Excel serial dates are used internally. Dates are represented as numbers relativ
 | `MONTH` | `MONTH(date)` | Returns the month (1–12) from a serial date. |
 | `YEAR` | `YEAR(date)` | Returns the year from a serial date. |
 | `EOMONTH` | `EOMONTH(start_date, months)` | Returns the serial date for the last day of the month offset by `months`. |
+| `WEEKDAY` | `WEEKDAY(date [, type])` | Returns the day of the week from a serial date. `type` defaults to 1 (Sunday=1..Saturday=7). See ISO 26300 §6.10.21 for all type values (1–3, 11–17). |
+| `WEEKNUM` | `WEEKNUM(date [, mode])` | Returns the week number of the year for a given date. `mode` defaults to 1. Modes 1, 2, 11–17 use Jan 1 as week 1; modes 21 and 150 use ISO 8601 (first Thursday). See ISO 26300 §6.10.22. |
 | `TODAY` | `TODAY()` | Returns the serial date for today. |
 | `NOW` | `NOW()` | Returns the serial date/time for the current moment. |
 | `XLS_DATE` | `XLS_DATE(year, month, day)` | Alias for `DATE`. |
