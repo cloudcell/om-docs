@@ -14,9 +14,11 @@ Function names are case-insensitive in rules but are shown here in uppercase.
 | `NOT` | `NOT(value)` | Returns `1` if `value` is zero or falsy, otherwise `0`. |
 | `XOR` | `XOR(value1, value2, ...)` | Returns `1` if an odd number of arguments are truthy/non-zero. |
 | `IFERROR` | `IFERROR(value, fallback)` | Returns `fallback` if `value` is an error or raises during evaluation; otherwise returns `value`. |
-| `XLS_IF` | `XLS_IF(condition, then_value, else_value)` | Excel-style conditional. |
-| `XLS_TRUE` | `XLS_TRUE()` | Returns `1`. |
-| `XLS_FALSE` | `XLS_FALSE()` | Returns `0`. |
+| `TRUE` | `TRUE()` | Returns `1`. |
+| `FALSE` | `FALSE()` | Returns `0`. |
+| `XLS_IF` | `XLS_IF(condition, then_value, else_value)` | Alias for `IF`. |
+| `XLS_TRUE` | `XLS_TRUE()` | Alias for `TRUE`. |
+| `XLS_FALSE` | `XLS_FALSE()` | Alias for `FALSE`. |
 
 ## Aggregate functions
 
@@ -32,11 +34,11 @@ These functions accept either a single cube reference (e.g., `SUM(Dim.Item)`) or
 | `COUNTA` | `COUNTA(ref)` or `COUNTA(value1, value2, ...)` | Counts non-empty values (including text). |
 | `COUNTIF` | `COUNTIF(range, criteria)` | Counts values in `range` that match `criteria`. Criteria may be a number, exact text, wildcard (`*`, `?`), or comparison (`>`, `<`, `>=`, `<=`, `=`, `<>`). |
 | `COUNTIFS` | `COUNTIFS(range1, criteria1, range2, criteria2, ...)` | Counts positions where all range/criteria pairs match. |
-| `XLS_SUM` | `XLS_SUM(value1, value2, ...)` or `XLS_SUM(array_ref)` | Excel-style sum. |
-| `XLS_MIN` | `XLS_MIN(value1, value2, ...)` | Returns the minimum numeric value. Empty set returns `0`. |
-| `XLS_MAX` | `XLS_MAX(value1, value2, ...)` | Returns the maximum numeric value. Empty set returns `0`. |
-| `XLS_AVG` / `XLS_AVERAGE` | `XLS_AVG(value1, value2, ...)` | Returns the arithmetic mean. Empty set returns `0`. |
-| `XLS_COUNT` | `XLS_COUNT(value1, value2, ...)` | Counts numeric values. |
+| `XLS_SUM` | `XLS_SUM(value1, value2, ...)` or `XLS_SUM(array_ref)` | Alias for `SUM`. |
+| `XLS_MIN` | `XLS_MIN(value1, value2, ...)` | Alias for `MIN`. |
+| `XLS_MAX` | `XLS_MAX(value1, value2, ...)` | Alias for `MAX`. |
+| `XLS_AVG` / `XLS_AVERAGE` | `XLS_AVG(value1, value2, ...)` | Alias for `AVG`/`AVERAGE`. |
+| `XLS_COUNT` | `XLS_COUNT(value1, value2, ...)` | Alias for `COUNT`. |
 
 ## Mathematical functions
 
@@ -66,11 +68,14 @@ These functions accept either a single cube reference (e.g., `SUM(Dim.Item)`) or
 | `INT` | `INT(x)` | Truncates `x` to an integer (returns float). |
 | `MOD` | `MOD(a, b)` | Returns `a % b`. Raises `#DIV/0!` if `b == 0`. |
 | `QUOTIENT` | `QUOTIENT(a, b)` | Integer division `a // b`. Raises `#DIV/0!` if `b == 0`. |
-| `XLS_ABS` | `XLS_ABS(x)` | Excel-style absolute value. |
-| `XLS_ROUND` | `XLS_ROUND(x, places=0)` | Excel-style rounding. |
-| `XLS_VALUE` | `XLS_VALUE(x)` | Converts text/number to a float. |
-| `XLS_RAND` | `XLS_RAND()` | Returns a random float in `[0, 1)`. |
-| `XLS_RANDBETWEEN` | `XLS_RANDBETWEEN(bottom, top)` | Returns a random integer between `bottom` and `top` inclusive. |
+| `FLOOR` | `FLOOR(x, significance=1)` | Rounds `x` down to the nearest multiple of `significance`. |
+| `CEILING` | `CEILING(x, significance=1)` | Rounds `x` up to the nearest multiple of `significance`. |
+| `TRUNC` | `TRUNC(x, places=0)` | Truncates `x` toward zero to `places` decimal places. |
+| `XLS_ABS` | `XLS_ABS(x)` | Alias for `ABS`. |
+| `XLS_ROUND` | `XLS_ROUND(x, places=0)` | Alias for `ROUND`. |
+| `XLS_VALUE` | `XLS_VALUE(x)` | Alias for `VALUE`. |
+| `XLS_RAND` | `XLS_RAND()` | Alias for `RAND`. |
+| `XLS_RANDBETWEEN` | `XLS_RANDBETWEEN(bottom, top)` | Alias for `RANDBETWEEN`. |
 
 ## String functions
 
@@ -83,12 +88,21 @@ These functions accept either a single cube reference (e.g., `SUM(Dim.Item)`) or
 | `REPT` | `REPT(text, num_times)` | Repeats `text` `num_times`. Truncated to 1024 characters. |
 | `CODE` | `CODE(text)` | Returns the ASCII code of the first character, or `0` if empty. |
 | `CHAR` | `CHAR(code)` | Returns the character for ASCII code `1`–`255`. |
+| `CONCAT` | `CONCAT(text1, text2, ...)` | Concatenates arguments into one string. |
+| `CONCATENATE` | `CONCATENATE(text1, text2, ...)` | Alias for `CONCAT`. |
 | `JOIN` | `JOIN(list, delimiter)` | Joins a list of values into a string with `delimiter`. |
-| `XLS_CONCATENATE` | `XLS_CONCATENATE(text1, text2, ...)` | Concatenates arguments into one string. |
-| `XLS_UPPER` | `XLS_UPPER(text)` | Converts text to uppercase. |
-| `XLS_REPT` | `XLS_REPT(text, num_times)` | Excel-style repeat. Truncated to 1024 characters. |
-| `XLS_CODE` | `XLS_CODE(text)` | Excel-style code of first character. |
-| `XLS_CHAR` | `XLS_CHAR(code)` | Excel-style character. |
+| `FIND` | `FIND(find_text, within_text, start_num=1)` | Returns the 1-based position of `find_text` in `within_text`. Returns `#VALUE!` if not found. |
+| `MID` | `MID(text, start_num, num_chars)` | Returns `num_chars` characters from `text` starting at `start_num` (1-based). |
+| `UPPER` | `UPPER(text)` | Converts text to uppercase. |
+| `LOWER` | `LOWER(text)` | Converts text to lowercase. |
+| `PROPER` | `PROPER(text)` | Capitalizes the first letter of each word. |
+| `SUBSTITUTE` | `SUBSTITUTE(text, old_text, new_text, instance_num=0)` | Replaces `old_text` with `new_text` in `text`. If `instance_num` is given, replaces only that occurrence. |
+| `REPLACE` | `REPLACE(old_text, start_num, num_chars, new_text)` | Replaces `num_chars` characters starting at `start_num` with `new_text`. |
+| `XLS_CONCATENATE` | `XLS_CONCATENATE(text1, text2, ...)` | Alias for `CONCAT`. |
+| `XLS_UPPER` | `XLS_UPPER(text)` | Alias for `UPPER`. |
+| `XLS_REPT` | `XLS_REPT(text, num_times)` | Alias for `REPT`. |
+| `XLS_CODE` | `XLS_CODE(text)` | Alias for `CODE`. |
+| `XLS_CHAR` | `XLS_CHAR(code)` | Alias for `CHAR`. |
 | `XLS_TEXT` | `XLS_TEXT(value, format)` | Formats a number using an Excel-style mask. |
 
 ## Date and time functions
@@ -97,19 +111,29 @@ Excel serial dates are used internally. Dates are represented as numbers relativ
 
 | Function | Arguments | Behavior |
 | --- | --- | --- |
-| `XLS_DATE` | `XLS_DATE(year, month, day)` | Returns the serial date for the given date. |
-| `XLS_TODAY` | `XLS_TODAY()` | Returns the serial date for today. |
-| `XLS_NOW` | `XLS_NOW()` | Returns the serial date/time for the current moment. |
-| `XLS_YEAR` | `XLS_YEAR(date)` | Returns the year of a date value. |
-| `XLS_EOMONTH` | `XLS_EOMONTH(start_date, months)` | Returns the serial date for the last day of the month offset by `months`. |
+| `DATE` | `DATE(year, month, day)` | Returns the serial date for the given date. |
+| `DAY` | `DAY(date)` | Returns the day of the month (1–31) from a serial date. |
+| `MONTH` | `MONTH(date)` | Returns the month (1–12) from a serial date. |
+| `YEAR` | `YEAR(date)` | Returns the year from a serial date. |
+| `EOMONTH` | `EOMONTH(start_date, months)` | Returns the serial date for the last day of the month offset by `months`. |
+| `TODAY` | `TODAY()` | Returns the serial date for today. |
+| `NOW` | `NOW()` | Returns the serial date/time for the current moment. |
+| `XLS_DATE` | `XLS_DATE(year, month, day)` | Alias for `DATE`. |
+| `XLS_TODAY` | `XLS_TODAY()` | Alias for `TODAY`. |
+| `XLS_NOW` | `XLS_NOW()` | Alias for `NOW`. |
+| `XLS_YEAR` | `XLS_YEAR(date)` | Alias for `YEAR`. |
+| `XLS_EOMONTH` | `XLS_EOMONTH(start_date, months)` | Alias for `EOMONTH`. |
 
 ## Financial functions
 
 | Function | Arguments | Behavior |
 | --- | --- | --- |
-| `XLS_NPV` | `XLS_NPV(rate, cashflow1, cashflow2, ...)` or `XLS_NPV(rate, array_ref)` | Net present value. Requires `rate > -1`. |
-| `XLS_IRR` | `XLS_IRR(array_ref, guess=0.1)` | Internal rate of return. Requires at least one positive and one negative cash flow. |
-| `XLS_XIRR` | `XLS_XIRR(values_ref, dates_ref, guess=0.1)` | IRR with irregular dates. Requires equal non-empty arrays and mixed cash flows. |
+| `NPV` | `NPV(rate, cashflow1, cashflow2, ...)` or `NPV(rate, array_ref)` | Net present value. Requires `rate > -1`. |
+| `IRR` | `IRR(array_ref, guess=0.1)` | Internal rate of return. Requires at least one positive and one negative cash flow. |
+| `XIRR` | `XIRR(values_ref, dates_ref, guess=0.1)` | IRR with irregular dates. Requires equal non-empty arrays and mixed cash flows. |
+| `XLS_NPV` | `XLS_NPV(rate, cashflow1, cashflow2, ...)` or `XLS_NPV(rate, array_ref)` | Alias for `NPV`. |
+| `XLS_IRR` | `XLS_IRR(array_ref, guess=0.1)` | Alias for `IRR`. |
+| `XLS_XIRR` | `XLS_XIRR(values_ref, dates_ref, guess=0.1)` | Alias for `XIRR`. |
 
 ## Lookup and reference functions
 
@@ -117,9 +141,13 @@ These functions operate on cube references and treat dimensions named `Row` and 
 
 | Function | Arguments | Behavior |
 | --- | --- | --- |
-| `XLS_INDEX` | `XLS_INDEX(ref, row_num, col_num=1)` | Returns the cell at `row_num`/`col_num` within the referenced range. |
-| `XLS_OFFSET` | `XLS_OFFSET(ref, rows, cols, height=1, width=1)` | Returns a cell or array offset from the reference by `rows`/`cols`. Supports negative dimensions. Returns a scalar for 1x1 or a list otherwise. |
-| `XLS_MATCH` | `XLS_MATCH(lookup_value, lookup_array, match_type=0)` | Returns the 1-based position of an exact match. Currently only `match_type = 0` is supported. |
+| `INDEX` | `INDEX(ref, row_num, col_num=1)` | Returns the cell at `row_num`/`col_num` within the referenced range. |
+| `OFFSET` | `OFFSET(ref, rows, cols, height=1, width=1)` | Returns a cell or array offset from the reference by `rows`/`cols`. Supports negative dimensions. Returns a scalar for 1x1 or a list otherwise. |
+| `MATCH` | `MATCH(lookup_value, lookup_array, match_type=0)` | Returns the 1-based position of an exact match. Currently only `match_type = 0` is supported. |
+| `LOOKUP` | `LOOKUP(lookup_value, lookup_vector, result_vector)` | Searches `lookup_vector` for `lookup_value` and returns the corresponding item from `result_vector`. |
+| `XLS_INDEX` | `XLS_INDEX(ref, row_num, col_num=1)` | Alias for `INDEX`. |
+| `XLS_OFFSET` | `XLS_OFFSET(ref, rows, cols, height=1, width=1)` | Alias for `OFFSET`. |
+| `XLS_MATCH` | `XLS_MATCH(lookup_value, lookup_array, match_type=0)` | Alias for `MATCH`. |
 | `XLS_ROWS` | `XLS_ROWS(ref)` | Returns the number of rows in the referenced range. |
 | `XLS_COLUMNS` | `XLS_COLUMNS(ref)` | Returns the number of columns in the referenced range. |
 | `XLS_HLOOKUP` | `XLS_HLOOKUP(lookup_value, table_array, row_index, range_lookup=TRUE)` | Horizontal lookup. Searches the first row for `lookup_value` and returns the value from `row_index`. |
