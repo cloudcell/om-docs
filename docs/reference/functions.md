@@ -34,6 +34,7 @@ These functions accept either a single cube reference (e.g., `SUM(Dim.Item)`) or
 | `COUNTA` | `COUNTA(ref)` or `COUNTA(value1, value2, ...)` | Counts non-empty values (including text). |
 | `COUNTIF` | `COUNTIF(range, criteria)` | Counts values in `range` that match `criteria`. Criteria may be a number, exact text, wildcard (`*`, `?`), or comparison (`>`, `<`, `>=`, `<=`, `=`, `<>`). |
 | `COUNTIFS` | `COUNTIFS(range1, criteria1, range2, criteria2, ...)` | Counts positions where all range/criteria pairs match. |
+| `SUMIF` | `SUMIF(range, criteria [, sum_range])` | Sums values in `sum_range` (or `range` if omitted) where corresponding cells in `range` match `criteria`. See ISO 26300 §6.16.62. |
 | `XLS_SUM` | `XLS_SUM(value1, value2, ...)` or `XLS_SUM(array_ref)` | Alias for `SUM`. |
 | `XLS_MIN` | `XLS_MIN(value1, value2, ...)` | Alias for `MIN`. |
 | `XLS_MAX` | `XLS_MAX(value1, value2, ...)` | Alias for `MAX`. |
