@@ -18,7 +18,8 @@ Rule semantics must preserve:
 
 - explicit reference syntax;
 - deterministic rule execution order;
-- no bidirectional recurrence;
+- no bidirectional recurrence on a single dimension (`PREV` + `NEXT` on the same
+  dimension is rejected; cross-dimension `PREV` + `NEXT` is allowed);
 - no ambiguous writes outside the current target cell;
 - stable value precedence rules.
 
@@ -58,7 +59,7 @@ Deleting a rule must remove its rule ID from `workspace.rule_order` in the same 
 | Skipping dependency cleanup during recompute | Leaves stale state | Ensure recompute cleanup and indegree updates always run |
 | Rule references stored by label | Renames break rules | Resolve to stable IDs |
 | Relying on dict order for rule execution | Serialization drift | Use `workspace.rule_order` |
-| Bidirectional recurrence | Ambiguous dependency direction | Use only `PREV` or only `NEXT` |
+| Bidirectional recurrence on one dimension | Circular dependency along that dimension's ordering | Use only `PREV` or only `NEXT` per dimension; cross-dimension `PREV` + `NEXT` is allowed |
 | Writing to `PREV` / `NEXT` on LHS | Ambiguous mutation target | LHS may target only current cell or explicit slice |
 | Persisting error values | Reload corrupts state | Recalculate errors on load |
 | Rule cleanup as a separate public command | Partial failure risk | Cleanup inside the semantic mutation |

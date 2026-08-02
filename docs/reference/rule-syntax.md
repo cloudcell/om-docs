@@ -187,11 +187,37 @@ Recurrence rules use ordered dimension context to chain values forward or backwa
 - No circular references are allowed.
 - Static cycles detected during validation are rejected.
 - Cycles that only become apparent during evaluation are reported as `#CIRC!`.
-- A recurrence may be forward-looking or backward-looking, but not both.
+- A recurrence may be forward-looking or backward-looking, but not both on the
+  **same dimension** within a single rule.
 - A `PREV` recurrence is evaluated in increasing order of the ordered dimension.
 - A `NEXT` recurrence is evaluated in reverse order of the ordered dimension.
-- A rule using both `PREV` and `NEXT` is rejected because it implies bidirectional
-  dependency.
+- A rule using both `PREV` and `NEXT` for the **same dimension** is rejected because
+  it creates a bidirectional recurrence — an unresolvable circular dependency along
+  that dimension's ordering.
+- Using `PREV` on one dimension and `NEXT` on a **different** dimension is valid;
+  the dependencies run along independent axes and no cycle exists.
+
+### Bidirectional recurrence (rejected)
+
+```text
+# This rule is rejected because Quarter has both PREV and NEXT:
+Quarter[THIS] = Quarter[PREV] + Quarter[NEXT]
+# Error: bidirectional recurrence on dimension 'Quarter':
+#        cannot use both PREV and NEXT for the same dimension in a single rule.
+```
+
+The dependency chain is circular: Q2 depends on Q1 (PREV) and Q3 (NEXT), while Q3
+depends on Q2 (PREV) and Q4 (NEXT). No evaluation order can resolve this.
+
+### Cross-dimension PREV + NEXT (accepted)
+
+```text
+# This rule is accepted — PREV and NEXT are on different dimensions:
+Year[THIS] = Year[PREV] * GrowthRate + Scenario[NEXT] * Adjustment
+```
+
+`Year[PREV]` chains along the Year dimension; `Scenario[NEXT]` chains along the
+Scenario dimension. The two dependencies are independent, so no cycle exists.
 
 Sequential accessors use the active stable order of the referenced dimension. If both
 dimension order and graph order are possible and the rule does not disambiguate,
@@ -435,5 +461,6 @@ When generating rule syntax:
 - Use `$` only as a prefix on an explicit cube-qualified address in scripts. Avoid
   the `$[...]` bracket form in standalone `.openm` files.
 - Avoid `PREV` / `NEXT` / `FIRST` / `LAST` on the LHS.
-- Avoid mixing `PREV` and `NEXT` in the same rule.
+- Do not use both `PREV` and `NEXT` for the **same dimension** in a single rule.
+  Cross-dimension `PREV` + `NEXT` is allowed.
 - Reference cells by stable semantic address, not grid coordinates.
