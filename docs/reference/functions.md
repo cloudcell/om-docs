@@ -109,7 +109,34 @@ These functions accept either a single cube reference (e.g., `SUM(Dim.Item)`) or
 
 ## Date and time functions
 
-Excel serial dates are used internally. Dates are represented as numbers relative to the Excel epoch (`1899-12-30`).
+OM Core uses **Gregorian serial-day values** with an epoch of `1899-12-30` (serial 0). This is the same convention used by LibreOffice Calc and described by the OASIS OpenFormula specification. The integer part of a serial is the calendar day number; the fractional part is the fraction of a day (time of day).
+
+```text
+internal_serial = Gregorian days since 1899-12-30
+```
+
+For example:
+
+```text
+2000-01-01 12:00 = 36526.5
+2024-01-01       = 45292
+```
+
+### Why 1899-12-30?
+
+Excel uses `1899-12-31` as its effective epoch but incorrectly treats 1900 as a leap year, inserting a fictitious `1900-02-29`. By using `1899-12-30` (one day earlier) and treating 1900 as a normal non-leap year, OM Core serials match Excel for all real dates from `1900-03-01` onward:
+
+| Date       | Excel 1900 serial | OM Core / LibreOffice |
+| ---------- | ----------------: | --------------------: |
+| 1900-01-01 |                 1 |                     2 |
+| 1900-02-28 |                59 |                    60 |
+| 1900-02-29 |     60, fictional |             (invalid) |
+| 1900-03-01 |                61 |                    61 |
+| 2024-01-01 |             45292 |                 45292 |
+
+The 1-day offset before March 1900 and the fake leap day cancel out, so no conversion is needed for any real-world date. LibreOffice Calc uses this same approach as its default date base and explicitly does not reproduce Excel's fictitious `1900-02-29` ([LibreOffice Help](https://help.libreoffice.org/latest/en-ZA/text/shared/optionen/01060500.html)). The OASIS OpenFormula specification also describes this convention ([OASIS OpenDocument 1.2](https://docs.oasis-open.org/office/v1.2/cd05/OpenDocument-v1.2-cd05-part2.html)).
+
+LibreOffice supports alternative date bases (`1900-01-01` for legacy StarCalc, `1904-01-01` for legacy Apple), but `1899-12-30` is the default. OM Core uses only this base. XLSX adapters inspect the workbook's `date1904` property and apply conversion at import/export boundaries when needed. See [Date Semantics](../../a-standards/a-10-date-semantics.md) for the normative specification.
 
 | Function | Arguments | Behavior |
 | --- | --- | --- |
