@@ -136,7 +136,7 @@ Excel uses `1899-12-31` as its effective epoch but incorrectly treats 1900 as a 
 
 The 1-day offset before March 1900 and the fake leap day cancel out, so no conversion is needed for any real-world date. LibreOffice Calc uses this same approach as its default date base and explicitly does not reproduce Excel's fictitious `1900-02-29` ([LibreOffice Help](https://help.libreoffice.org/latest/en-ZA/text/shared/optionen/01060500.html)). The OASIS OpenFormula specification also describes this convention ([OASIS OpenDocument 1.2](https://docs.oasis-open.org/office/v1.2/cd05/OpenDocument-v1.2-cd05-part2.html)).
 
-LibreOffice supports alternative date bases (`1900-01-01` for legacy StarCalc, `1904-01-01` for legacy Apple), but `1899-12-30` is the default. OM Core uses only this base. XLSX adapters inspect the workbook's `date1904` property and apply conversion at import/export boundaries when needed. See [Date Semantics](../../a-standards/a-10-date-semantics.md) for the normative specification.
+LibreOffice supports alternative date bases (`1900-01-01` for legacy StarCalc, `1904-01-01` for legacy Apple), but `1899-12-30` is the default. OM Core uses only this base. XLSX adapters inspect the workbook's `date1904` property and apply conversion at import/export boundaries when needed.
 
 | Function | Arguments | Behavior |
 | --- | --- | --- |
