@@ -75,4 +75,10 @@ Instead of treating the spreadsheet grid as the model, OM Core represents the mo
     [:octicons-arrow-right-24: Open](concepts/views.md)
 
 </div>
+
+## Feedback
+
+- **Bugs:** open a [GitHub issue](https://github.com/cloudcell/om-docs/issues).
+- **Discussion:** join the [Discord](https://discord.gg/GfU5ypAbaD).
+
 <!-- markdownlint-enable -->
