@@ -35,10 +35,10 @@ The REPL provides a set of `solver` commands for building and running optimizati
 
 ```
 om> solver new
-om> solver variable add PF:Stock.S01:Metric.weight 0 100
-om> solver variable add PF:Stock.S02:Metric.weight 0 100
-om> solver objective add PF:Output.S01:Metric.profit max
-om> solver constraint add PF:Output.S01:Metric.cost upper 5000
+om> solver variable add PF::Stock.S01:Metric.weight 0 100
+om> solver variable add PF::Stock.S02:Metric.weight 0 100
+om> solver objective add PF::Output.S01:Metric.profit max
+om> solver constraint add PF::Output.S01:Metric.cost upper 5000
 om> solver limit set max_iterations 500
 om> solver run
 ```
@@ -77,14 +77,14 @@ You can pass a complete problem spec as JSON:
   "backend": "scipy",
   "algorithm": "cobyla",
   "variables": [
-    {"ref": "PF:Stock.S01:Metric.weight", "lower": 0, "upper": 100},
-    {"ref": "PF:Stock.S02:Metric.weight", "lower": 0, "upper": 100}
+    {"ref": "PF::Stock.S01:Metric.weight", "lower": 0, "upper": 100},
+    {"ref": "PF::Stock.S02:Metric.weight", "lower": 0, "upper": 100}
   ],
   "objectives": [
-    {"ref": "PF:Output.S01:Metric.profit", "direction": "max"}
+    {"ref": "PF::Output.S01:Metric.profit", "direction": "max"}
   ],
   "constraints": [
-    {"ref": "PF:Output.S01:Metric.cost", "type": "upper", "bound": 5000}
+    {"ref": "PF::Output.S01:Metric.cost", "type": "upper", "bound": 5000}
   ],
   "limits": {"max_iterations": 500, "tol": 1e-6}
 }
@@ -177,10 +177,10 @@ Single-objective optimization finds the best value for one objective cell. The s
 
 ```
 om> solver new
-om> solver variable add PF:Stock.S01:Metric.weight 0 100
-om> solver variable add PF:Stock.S02:Metric.weight 0 100
-om> solver objective add PF:Output.S01:Metric.profit max
-om> solver constraint add PF:Output.S01:Metric.cost upper 5000
+om> solver variable add PF::Stock.S01:Metric.weight 0 100
+om> solver variable add PF::Stock.S02:Metric.weight 0 100
+om> solver objective add PF::Output.S01:Metric.profit max
+om> solver constraint add PF::Output.S01:Metric.cost upper 5000
 om> solver algorithm cobyla
 om> solver run --wait
 ```
@@ -216,10 +216,10 @@ Multi-objective optimization finds a set of Pareto-optimal solutions—solutions
 om> solver new
 om> solver option set backend pymoo
 om> solver algorithm nsga2
-om> solver variable add PF:Stock.S01:Metric.weight 0 100
-om> solver variable add PF:Stock.S02:Metric.weight 0 100
-om> solver objective add PF:Output.S01:Metric.profit max
-om> solver objective add PF:Output.S01:Metric.risk min
+om> solver variable add PF::Stock.S01:Metric.weight 0 100
+om> solver variable add PF::Stock.S02:Metric.weight 0 100
+om> solver objective add PF::Output.S01:Metric.profit max
+om> solver objective add PF::Output.S01:Metric.risk min
 om> solver run --wait
 ```
 
@@ -340,12 +340,11 @@ Only results with status `optimal` or `feasible` can be applied (unless `allow_n
 Solver commands use cell references to identify variables, objectives, and constraints. The format is:
 
 ```
-Cube:Dim.Item
-Cube:Dim.Item:Dim.Item     (multi-dimension)
-Cube::Dim.Item:Dim.Item    (canonical form)
+Cube::Dim.Item
+Cube::Dim.Item:Dim.Item     (multi-dimension)
 ```
 
 For example:
 
-- `PF:Stock.S01` — cell in cube `PF`, dimension `Stock`, item `S01`.
-- `PF:Stock.S01:Metric.weight` — cell in cube `PF`, dimensions `Stock` and `Metric`, items `S01` and `weight`.
+- `PF::Stock.S01` — cell in cube `PF`, dimension `Stock`, item `S01`.
+- `PF::Stock.S01:Metric.weight` — cell in cube `PF`, dimensions `Stock` and `Metric`, items `S01` and `weight`.
