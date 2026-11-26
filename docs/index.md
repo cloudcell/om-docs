@@ -7,6 +7,9 @@
   </p>
 </div>
 
+[Try Open Modeling in your browser](https://om.cloudcell.nz/){ .md-button .md-button--primary }
+
+Free browser application. No installation or registration required; model calculations run locally using WebAssembly. In active development.
 
 Instead of treating the spreadsheet grid as the model, OM Core represents the model using dimensions, cubes, groups, and rules. The grid is a view of the model, not the model itself.
 
