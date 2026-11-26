@@ -16,6 +16,8 @@ source of truth.
 
 This makes models easier to audit, extend, and maintain as they grow.
 
+[Try Open Modeling in your browser](https://om.cloudcell.nz/) — the free browser application with local WebAssembly calculations and no registration required.
+
 ![OM Core interface with the Model Browser, Matrix Grid, Timeline, and Calculation Flow](../assets/images/om-core-ui-full.png)
 
 ## Video overview
