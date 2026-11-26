@@ -147,3 +147,25 @@
 .md-typeset .headerlink:hover {
   opacity: 1;
 }
+
+/* Homepage browser application call to action */
+.om-browser-cta {
+  text-align: center;
+  margin: 1.5rem 0 2rem;
+}
+
+.md-typeset .om-browser-cta .om-browser-cta-button {
+  display: inline-block;
+  box-sizing: border-box;
+  max-width: 100%;
+  border-radius: 999px;
+  padding: 0.65rem 1.5rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.md-typeset .om-browser-cta p {
+  max-width: 32rem;
+  margin: 0.75rem auto 0;
+  color: var(--om-muted);
+}
