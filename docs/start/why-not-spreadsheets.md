@@ -76,4 +76,6 @@ OM Core addresses these problems by making the model explicit:
 
 This separation makes it easier to reason about the model, test changes, and reuse logic across views.
 
+[Try Open Modeling in your browser](https://om.cloudcell.nz/) to explore rule-based multidimensional financial modeling without installing software or creating an account. Model calculations run locally using WebAssembly.
+
 For more background on rules as a higher-level paradigm, see [Programming with Rules](https://openmodeling.substack.com/p/programming-with-rules).
