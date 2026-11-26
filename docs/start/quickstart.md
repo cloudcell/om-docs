@@ -2,6 +2,8 @@
 
 This quickstart gets you into the OM Core interface and builds a tiny model in a few minutes.
 
+To explore the browser-based edition without installing the reference runtime, [open Open Modeling](https://om.cloudcell.nz/). No registration is required. The instructions below describe the locally installed OM Core reference application, so individual commands and interface steps may differ in the browser edition.
+
 ## Start OM Core
 
 Clone the repository and run the start script:
